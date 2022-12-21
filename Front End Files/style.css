@@ -1,0 +1,57 @@
+
+html {
+  font-size: 12px; /* px means "pixels": the base font size is now 10 pixels high */
+  font-family: "Open Sans", sans-serif; /* this should be the rest of the output you got from Google Fonts */
+}
+
+h1 {
+  font-size: 40px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+h3 {
+  margin: 0 auto;
+  padding: 0 0px 0px 20px;
+}
+
+h4 {
+  margin: 0 auto;
+  padding: 0 0px 0px 40px;
+}
+
+h5 {
+  margin: 0 auto;
+  padding: 0 0px 0px 60px;
+}
+
+#center {
+  font-size: 20px;
+  text-align: center;
+}
+
+#bullet1 {
+
+  margin: 0 100;
+  padding: 0 0px 0px 00px;
+  margin-left: 40px;
+}
+
+#bullet2 {
+  margin: 0 100;
+  padding: 0 0px 0px 00px;
+  margin-left: 60px;
+}
+
+body {
+  width: 800px;
+  margin: 0 auto;
+  padding: 0 20px 20px 20px;
+  border: 5px solid black;
+}
+
+#email {
+  font-size: 12px;
+  text-align: center;
+  background-color: #00539f;
+}
