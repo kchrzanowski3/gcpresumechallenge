@@ -9,8 +9,7 @@ env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
 
 jobs:
-  samplejobname:
-    runs-on: ubuntu-latest
+  checking-bats-version:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
