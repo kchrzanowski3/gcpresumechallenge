@@ -2,4 +2,4 @@
 
 This is a repository of files for the google cloud resume challenge
 
-![Badge](https://github.com/kchrzanowski3/gcpresumechallenge/blob/main/.github/workflows/workflow.yml)
+![{{alt text}}](https://github.com/{{github user}}/{{github repo}}/workflows/{{workflow%20name}}/badge.svg)
