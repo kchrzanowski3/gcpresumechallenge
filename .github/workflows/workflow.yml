@@ -6,7 +6,7 @@ env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
 
 jobs:
-  build:d
+  build:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
