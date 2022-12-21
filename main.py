@@ -1,16 +1,47 @@
-# This is a sample Python script.
+from google.cloud import datastore
+# Instantiates a client
+datastore_client = datastore.Client()
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+def hello_get(request):
+    # The kind for the new entity
+    kind = "pagevisitsdb"
+    # The name/ID for the new entity
+    name = "kylechrzanowskicom"
+    # Instantiates a client
+    datastore_client = datastore.Client()
+    # The Cloud Datastore key for the new entity
+    table_key = datastore_client.key(kind, name)
+
+    newpageview = fetch_pageview()+1
+    store_pageview(newpageview)
+
+    return(f'{newpageview}')
+
+def store_pageview(dt):
+    # Instantiates a client
+    datastore_client = datastore.Client()
+
+    # The kind for the new entity
+    kind = "pagevisitsdb"
+    # The name/ID for the new entity
+    name = "kylechrzanowskicom"
+    # The Cloud Datastore key for the new entity
+    task_key = datastore_client.key(kind, name)
+
+    # Prepares the new entity
+    task = datastore.Entity(key=task_key)
+    task["visitcount"] = dt
+
+    # Saves the entity
+    datastore_client.put(task)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def fetch_pageview():
+    client = datastore.Client()
+    query = client.query(kind='pagevisitsdb')
+    query = query.add_filter('visitcount', '>', 0)
+    l = query.fetch()
+    l1 = list(l)
+    currentcount = l1[0]['visitcount']
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    return currentcount
