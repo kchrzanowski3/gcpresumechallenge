@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Front End Files/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Front End Files/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/workflow.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Back End Files/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/openapi2-functions.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Back End Files/openapi2-functions.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Back End Files/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
