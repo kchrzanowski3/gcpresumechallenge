@@ -1,22 +1,20 @@
 name: exampleworkflow
 run-name: ${{ github.actor }} is learning GitHub Actions
-on:
-  push:
-    branches:
-    - master
+on: [push]
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
 jobs:
   example-job-name:
+  runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup - gcloud / gsutil
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.GCS_SA_KEY }}
-        project_id: ${{ secrets.GCS_PROJECT }}
-        export_default_credentials: true
-    - name: Deploy
-      run: |-
-        g sutil -m rsync -R output gs://$GCS_BUCKET
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup - gcloud / gsutil
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCS_SA_KEY }}
+          project_id: ${{ secrets.GCS_PROJECT }}
+          export_default_credentials: true
+      - name: Deploy
+        run: |-
+          g sutil -m rsync -R output gs://$GCS_BUCKET
