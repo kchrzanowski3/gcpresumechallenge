@@ -18,5 +18,4 @@ jobs:
           export_default_credentials: true
           
       - name: Deploy
-        run: |-
-          g sutil -m rsync -R output gs://$GCS_BUCKET
+        run: 'gcloud info'
