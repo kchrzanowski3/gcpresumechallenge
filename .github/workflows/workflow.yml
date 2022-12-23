@@ -25,5 +25,5 @@ jobs:
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
 
-    - name: 'Use gcloud CLI'
-      run: 'gcloud storage cp -R kchrzanowski3/gcpresumechallenge/Front End Files/*  ${{ secrets.GCS_BUCKET }}'
+    - name: 'Update the website files'
+      run: 'gcloud storage cp -R kchrzanowski3/gcpresumechallenge/Front\ End\ Files/*  ${{ secrets.GCS_BUCKET }}'
