@@ -6,14 +6,18 @@ env:
 jobs:
   example-job-name:
     runs-on: ubuntu-latest
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
+    # actions/checkout MUST come before auth
+    - uses: 'actions/checkout@v3'
+
     - id: 'auth'
+      name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        credentials_json: '${{ secrets.GCS_SA_KEY }}'
-
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
-
-    - name: 'Use gcloud CLI'
-      run: 'gcloud info'
+        workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+        service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
