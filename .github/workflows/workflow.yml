@@ -24,6 +24,12 @@ jobs:
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
+      
+    - name: 'pwd'
+      run: 'pwd'
+      
+    - name: 'ls'
+      run: 'ls'
 
     - name: 'Update the website files'
       run: 'gsutil -m rsync -R Front\ End\ Files gs://$GCS_BUCKET'
