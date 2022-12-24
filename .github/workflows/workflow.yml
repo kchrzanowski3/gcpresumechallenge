@@ -29,7 +29,7 @@ jobs:
       run: 'pwd'
       
     - name: 'ls'
-      run: 'ls'
+      run: 'ls Front\ End\ Files'
 
     - name: 'Update the website files'
-      run: 'gsutil -m rsync -R Front\ End\ Files gs://$GCS_BUCKET'
+      run: 'gsutil -m rsync -r -c -d Front\ End\ Files gs://$GCS_BUCKET'
