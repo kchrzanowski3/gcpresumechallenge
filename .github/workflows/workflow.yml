@@ -1,8 +1,13 @@
-name: exampleworkflow
-run-name: ${{ github.actor }} is learning GitHub Actions
-on: [push]
+name: Update Front End Website Files
+run-name: ${{ github.actor }} is pushing resumeproject website files (like html and css files) to the gcp bucket
+on:
+  push:
+    paths:
+      - 'Front\ End\ Files/**'
+      
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+  
 jobs:
   example-job-name:
     runs-on: ubuntu-latest
@@ -24,12 +29,6 @@ jobs:
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
-       
-    - name: 'pwd'
-      run: 'pwd'
-      
-    - name: 'ls'
-      run: 'ls Front\ End\ Files'
 
     - name: 'Update the website files'
       run: 'gsutil -m rsync -r -c -d Front\ End\ Files gs://$GCS_BUCKET'
