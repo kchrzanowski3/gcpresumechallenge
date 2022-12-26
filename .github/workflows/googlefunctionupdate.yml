@@ -1,6 +1,6 @@
 name: Update Google Function Website Files
 run-name: ${{ github.actor }} is pushing updates to the google counter function
-on:[push]
+on: [push]
 
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
