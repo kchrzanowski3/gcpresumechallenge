@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/apigatewayupdate.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back End Files/openapi2-functions.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Back End Files/APIGateway/openapi2-functions.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/googlefunctionupdate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/googlefunctionupdate.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back End Files/gcpfunction-1/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back End Files/gcpfunction-1/requirements.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
