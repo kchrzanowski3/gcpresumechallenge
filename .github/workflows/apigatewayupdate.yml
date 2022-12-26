@@ -1,6 +1,9 @@
 name: Update Google Function Website Files
 run-name: ${{ github.actor }} is updating the api gateway config
-on: [push]
+on: 
+  push: 
+    paths: 
+      'Back End Files/APIGateway/**'
 
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
