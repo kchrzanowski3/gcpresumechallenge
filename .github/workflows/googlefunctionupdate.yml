@@ -28,7 +28,7 @@ jobs:
       name: 'Deploy the cloud function to google cloud'
       uses: 'google-github-actions/deploy-cloud-functions@v1'
       with:
-        name: 'function-1'
+        name: 'function-2'
         runtime: 'python310'
         entry_point: 'hello_get'
         region: 'us-east1'
