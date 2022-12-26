@@ -1,12 +1,10 @@
 name: Update Google Function Website Files
 run-name: ${{ github.actor }} is pushing updates to the google counter function
-on:
-  push:
-    paths:
-      - 'Back\ End\ Files/APIGateway/**'
+on: [push]
 
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+  GCS_PROJECT: ${{ secrets.GCS_PROJECT }}
 
 jobs:
   example-job-name:
@@ -27,3 +25,14 @@ jobs:
         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
+    - name: 'deploy api config'
+      run: 'gcloud api-gateway api-configs create kyleapiconfig --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-function.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+    - name: 'view details about api config'
+      run: 'gcloud api-gateway api-configs describe kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
+
+    - name: 'deploy api gateway'
+      run: 'gcloud api-gateway gateways create apigateway10 --api=resumeapi --api-config=cicdconfig --location=us-east1 --project=$GCS_PROJECT'
+      
+    - name: 'See details about the gateway'
+      run: 'gcloud api-gateway gateways describe apigateway10 --location=us-east1 --project=$GCS_PROJECT'
