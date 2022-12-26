@@ -24,10 +24,18 @@ jobs:
       with:
         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+    
+    #gateway has to be deleted before the config
+    - name: 'delete existing api gateway'
+      run: 'gcloud api-gateway gateways delete apigateway10 --location=us-east1 --project=$GCS_PROJECT'
 
-    - name: 'deploy api config'
+    #config can't be deleted so it has to be deleted and recreated
+    - name: 'delete existing api config'
+      run: 'gcloud api-gateway api-configs delete kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
+    
+    - name: 'create new api config'
       run: 'gcloud api-gateway api-configs create kyleapiconfig --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
-
+      
     - name: 'view details about api config'
       run: 'gcloud api-gateway api-configs describe kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
 
