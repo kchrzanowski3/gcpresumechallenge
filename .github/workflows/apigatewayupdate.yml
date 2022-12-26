@@ -27,11 +27,13 @@ jobs:
     
     #gateway has to be deleted before the config
     - name: 'delete existing api gateway'
-      run: 'gcloud api-gateway gateways delete apigateway10 --location=us-east1 --project=$GCS_PROJECT'
+      run: 'gcloud api-gateway gateways delete apigateway10 --quiet --location=us-east1 --project=$GCS_PROJECT'
+      continue-on-error: true
 
     #config can't be deleted so it has to be deleted and recreated
     - name: 'delete existing api config'
-      run: 'gcloud api-gateway api-configs delete kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
+      run: 'gcloud api-gateway api-configs delete kyleapiconfig --quiet --api=resumeapi --project=$GCS_PROJECT'
+      continue-on-error: true
     
     - name: 'create new api config'
       run: 'gcloud api-gateway api-configs create kyleapiconfig --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
