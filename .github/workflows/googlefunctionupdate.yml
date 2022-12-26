@@ -1,10 +1,7 @@
 name: Update Google Function Website Files
 run-name: ${{ github.actor }} is pushing updates to the google counter function
-on:
-  push:
-    paths:
-      - 'Back\ End\ Files/gcpfunction-1/**'
-      
+on:[push]
+
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
   
@@ -35,7 +32,7 @@ jobs:
         entry_point: 'hello_get'
         region: 'us-east1'
         max_instances: 5
-        source_dir: 'Front\ End\ Files/gcpfunction-1/'
+        source_dir: 'Back\ End\ Files/gcpfunction-1'
         
         
 
