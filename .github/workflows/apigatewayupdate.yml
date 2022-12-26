@@ -3,11 +3,11 @@ run-name: ${{ github.actor }} is pushing updates to the google counter function
 on:
   push:
     paths:
-      - 'Back\ End\ Files/gcpfunction-1/**'
+      - 'Back\ End\ Files/APIGateway/**'
 
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
-  
+
 jobs:
   example-job-name:
     runs-on: ubuntu-latest
@@ -27,19 +27,3 @@ jobs:
         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-    - id: 'Deploy'
-      name: 'Deploy the cloud function to google cloud'
-      uses: 'google-github-actions/deploy-cloud-functions@v1'
-      with:
-        name: 'function-2'
-        runtime: 'python310'
-        entry_point: 'hello_get'
-        region: 'us-east1'
-        max_instances: 5
-        source_dir: 'Back End Files/gcpfunction-1'
-        
-        
-
-    # Example of using the output
-    - id: 'test'
-      run: 'curl "${{ steps.deploy.outputs.url }}"'

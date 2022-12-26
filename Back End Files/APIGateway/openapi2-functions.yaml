@@ -14,8 +14,8 @@ paths:
       summary: Greet a user
       operationId: hello
       x-google-backend:
-        address: https://function-1-m32qvw3dua-ue.a.run.app
-        jwt_audience: https://function-1-m32qvw3dua-ue.a.run.app
+        address: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
+        jwt_audience: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
 
       responses:
         '200':
