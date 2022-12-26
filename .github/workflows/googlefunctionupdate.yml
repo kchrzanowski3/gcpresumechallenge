@@ -1,0 +1,44 @@
+name: Update Google Function Website Files
+run-name: ${{ github.actor }} is pushing updates to the google counter function
+on:
+  push:
+    paths:
+      - 'Back\ End\ Files/gcpfunction-1/**'
+      
+env:
+  GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+  
+jobs:
+  example-job-name:
+    runs-on: ubuntu-latest
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    # actions/checkout MUST come before auth
+    - uses: 'actions/checkout@v3'
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+        service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+    - id: 'deploy gcp function'
+      uses: 'google-github-actions/deploy-cloud-functions@v1'
+      with:
+        name: 'function-1'
+        runtime: 'python310'
+        entry_point: 'hello_get'
+        region: 'us-east1'
+        max_instances: 5
+        source_dir: 'Back\ End\ Files/gcpfunction-1/'
+        
+        
+
+    # Example of using the output
+    - id: 'test'
+      run: 'curl "${{ steps.deploy.outputs.url }}"'
