@@ -1,5 +1,5 @@
 name: Update Google Function Website Files
-run-name: ${{ github.actor }} is pushing updates to the google counter function
+run-name: ${{ github.actor }} is updating the api gateway config
 on: [push]
 
 env:
