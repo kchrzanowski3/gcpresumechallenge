@@ -1,5 +1,5 @@
 from google.cloud import datastore
-#test comment for cicd pipeline
+#test comment for cicd pipeline 1
 # Instantiates a client
 datastore_client = datastore.Client()
 
