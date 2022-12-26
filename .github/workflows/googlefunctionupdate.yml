@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is pushing updates to the google counter function
 on:
   push:
     paths:
-      - 'Back\ End\ Files/gcpfunction-1/**'
+      - 'Back\ End\ Files/gcpfunction/**'
 
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
