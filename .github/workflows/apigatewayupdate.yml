@@ -26,7 +26,7 @@ jobs:
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
     - name: 'deploy api config'
-      run: 'gcloud api-gateway api-configs create kyleapiconfig --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-function.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      run: 'gcloud api-gateway api-configs create kyleapiconfig --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
     - name: 'view details about api config'
       run: 'gcloud api-gateway api-configs describe kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
