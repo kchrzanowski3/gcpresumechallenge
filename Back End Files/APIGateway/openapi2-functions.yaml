@@ -12,7 +12,7 @@ paths:
   /hello:
     get:
       summary: Greet a user
-      operationId: hello
+      operationId: visitorcount
       x-google-backend:
         address: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
         jwt_audience: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
