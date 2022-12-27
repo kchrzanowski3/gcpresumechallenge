@@ -28,17 +28,18 @@ jobs:
         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
     
-    - name: 'set unique date variable'
-      run: echo "MY_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_EN
+    - name: 'Get current date'
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
     
     - name: 'create new api config with unique name'
-      run: 'gcloud api-gateway api-configs create kyleapiconfig${{ env.MY_DATE }} --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      run: 'gcloud api-gateway api-configs create kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
       
     - name: 'view details about new api config'
       run: 'gcloud api-gateway api-configs describe kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
 
     - name: 'update api gateway with new config'
-      run: 'gcloud api-gateway gateways update apigateway10 --api-config=kyleapiconfig${{ env.MY_DATE }} --api=resumeapi --location=us-east1 --project=$GCS_PROJECT '
+      run: 'gcloud api-gateway gateways update apigateway10 --api-config=kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --location=us-east1 --project=$GCS_PROJECT '
       
     - name: 'See details about the gateway'
       run: 'gcloud api-gateway gateways describe apigateway10 --location=us-east1 --project=$GCS_PROJECT'
