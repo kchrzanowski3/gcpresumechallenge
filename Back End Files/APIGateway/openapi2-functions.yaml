@@ -9,7 +9,7 @@ schemes:
 produces:
   - application/json
 paths:
-  /hello:
+  /getvisitors:
     get:
       summary: Greet a user
       operationId: visitorcounter
