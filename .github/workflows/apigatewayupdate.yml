@@ -30,7 +30,7 @@ jobs:
     
     - name: 'Get current date'
       id: date
-      run: echo "{date}={$(date +'%Y%m%d%H%M')}" >> $GITHUB_OUTPUT
+      run: echo "date=$(date +'%Y%m%d%H%M')" >> $GITHUB_OUTPUT
       
     - name: 'create new api config with unique name'
       run: 'gcloud api-gateway api-configs create kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
