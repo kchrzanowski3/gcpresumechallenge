@@ -11,7 +11,7 @@ produces:
 paths:
   /getvisitors:
     get:
-      summary: Greet a user
+      summary: Greet a user 
       operationId: visitorcounter
       x-google-backend:
         address: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
