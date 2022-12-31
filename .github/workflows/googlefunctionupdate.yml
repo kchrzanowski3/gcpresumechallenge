@@ -36,7 +36,7 @@ jobs:
         entry_point: 'hello_get'
         region: 'us-east1'
         max_instances: 5
-        source_dir: 'Back End Files/gcpfunction-1'
+        source_dir: 'Back End Files/gcpfunction-2'
         
         
 
