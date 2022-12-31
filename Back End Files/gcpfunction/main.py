@@ -16,7 +16,7 @@ def hello_get(request):
     newpageview = fetch_pageview()+1
     store_pageview(newpageview)
 
-    return(f'{newpageview}')
+    return(f'\{\"visitorCount\":\"{newpageview}\"\}')
 
 def store_pageview(dt):
     # Instantiates a client
@@ -45,6 +45,4 @@ def fetch_pageview():
     l1 = list(l)
     currentcount = l1[0]['visitcount']
     
-    endval = f'\{CurrentValue:{currentcount}\}': 
-
     return currentcount
