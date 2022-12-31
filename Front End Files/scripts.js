@@ -1,16 +1,16 @@
 
-getvisitors()
-    return fetch(url,options);
-
-const url = "https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors";
-
 const options = {
+  method: 'POST',
   headers: {
-    Authorization: "Bearer 6Q************"
-  }
+  'Content-Type': 'application/json',
+  },
 };
 
-fetch(url, options)
-  .then( res => res.json() )
-  .then( data => console.log(data) );
-  return data;
+fetch('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors',options)
+  .then(data => {
+    console.log(data.json());
+    return data.json();
+  })
+  .then(post => {
+    console.log(post.body);
+  });
