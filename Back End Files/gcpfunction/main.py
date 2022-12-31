@@ -44,5 +44,7 @@ def fetch_pageview():
     l = query.fetch()
     l1 = list(l)
     currentcount = l1[0]['visitcount']
+    
+    endval = f'\{CurrentValue:{currentcount}\}':
 
     return currentcount
