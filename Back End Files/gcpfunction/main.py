@@ -45,6 +45,6 @@ def fetch_pageview():
     l1 = list(l)
     currentcount = l1[0]['visitcount']
     
-    endval = f'\{CurrentValue:{currentcount}\}':
+    endval = f'\{CurrentValue:{currentcount}\}': 
 
     return currentcount
