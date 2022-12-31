@@ -1,4 +1,6 @@
 from google.cloud import datastore
+import json
+
 #test comment for cicd pipeline 2
 # Instantiates a client
 datastore_client = datastore.Client()
@@ -16,7 +18,13 @@ def hello_get(request):
     newpageview = fetch_pageview()+1
     store_pageview(newpageview)
 
-    return(f'\{\"visitorCount\":\"{newpageview}\"\}')
+    value = {
+        "visitorcount": newpageview
+    }
+
+    # Dictionary to JSON Object using dumps() method
+    # Return JSON Object
+    return json.dumps(value)
 
 def store_pageview(dt):
     # Instantiates a client
