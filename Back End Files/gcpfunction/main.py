@@ -20,9 +20,12 @@ def hello_get(request):
 
     value = {
         "headers": {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "Access-Control-Allow-Headers": "application/json",
+            "Access-Control-Allow-Origin": "https://kylechrzanowski.com",
+            "Access-Control-Allow-Methods": "GET"
         },
-        "status_code": 200,
+        "statusCode": 200,
         "body":{
             "count": newpageview
         }
