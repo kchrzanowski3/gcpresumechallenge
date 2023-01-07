@@ -1,16 +1,4 @@
-
-const options = {
-  method: 'POST',
-  headers: {
-  'Content-Type': 'application/json',
-  },
-};
-
-fetch('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors',options)
-  .then(data => {
-    console.log(data.json());
-    return data.json();
-  })
-  .then(post => {
-    console.log(post.body);
-  });
+fetch('https://d503n28gj5.execute-api.us-east-1.amazonaws.com/')
+    .then(res => res.json())
+    .then(res => {document.getElementById("counter").innerHTML = res.body.count})
+    .then(data => console.log(data));
