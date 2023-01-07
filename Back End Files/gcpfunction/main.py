@@ -22,7 +22,7 @@ def hello_get(request):
         "headers": {
             "content-type": "application/json",
             "Access-Control-Allow-Headers": "application/json",
-            "Access-Control-Allow-Origin": "https://kylechrzanowski.com",
+            "Access-Control-Allow-Origin": "https://storage.googleapis.com/resumebucket/index.html",
             "Access-Control-Allow-Methods": "GET"
         },
         "statusCode": 200,
