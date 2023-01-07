@@ -23,7 +23,7 @@ def hello_get(request):
             "content-type": "application/json",
             "Access-Control-Allow-Headers": "application/json",
             "Access-Control-Allow-Origin": "https://storage.googleapis.com/resumebucket/index.html",
-            "Access-Control-Allow-Methods": "GET"
+            "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
         },
         "statusCode": 200,
         "body":{
