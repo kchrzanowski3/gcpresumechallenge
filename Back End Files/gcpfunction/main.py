@@ -6,6 +6,18 @@ import json
 datastore_client = datastore.Client()
 
 def hello_get(request):
+    # Set CORS headers for the preflight request
+    if request.method == 'OPTIONS':
+        # Allows GET requests from any origin with the Content-Type
+        # header and caches preflight response for an 3600s
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+
     # The kind for the new entity
     kind = "pagevisitsdb"
     # The name/ID for the new entity
@@ -22,7 +34,7 @@ def hello_get(request):
         "headers": {
             "content-type": "application/json",
             "Access-Control-Allow-Headers": "application/json",
-            "Access-Control-Allow-Origin": "https://storage.googleapis.com/resumebucket/index.html",
+            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
         },
         "statusCode": 200,
