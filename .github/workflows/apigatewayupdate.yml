@@ -36,7 +36,7 @@ jobs:
       run: 'gcloud api-gateway api-configs create kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
       
     - name: 'view details about new api config'
-      run: 'gcloud api-gateway api-configs describe kyleapiconfig --api=resumeapi --project=$GCS_PROJECT'
+      run: 'gcloud api-gateway api-configs describe kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --project=$GCS_PROJECT'
 
     - name: 'update api gateway with new config'
       run: 'gcloud api-gateway gateways update apigateway10 --api-config=kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --location=us-east1 --project=$GCS_PROJECT '
