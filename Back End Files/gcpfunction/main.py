@@ -19,12 +19,16 @@ def hello_get(request):
     store_pageview(newpageview)
 
     value = {
-        "visitorcount": newpageview
+        "headers": {
+            "content-type": "application/json"
+        },
+        "status_code": 200,
+        "body":{
+            "count": newpageview
+        }
     }
 
-    # Dictionary to JSON Object using dumps() method
-    # Return JSON Object
-    return json.dumps(value)
+    return value
 
 def store_pageview(dt):
     # Instantiates a client
