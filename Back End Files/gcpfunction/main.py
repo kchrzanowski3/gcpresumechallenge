@@ -30,6 +30,10 @@ def hello_get(request):
     newpageview = fetch_pageview()+1
     store_pageview(newpageview)
 
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+
     value = {
         "headers": {
             "content-type": "application/json",
@@ -43,7 +47,7 @@ def hello_get(request):
         }
     }
 
-    return value
+    return (value, 200, headers)
 
 def store_pageview(dt):
     # Instantiates a client
