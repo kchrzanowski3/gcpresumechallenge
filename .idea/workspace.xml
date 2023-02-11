@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="" />
+    <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,8 +39,16 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/kyle.chrzanowski/Documents/GitHub/gcpresumechallenge/Front End Files&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/kyle.chrzanowski/Documents/GitHub/gcpresumechallenge&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -45,14 +56,17 @@
       <recent name="$PROJECT_DIR$/Front End Files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.gitignore" />
       <recent name="$PROJECT_DIR$/Front End Files" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Back End Files/APIGateway" />
       <recent name="$PROJECT_DIR$/Back End Files/gcpfunction-1" />
-      <recent name="$PROJECT_DIR$/Back End Files" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="scripts.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="scripts.js" working-dir="$PROJECT_DIR$/Front End Files">
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="gcpresumechallenge" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -84,7 +98,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671583987250</updated>
+      <workItem from="1676130606852" duration="7647000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

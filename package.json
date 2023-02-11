@@ -1,0 +1,26 @@
+{
+  "name": "gcpresumechallenge",
+  "version": "1.0.0",
+  "description": "gcpresumechallengenpm",
+  "main": "spec.cy.js",
+  "scripts": {
+    "install": "npm install cypress --save-dev",
+    "cy:run": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kchrzanowski3/gcpresumechallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kchrzanowski3/gcpresumechallenge/issues"
+  },
+  "homepage": "https://github.com/kchrzanowski3/gcpresumechallenge#readme",
+  "devDependencies": {
+    "cypress": "^12.5.1"
+  },
+  "dependencies": {
+    "wait-on": "^7.0.1"
+  }
+}

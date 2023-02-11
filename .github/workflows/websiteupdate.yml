@@ -9,7 +9,7 @@ env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
   
 jobs:
-  example-job-name:
+  deploy-website-update:
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
@@ -32,3 +32,16 @@ jobs:
 
     - name: 'Update the website files'
       run: 'gsutil -m rsync -r -c -d Front\ End\ Files gs://$GCS_BUCKET'
+
+  end-to-end-test:
+    needs: deploy-website-update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5 # use the explicit version number
+        with:
+          install: npm run install
