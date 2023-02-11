@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/websiteupdate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/websiteupdate.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front End Files/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front End Files/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +63,7 @@
       <recent name="$PROJECT_DIR$/Back End Files/gcpfunction-1" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Node.js.scripts.js">
     <configuration name="scripts.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="scripts.js" working-dir="$PROJECT_DIR$/Front End Files">
       <method v="2" />
     </configuration>
@@ -100,7 +98,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671583987250</updated>
-      <workItem from="1676130606852" duration="6573000" />
+      <workItem from="1676130606852" duration="6979000" />
     </task>
     <servers />
   </component>
