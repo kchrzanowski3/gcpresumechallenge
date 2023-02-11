@@ -1,0 +1,27 @@
+{
+  "name": "gcpresumechallenge",
+  "version": "1.0.0",
+  "description": "gcpresumechallengenpm",
+  "main": "spec.cy.js",
+  "scripts": {
+    "start": "my-server -p 3030",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:3030 cy:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kchrzanowski3/gcpresumechallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kchrzanowski3/gcpresumechallenge/issues"
+  },
+  "homepage": "https://github.com/kchrzanowski3/gcpresumechallenge#readme",
+  "devDependencies": {
+    "cypress": "^12.5.1"
+  },
+  "scripts": {
+    "cypress:open": "cypress open"
+  }
+}
