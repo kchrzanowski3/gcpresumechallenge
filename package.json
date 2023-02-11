@@ -23,9 +23,7 @@
   },
   "scripts": {
     "install": "npm install cypress --save-dev",
-    "cypress"
     "cypress:open": "cypress open",
-
     "start": "npm start & wait-on http://localhost:8080",
     "cy:run": "cypress run",
     "test": "start-server-and-test start http://localhost:3030 cy:run"
