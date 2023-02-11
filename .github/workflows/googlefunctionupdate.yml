@@ -57,4 +57,3 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
           install: npm run install
-          start: npm run cy:run
