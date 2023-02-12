@@ -5,6 +5,7 @@ on:
     paths:
       - 'Front\ End\ Files/**'
       - '.github/workflows/**'
+      - 'terraform/**'
       
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
