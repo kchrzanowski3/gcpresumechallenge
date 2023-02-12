@@ -23,7 +23,7 @@ provider "google" {
 }
 
 provider "google-beta" {
-  credentials = file(var.TF_VAR_GOOGLE_GHA_CREDS_PATH")
+  credentials = file(var.TF_VAR_GOOGLE_GHA_CREDS_PATH)
   project     = "strange-cycle-371319"
   region      = "us-east1"
   zone        = "us-east1-b"
