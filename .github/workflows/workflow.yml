@@ -1,9 +1,10 @@
-name: Update Front End Website Files
-run-name: ${{ github.actor }} is pushing resumeproject website files (like html and css files) to the gcp bucket
+name: Update cloud infrastructure
+run-name: ${{ github.actor }} is updating cloud files and infrastructure
 on:
   push:
     paths:
       - 'Front\ End\ Files/**'
+      - 'Back\ End\ Files/**'
       - '.github/workflows/**'
       - 'terraform/**'
       
@@ -12,10 +13,7 @@ env:
   TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
   
 jobs:
-  deploy-website-update:
-    env:
-      TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
-
+  build:
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
@@ -34,34 +32,35 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-      - name: See env variables
-        run: printenv
-
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Init
         run: terraform -chdir=terraform/ init
-
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/ validate
-
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Plan
         run: terraform -chdir=terraform/ plan
         continue-on-error: true
-
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform -chdir=terraform/ apply
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
-
-  end-to-end-test:
-    needs: deploy-website-update
+  test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
