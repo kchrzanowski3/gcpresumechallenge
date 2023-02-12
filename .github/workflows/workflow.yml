@@ -71,4 +71,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
-          install: npm run install
+          #install: npm run install
+          browser: chrome
+          wait-on: "http://localhost:3000"
