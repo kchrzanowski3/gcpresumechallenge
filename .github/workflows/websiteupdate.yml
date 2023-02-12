@@ -29,6 +29,12 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
+      - name: Find creds file
+        run: ls
+      - name: find creds file 2
+        run: ls ../
+
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
