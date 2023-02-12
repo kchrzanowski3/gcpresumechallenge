@@ -8,28 +8,11 @@ terraform {
   }
 }
 
-# Run the script to get the environment variables of interest.
-# This is a data source, so it will run at plan time.
-data "external" "env" {
-  program = ["${path.module}/env.sh"]
-
-}
-
-# Show the results of running the data source. This is a map of environment
-# variable names to their values.
-output "env" {
-  value = data.external.env.result
-}
-
-# This outputs "bar"
-output "foo" {
-  value = data.external.env.result["foo"]
-}
-
+variable "GOOGLE_GHA_CREDS_PATH" {}
 
 
 provider "google" {
-  credentials = file(data.external.env.result["GOOGLE_GHA_CREDS_PATH"])
+  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
   //impersonate_service_account = "sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com"
   project     = "strange-cycle-371319"
   region      = "us-east1"
@@ -37,7 +20,7 @@ provider "google" {
 }
 
 provider "google-beta" {
-  credentials = file(data.external.env.result["GOOGLE_GHA_CREDS_PATH"])
+  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
   project     = "strange-cycle-371319"
   region      = "us-east1"
   zone        = "us-east1-b"

@@ -33,6 +33,9 @@ jobs:
       - name: Creates cred file that terraform can access
         run: export TF_VAR_GOOGLE_GHA_CREDS_PATH=$GOOGLE_GHA_CREDS_PATH
 
+      - name: See env variables
+        run: printenv
+
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
