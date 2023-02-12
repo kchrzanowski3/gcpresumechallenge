@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/workflow.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/workflow.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress/videos/spec.cy.js.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/videos/spec.cy.js.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
