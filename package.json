@@ -4,8 +4,7 @@
   "description": "gcpresumechallengenpm",
   "main": "spec.cy.js",
   "scripts": {
-    "install": "npm install cypress --save-dev",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run --e2e -p 3000"
   },
   "repository": {
     "type": "git",
