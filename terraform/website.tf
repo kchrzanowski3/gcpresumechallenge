@@ -29,7 +29,7 @@ output "foo" {
 
 
 provider "google" {
-  credentials = file(var.TF_VAR_GOOGLE_GHA_CREDS_PATH)
+  credentials = file(data.external.env.result["GOOGLE_GHA_CREDS_PATH"])
   //impersonate_service_account = "sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com"
   project     = "strange-cycle-371319"
   region      = "us-east1"
