@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Front\ End\ Files/**'
+      - '.github/workflows/**'
       
 env:
   GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
@@ -32,7 +33,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform -chdir=terraform/ init
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/ validate
