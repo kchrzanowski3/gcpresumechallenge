@@ -30,9 +30,7 @@ jobs:
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
       - name: Find creds file
-        run: ls
-      - name: find creds file 2
-        run: ls ../
+        run: ls gha-creds-**.json
 
 
       - name: Setup Terraform
