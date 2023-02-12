@@ -31,7 +31,7 @@ jobs:
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
       - name: Creates cred file that terraform can access
-        run: export TF_VAR_GOOGLE_GHA_CREDS_PATH=$GOOGLE_GHA_CREDS_PATH
+        run: sudo export TF_VAR_GOOGLE_GHA_CREDS_PATH=$GOOGLE_GHA_CREDS_PATH
 
       - name: See env variables
         run: printenv
