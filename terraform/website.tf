@@ -8,12 +8,14 @@ terraform {
   }
 }
 
-variable "GOOGLE_GHA_CREDS_PATH" {
+variable "TF_VAR_GOOGLE_GHA_CREDS_PATH" {
   type = string
 }
 
+
+
 provider "google" {
-  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
+  credentials = file(var.TF_VAR_GOOGLE_GHA_CREDS_PATH)
   //impersonate_service_account = "sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com"
   project     = "strange-cycle-371319"
   region      = "us-east1"
@@ -21,7 +23,7 @@ provider "google" {
 }
 
 provider "google-beta" {
-  credentials = file(var.GOOGLE_GHA_CREDS_PATH")
+  credentials = file(var.TF_VAR_GOOGLE_GHA_CREDS_PATH")
   project     = "strange-cycle-371319"
   region      = "us-east1"
   zone        = "us-east1-b"

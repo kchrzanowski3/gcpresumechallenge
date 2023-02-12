@@ -30,8 +30,8 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-      - name: Find creds file
-        run: ls gha-creds-**.json
+      - name: Creates cred file that terraform can access
+        run: export TF_VAR_GOOGLE_GHA_CREDS_PATH=$GOOGLE_GHA_CREDS_PATH
 
 
       - name: Setup Terraform
