@@ -8,10 +8,13 @@ terraform {
   }
 }
 
+variable "GOOGLE_GHA_CREDS_PATH" {
+  type = string
+}
 
 provider "google" {
   credentials = file("/Users/kyle.chrzanowski/Downloads/strange-cycle-371319-b6cf49d2ce9d.json")
-  credentials = file("gha-creds-**.json")
+  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
   //impersonate_service_account = "sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com"
   project     = "strange-cycle-371319"
   region      = "us-east1"
