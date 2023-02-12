@@ -34,7 +34,7 @@ jobs:
       - name: See env variables
         run: printenv
         env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ GOOGLE_GHA_CREDS_PATH }}
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
