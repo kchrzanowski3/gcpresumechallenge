@@ -17,21 +17,33 @@ jobs:
       id-token: 'write'
 
     steps:
-    # actions/checkout MUST come before auth
-    - uses: 'actions/checkout@v3'
+      # actions/checkout MUST come before auth
+      - name: Checkout
+      - uses: 'actions/checkout@v3'
 
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-        service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
 
-    - name: 'Update the website files'
-      run: 'gsutil -m rsync -r -c -d Front\ End\ Files gs://$GCS_BUCKET'
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+        continue-on-error: true
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply
 
   end-to-end-test:
     needs: deploy-website-update

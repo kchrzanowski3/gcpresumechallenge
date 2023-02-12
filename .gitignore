@@ -1,2 +1,5 @@
 /node_modules/
 /.idea/workspace.xml
+/Back End Files/gcpfunction/code.zip
+/terraform/.terraform.lock.hcl
+/terraform/.terraform/

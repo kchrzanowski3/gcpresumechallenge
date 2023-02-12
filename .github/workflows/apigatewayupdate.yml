@@ -19,6 +19,7 @@ jobs:
 
     steps:
     # actions/checkout MUST come before auth
+    - name: Checkout
     - uses: 'actions/checkout@v3'
 
     - id: 'auth'
@@ -28,21 +29,21 @@ jobs:
         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
     
-    - name: 'Get current date'
-      id: date
-      run: echo "date=$(date +'%Y%m%d%H%M')" >> $GITHUB_OUTPUT
-      
-    - name: 'create new api config with unique name'
-      run: 'gcloud api-gateway api-configs create kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --openapi-spec=Back\ End\ Files/APIGateway/openapi2-functions.yaml --project=$GCS_PROJECT --backend-auth-service-account=sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
-      
-    - name: 'view details about new api config'
-      run: 'gcloud api-gateway api-configs describe kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --project=$GCS_PROJECT'
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
 
-    - name: 'update api gateway with new config'
-      run: 'gcloud api-gateway gateways update apigateway10 --api-config=kyleapiconfig${{ steps.date.outputs.date }} --api=resumeapi --location=us-east1 --project=$GCS_PROJECT '
-      
-    - name: 'See details about the gateway'
-      run: 'gcloud api-gateway gateways describe apigateway10 --location=us-east1 --project=$GCS_PROJECT'
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run: terraform apply
+
 
 
   end-to-end-test:
