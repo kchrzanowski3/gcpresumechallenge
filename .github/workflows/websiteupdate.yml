@@ -35,15 +35,15 @@ jobs:
         run: terraform init
 
       - name: Terraform Validate
-        run: terraform validate
+        run: terraform -chdir=terraform/ validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform -chdir=terraform/ plan
         continue-on-error: true
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply
+        run: terraform -chdir=terraform/ apply
 
   end-to-end-test:
     needs: deploy-website-update
