@@ -37,11 +37,13 @@ jobs:
   publish-artifact:
     needs: build
     runs-on: ubuntu-latest
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
-      # Add "id-token" with the intended permissions.
-      permissions:
-        contents: 'read'
-        id-token: 'write'
+
       # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
@@ -83,12 +85,12 @@ jobs:
   deploy:
     needs: publish-artifact
     runs-on: ubuntu-latest
-    steps:
-      # Add "id-token" with the intended permissions.
-      permissions:
-        contents: 'read'
-        id-token: 'write'
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
+    steps:
       # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
