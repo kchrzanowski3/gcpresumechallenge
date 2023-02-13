@@ -4,8 +4,8 @@ let countertext2
 describe('tests the website is up and the API is working', () => {
 
   it('Visits kylechrzanowski.com and gets the visitor count', () => {
-    cy.visit('https://kylechrzanowski.com')
-    cy.contains('Kyle Chrzanowski')
+    cy.visit('https://kylechrzanowski.com').contains('Kyle Chrzanowski')
+    //cy.contains('Kyle Chrzanowski')
     cy.get('[id=counter]',{ timeout: 10000 })
         .invoke('text')
         .should('match', /^[0-9]*$/)
@@ -15,10 +15,8 @@ describe('tests the website is up and the API is working', () => {
     })
   })
 
-
   it('reloads and checks the updated visitor count has increased by 1', () => {
-    cy.visit('https://kylechrzanowski.com')
-    cy.get('[id=counter]', { timeout: 10000 })
+    cy.visit('https://kylechrzanowski.com').get('[id=counter]', { timeout: 10000 })
         .invoke('text')
         .should('match', /^[0-9]*$/)
     cy.get('[id=counter]').then(($counter) => {

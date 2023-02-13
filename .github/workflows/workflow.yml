@@ -93,6 +93,7 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+
         env:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
