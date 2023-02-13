@@ -7,6 +7,14 @@
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/workflow.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/workflow.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/.terraform.lock.hcl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/.terraform/providers/registry.terraform.io/hashicorp/archive/2.3.0/darwin_amd64/terraform-provider-archive_v2.3.0_x5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/build-function.tf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/built-code/code.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/terraform.tfstate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/build/terraform.tfstate.backup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/publish-artifacts/.terraform.lock.hcl" beforeDir="false" afterPath="$PROJECT_DIR$/terraform/publish-artifacts/.terraform.lock.hcl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/publish-artifacts/artifact-pub.tf" beforeDir="false" afterPath="$PROJECT_DIR$/terraform/publish-artifacts/artifact-pub.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,11 +68,11 @@
       <recent name="$PROJECT_DIR$/Front End Files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/terraform/publish-artifacts" />
       <recent name="$PROJECT_DIR$/terraform/resume-architecture" />
       <recent name="$PROJECT_DIR$/terraform" />
       <recent name="$PROJECT_DIR$/terraform-modules" />
       <recent name="$PROJECT_DIR$/terraform/modules" />
-      <recent name="$PROJECT_DIR$/terraform/modules/services/resume-architecture" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">

@@ -14,29 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-
     steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: dir listing
-        run: ls
-
-      - name: Terraform Init
-        run: terraform -chdir=terraform/build/ init
-
-      - name: Terraform Validate
-        run: terraform -chdir=terraform/build/ validate
-
-      - name: Terraform Plan
-        run: terraform -chdir=terraform/build/ plan -out=planfile
-        continue-on-error: true
-
-      - name: Terraform Apply
-        run: terraform -chdir=terraform/build/ apply "planfile"
+      - name: Create a zipped version of the python code so it can be deployed
+        run: zip -r code.zip "Back End Files/gcpfunction"
 
 
   publish-artifact:
@@ -49,9 +29,20 @@ jobs:
       pull-requests: write
 
     steps:
-      # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
+
+      #auth so we can use gcloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+      #use terraform to create a bucket where we can store our artifacts
+      - name: terraform init
+        run: terraform init
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -61,19 +52,24 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform -chdir=terraform/publish-artifacts/ init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
-        run: terraform -chdir=terraform/publish-artifacts/ validate
+        run: terraform validate
 
       - name: Terraform Plan
         id: plan
-        run: terraform -chdir=terraform/publish-artifacts/ plan -input=false
+        run: terraform plan -input=false
         continue-on-error: true
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
+
+      #publish the artifact in the bucket using gcloud
+      - name: upload the zipped file to a bucket so it can be deployed
+        run: gcloud storage cp code.zip gs://resume-function-code-bucket/
+
 
 
   deploy:
@@ -98,15 +94,15 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform -chdir=terraform/deploy/ init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
-        run: terraform -chdir=terraform/deploy/ validate
+        run: terraform validate
 
       - name: Terraform Plan
         id: plan
-        run: terraform -chdir=terraform/deploy/ plan -input=false
+        run: terraform plan -input=false
         continue-on-error: true
 
       - name: Update Pull Request comment
