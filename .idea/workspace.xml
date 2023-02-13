@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/terraform/build/build-function.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/terraform/deploy/deploy.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/terraform/publish-artifacts/artifact-pub.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/workflow.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/workflow.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/e2e/spec.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/publish-artifacts/artifactpub.tf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/resume-architecture/terraform.tfstate" beforeDir="false" afterPath="$PROJECT_DIR$/terraform/resume-architecture/terraform.tfstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/resume-architecture/terraform.tfstate.backup" beforeDir="false" afterPath="$PROJECT_DIR$/terraform/resume-architecture/terraform.tfstate.backup" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +46,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/kyle.chrzanowski/Documents/GitHub/gcpresumechallenge/terraform/publish-artifacts",
+    "last_opened_file_path": "/Users/kyle.chrzanowski/Documents/GitHub/gcpresumechallenge/terraform/deploy",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,7 +59,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/terraform/deploy" />
       <recent name="$PROJECT_DIR$/terraform/publish-artifacts" />
+      <recent name="$PROJECT_DIR$/terraform/build" />
       <recent name="$PROJECT_DIR$/terraform" />
       <recent name="$PROJECT_DIR$/Front End Files" />
     </key>

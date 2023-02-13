@@ -33,49 +33,76 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-      - name: Output the cred file location
-        run: echo "credpath=${{ env.GOOGLE_GHA_CREDS_PATH }}" >> $GITHUB_OUTPUT
-        id: authfile
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform/build/ init
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform/build/ validate
+
+      - name: Terraform Plan
+        run: terraform -chdir=terraform/build/ plan -out=planfile
+        continue-on-error: true
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform/build/ apply "planfile"
+
+
+  publish-artifact:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Init
-        run: terraform -chdir=terraform/resume-architecture/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        run: terraform -chdir=terraform/publish-artifacts/ init
 
       - name: Terraform Validate
-        run: terraform -chdir=terraform/resume-architecture/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        run: terraform -chdir=terraform/publish-artifacts/ validate
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/resume-architecture/ plan -out=planfile
+        run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
         continue-on-error: true
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform -chdir=terraform/resume-architecture/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
 
+  deploy:
+    needs: publish-artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
 
-  test:
-    needs: build
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform/deploy/ init
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform/deploy/ validate
+
+      - name: Terraform Plan
+        run: terraform -chdir=terraform/deploy/ plan -out=planfile
+        continue-on-error: true
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform/deploy/ apply "planfile"
+
+  end-to-end-test:
+    needs: deploy
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Output the cred file location
-        id: credfile
-        run: echo "credpath=${{ needs.steps.authfile.outputs.credpath }}" >> $GITHUB_OUTPUT
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -85,38 +112,3 @@ jobs:
         #with:
           #install: npm run install
           #script: npx cypress run > testresults
-
-  publish-artifact:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
-
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
-
-      - name: Terraform Init
-        run: terraform -chdir=terraform/publish-artifacts/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
-
-      - name: Terraform Validate
-        run: terraform -chdir=terraform/publish-artifacts/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
-
-      - name: Terraform Plan
-        run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
-        continue-on-error: true
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
-
-      - name: Terraform Apply
-        run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
-
