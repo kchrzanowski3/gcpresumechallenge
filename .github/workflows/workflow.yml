@@ -87,27 +87,16 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
-
       - name: Terraform Init
         run: terraform -chdir=terraform/publish-artifacts/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/publish-artifacts/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Plan
         run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
         continue-on-error: true
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+
