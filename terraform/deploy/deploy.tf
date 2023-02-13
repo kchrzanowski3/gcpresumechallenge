@@ -12,8 +12,6 @@ variable "GOOGLE_GHA_CREDS_PATH" {
 }
 
 provider "google" {
-  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
-
   project     = "strange-cycle-371319"
   region      = "us-east1"
   zone        = "us-east1-b"
@@ -103,7 +101,7 @@ resource "google_cloudfunctions_function" "function" {
   runtime     = "python310"
 
   available_memory_mb   = 128
-  source_archive_bucket = google_storage_bucket.codebucket.name
+  source_archive_bucket = "resume-function-code-bucket"
   source_archive_object = google_storage_bucket_object.archive.name
   trigger_http          = true
   entry_point           = "hello_get"
