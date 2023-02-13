@@ -5,6 +5,13 @@ terraform {
       version = "4.51.0"
     }
   }
+  cloud {
+    organization = "kylechrzanowski"
+
+    workspaces {
+      name = "gcp-resume-publish-deploy"
+    }
+  }
 }
 
 
@@ -38,29 +45,16 @@ resource "google_storage_bucket_iam_member" "public" {
   member = "allUsers"
 }
 
-//add the website objects to the bucket - index.html
-resource "google_storage_bucket_object" "indexfile" {
-  name   = "index.html"
-  source = "../../Front End Files/index.html"
-  bucket = google_storage_bucket.resumebucket.name
-}
-//add the website objects to the bucket - sripts.js
-resource "google_storage_bucket_object" "scriptsfile" {
-  name   = "scripts.js"
-  source = "../../Front End Files/scripts.js"
-  bucket = google_storage_bucket.resumebucket.name
-}
-//add the website objects to the bucket - style.css
-resource "google_storage_bucket_object" "cssfile" {
-  name   = "style.css"
-  source = "../../Front End Files/style.css"
-  bucket = google_storage_bucket.resumebucket.name
-}
-
 //api gateway construction
 resource "google_api_gateway_api" "api" {
   provider = google-beta
   api_id = "resumeapi2"
+}
+
+//get the base64 encoded version of the config file so it can be included in the api config
+data "google_storage_bucket_object_content" "encoded-configfile" {
+  name   = "openapi2-functions-base64.yaml"
+  bucket = "resume-function-code-bucket"
 }
 
 //api config creation
@@ -72,7 +66,7 @@ resource "google_api_gateway_api_config" "api_config" {
   openapi_documents {
     document {
       path = "spec.yaml"
-      contents = filebase64("../../Back End Files/APIGateway/openapi2-functions.yaml")
+      contents = data.google_storage_bucket_object_content.encoded-configfile.content
     }
   }
   lifecycle {
@@ -98,7 +92,7 @@ resource "google_cloudfunctions_function" "function" {
 
   available_memory_mb   = 128
   source_archive_bucket = "resume-function-code-bucket"
-  source_archive_object = google_storage_bucket_object.archive.name
+  source_archive_object = "code.zip"
   trigger_http          = true
   entry_point           = "hello_get"
 }
