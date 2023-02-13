@@ -7,9 +7,6 @@ terraform {
   }
 }
 
-variable "GOOGLE_GHA_CREDS_PATH" {
-  default = "/Users/kyle.chrzanowski/Downloads/strange-cycle-371319-b6cf49d2ce9d.json"
-}
 
 provider "google" {
   project     = "strange-cycle-371319"
@@ -18,7 +15,6 @@ provider "google" {
 }
 
 provider "google-beta" {
-  credentials = file(var.GOOGLE_GHA_CREDS_PATH)
   project     = "strange-cycle-371319"
   region      = "us-east1"
   zone        = "us-east1-b"
