@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae93bf5-78dd-412e-9a9e-4c1e41fe41a4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/workflow.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/workflow.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/deploy/deploy.tf" beforeDir="false" afterPath="$PROJECT_DIR$/terraform/deploy/deploy.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
