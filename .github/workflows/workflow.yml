@@ -27,6 +27,7 @@ jobs:
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
+        run: echo "credpath=${{ env.GOOGLE_GHA_CREDS_PATH }}" >> $GITHUB_OUTPUT
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
@@ -67,6 +68,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        id: credfile
+        run: echo "credpath=${{ needs.steps.auth.outputs.credpath }}" >> $GITHUB_OUTPUT
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -84,19 +87,30 @@ jobs:
       - name: Checkout
         uses: 'actions/checkout@v3'
 
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
 
       - name: Terraform Init
         run: terraform -chdir=terraform/publish-artifacts/ init
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/publish-artifacts/ validate
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
 
       - name: Terraform Plan
         run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
         continue-on-error: true
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
 
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ needs.steps.credfile.outputs.credpath }}
 
