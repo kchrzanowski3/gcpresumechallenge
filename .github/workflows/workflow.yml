@@ -82,9 +82,16 @@ jobs:
       pull-requests: write
 
     steps:
-      # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
+
+      #auth so we can use gcloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -92,18 +99,23 @@ jobs:
           # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      #use terraform to create a bucket where we can store our artifacts
+      - name: terraform init
+        run: terraform -chdir=terraform/deploy init
+
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform -chdir=terraform/deploy init
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: terraform -chdir=terraform/deploy validate
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -input=false
+        run: terraform -chdir=terraform/deploy plan -input=false
         continue-on-error: true
+
 
       - name: Update Pull Request comment
         uses: actions/github-script@v6
@@ -135,8 +147,9 @@ jobs:
               body: output
             })
 
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
 
 
 
