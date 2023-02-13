@@ -35,5 +35,5 @@ resource "google_storage_bucket" "codebucket" {
 resource "google_storage_bucket_object" "archive" {
   name   = "code.zip"
   bucket = google_storage_bucket.codebucket.name
-  source = "../../terraform/publish-artifacts/code-artifacts/code.zip"
+  source = "../../terraform/build/built-code/code.zip"
 }
