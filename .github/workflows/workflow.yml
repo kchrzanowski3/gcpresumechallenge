@@ -81,9 +81,9 @@ jobs:
       - name: Cypress run
         id: cypress_test
         uses: cypress-io/github-action@v5 # use the explicit version number
-        with:
+        #with:
           #install: npm run install
-          script: npx cypress run > testresults
+          #script: npx cypress run > testresults
 
   publish-artifact:
     needs: test
