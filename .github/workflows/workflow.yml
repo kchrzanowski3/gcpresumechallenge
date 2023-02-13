@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -44,46 +46,35 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
+      pull-requests: write
 
     steps:
-
       # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
-          create_credentials_file: true
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
+        with:
+          # terraform_version: 0.13.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
+        id: init
         run: terraform -chdir=terraform/publish-artifacts/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Validate
+        id: validate
         run: terraform -chdir=terraform/publish-artifacts/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
+        id: plan
+        run: terraform -chdir=terraform/publish-artifacts/ plan -input=false
         continue-on-error: true
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Apply
-        run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
+        run: terraform apply -auto-approve -input=false
+
 
   deploy:
     needs: publish-artifact
@@ -92,49 +83,73 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
+      pull-requests: write
 
     steps:
       # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
-          create_credentials_file: true
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
+        with:
+          # terraform_version: 0.13.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
+        id: init
         run: terraform -chdir=terraform/deploy/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Validate
+        id: validate
         run: terraform -chdir=terraform/deploy/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/deploy/ plan -out=planfile
+        id: plan
+        run: terraform -chdir=terraform/deploy/ plan -input=false
         continue-on-error: true
+
+      - name: Update Pull Request comment
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
         env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
 
       - name: Terraform Apply
-        run: terraform -chdir=terraform/deploy/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
+        run: terraform apply -auto-approve -input=false
+
+
 
   end-to-end-test:
     needs: deploy
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
     steps:
 
       - name: Checkout
