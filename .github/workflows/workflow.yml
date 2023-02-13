@@ -8,11 +8,8 @@ on:
       - '.github/workflows/**'
       - 'terraform/**'
       - 'cypress/**'
-      
-env:
-  GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
-  TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
-  
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
