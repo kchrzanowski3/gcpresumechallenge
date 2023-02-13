@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     google = {
@@ -11,7 +10,6 @@ terraform {
 variable "GOOGLE_GHA_CREDS_PATH" {
   default = "/Users/kyle.chrzanowski/Downloads/strange-cycle-371319-b6cf49d2ce9d.json"
 }
-
 
 provider "google" {
   credentials = file(var.GOOGLE_GHA_CREDS_PATH)
@@ -27,8 +25,6 @@ provider "google-beta" {
   region      = "us-east1"
   zone        = "us-east1-b"
 }
-
-
 
 //creates the storage bucket
 resource "google_storage_bucket" "resumebucket" {
@@ -51,19 +47,19 @@ resource "google_storage_bucket_iam_member" "public" {
 //add the website objects to the bucket - index.html
 resource "google_storage_bucket_object" "indexfile" {
   name   = "index.html"
-  source = "../Front End Files/index.html"
+  source = "../../Front End Files/index.html"
   bucket = google_storage_bucket.resumebucket.name
 }
 //add the website objects to the bucket - sripts.js
 resource "google_storage_bucket_object" "scriptsfile" {
   name   = "scripts.js"
-  source = "../Front End Files/scripts.js"
+  source = "../../Front End Files/scripts.js"
   bucket = google_storage_bucket.resumebucket.name
 }
 //add the website objects to the bucket - style.css
 resource "google_storage_bucket_object" "cssfile" {
   name   = "style.css"
-  source = "../Front End Files/style.css"
+  source = "../../Front End Files/style.css"
   bucket = google_storage_bucket.resumebucket.name
 }
 
@@ -83,7 +79,7 @@ resource "google_api_gateway_api_config" "api_config" {
   openapi_documents {
     document {
       path = "spec.yaml"
-      contents = filebase64("../Back End Files/APIGateway/openapi2-functions.yaml")
+      contents = filebase64("../../Back End Files/APIGateway/openapi2-functions.yaml")
     }
   }
   lifecycle {
@@ -111,8 +107,8 @@ resource "google_storage_bucket" "codebucket" {
 
 data "archive_file" "googlerunzip" {
   type = "zip"
-  output_path = "../Back End Files/gcpfunction/code.zip"
-  source_dir = "../Back End Files/gcpfunction/"
+  output_path = "../../Back End Files/gcpfunction/code.zip"
+  source_dir = "../../Back End Files/gcpfunction/"
 }
 
 resource "google_storage_bucket_object" "archive" {

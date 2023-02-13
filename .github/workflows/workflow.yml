@@ -38,24 +38,24 @@ jobs:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Init
-        run: terraform -chdir=terraform/ init
+        run: terraform -chdir=terraform/resume-architecture/ init
         env:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Validate
-        run: terraform -chdir=terraform/ validate
+        run: terraform -chdir=terraform/resume-architecture/ validate
         env:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/ plan -out=planfile
+        run: terraform -chdir=terraform/resume-architecture/ plan -out=planfile
         continue-on-error: true
         env:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform -chdir=terraform/ apply "planfile"
+        run: terraform -chdir=terraform/resume-architecture/ apply "planfile"
         env:
           TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
@@ -63,8 +63,6 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.cypress_test.outputs.test }}
 
     steps:
       - name: Checkout
@@ -77,10 +75,45 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
           #install: npm run install
-          script: npx cypress run >> $GITHUB_OUTPUT
+          script: npx cypress run > testresults
 
   publish-artifact:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{needs.test.outputs.output1}}
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform/publish-artifacts/ init
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform/publish-artifacts/ validate
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+
+      - name: Terraform Plan
+        run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
+        continue-on-error: true
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
