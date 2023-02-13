@@ -17,7 +17,7 @@ jobs:
         uses: 'actions/checkout@v3'
 
       - name: Create a zipped version of the python code so it can be deployed
-        run: zip -r code.zip "../Back End Files/gcpfunction"
+        run: zip -r code.zip "Back End Files/gcpfunction"
 
 
   publish-artifact:
