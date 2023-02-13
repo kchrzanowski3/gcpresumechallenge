@@ -23,7 +23,7 @@ jobs:
 
       #api gateway config has to be base 64 encoded before deployment
       - name: base64 encode api gateway config
-        run: base64 -i "Back End Files/APIGateway/openapi2-functions.yaml" -o "Back End Files/APIGateway/openapi2-functions-base64.yaml"
+        run: base64 -i "Back End Files/APIGateway/openapi2-functions.yaml" -o  "Back End Files/APIGateway/openapi2-functions-base64.yaml"
 
 
 
