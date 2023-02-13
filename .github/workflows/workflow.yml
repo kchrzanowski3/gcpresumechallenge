@@ -9,9 +9,6 @@ on:
       - 'terraform/**'
       - 'cypress/**'
 
-env:
-  TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{secrets.TF_VAR_GOOGLE_GHA_CREDS_PATH}}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,16 +18,6 @@ jobs:
       id-token: 'write'
 
     steps:
-      # actions/checkout MUST come before auth
-      - name: Checkout
-        uses: 'actions/checkout@v3'
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -53,53 +40,92 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+          create_credentials_file: true
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Init
         run: terraform -chdir=terraform/publish-artifacts/ init
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/publish-artifacts/ validate
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Plan
         run: terraform -chdir=terraform/publish-artifacts/ plan -out=planfile
         continue-on-error: true
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts/ apply "planfile"
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
   deploy:
     needs: publish-artifact
     runs-on: ubuntu-latest
     steps:
+      # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+          create_credentials_file: true
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Init
         run: terraform -chdir=terraform/deploy/ init
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Validate
         run: terraform -chdir=terraform/deploy/ validate
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Plan
         run: terraform -chdir=terraform/deploy/ plan -out=planfile
         continue-on-error: true
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
       - name: Terraform Apply
         run: terraform -chdir=terraform/deploy/ apply "planfile"
+        env:
+          TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
 
   end-to-end-test:
     needs: deploy
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout
         uses: actions/checkout@v3
 
