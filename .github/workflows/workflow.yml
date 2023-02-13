@@ -27,11 +27,14 @@ jobs:
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        run: echo "credpath=${{ env.GOOGLE_GHA_CREDS_PATH }}" >> $GITHUB_OUTPUT
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+      - name: Output the cred file location
+        run: echo "credpath=${{ env.GOOGLE_GHA_CREDS_PATH }}" >> $GITHUB_OUTPUT
+        id: authfile
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -69,7 +72,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         id: credfile
-        run: echo "credpath=${{ needs.steps.auth.outputs.credpath }}" >> $GITHUB_OUTPUT
+        run: echo "credpath=${{ needs.steps.authfile.outputs.credpath }}" >> $GITHUB_OUTPUT
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
