@@ -9,7 +9,7 @@ terraform {
     organization = "kylechrzanowski"
 
     workspaces {
-      name = "gcp-resume-build"
+      name = "gcp-publish-artifacts"
     }
   }
 }
