@@ -9,6 +9,8 @@ on:
       - 'terraform/**'
       - 'cypress/**'
 
+env:
+  TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{secrets.TF_VAR_GOOGLE_GHA_CREDS_PATH}}
 
 jobs:
   build:
