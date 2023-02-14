@@ -79,7 +79,7 @@ jobs:
 
       #publish the artifact in the bucket using gcloud
       - name: upload base64 zipped file to a bucket so it can be deployed
-        run: gcloud storage cp "Back End Files/APIGateway/openapi2-functions-base64.yaml" gs://resume-function-code-bucket/
+        run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions-base64.yaml gs://resume-function-code-bucket/
 
 
 
@@ -171,6 +171,7 @@ jobs:
       #publish the style.css file to the website
       - name: Upload index file
         run: gcloud storage cp "Front End Files/scripts.js" gs://resumebucket/
+
 
 
   end-to-end-test:
