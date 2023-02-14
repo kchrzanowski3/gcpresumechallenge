@@ -52,21 +52,17 @@ jobs:
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts apply -auto-approve -input=false
 
-      #python code has to be zipped before being deployed 
+      #python code has to be zipped before being deployed
       - name: Zip python code
-        run: zip -r code.zip "Back End Files/gcpfunction/"
+        run: cd Back\ End\ Files/ && zip -r code.zip "Back End Files/gcpfunction/" && cd ..
 
       #publish the zipped python code in the bucket using gcloud
       - name: upload the zipped file to a bucket so it can be deployed
         run: gcloud storage cp code.zip gs://resume-function-code-bucket/
 
-      #api gateway config has to be base 64 encoded before deployment
-      - name: base64 encode api gateway config
-        run: base64 Back\ End\ Files/APIGateway/openapi2-functions.yaml > openapi2-functions-base64.yaml
-
       #publish the artifact in the bucket using gcloud
       - name: upload base64 zipped file to a bucket so it can be deployed
-        run: gcloud storage cp openapi2-functions-base64.yaml gs://resume-function-code-bucket/
+        run: gcloud storage cp openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
 

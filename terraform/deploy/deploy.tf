@@ -52,8 +52,8 @@ resource "google_api_gateway_api" "api" {
 }
 
 //get the base64 encoded version of the config file so it can be included in the api config
-data "google_storage_bucket_object_content" "encoded-configfile" {
-  name   = "openapi2-functions-base64.yaml"
+data "google_storage_bucket_object_content" "configfile" {
+  name   = "openapi2-functions.yaml"
   bucket = "resume-function-code-bucket"
 }
 
@@ -66,7 +66,7 @@ resource "google_api_gateway_api_config" "api_config" {
   openapi_documents {
     document {
       path = "spec.yaml"
-      contents = data.google_storage_bucket_object_content.encoded-configfile.content
+      contents = (data.google_storage_bucket_object_content.configfile.content)
     }
   }
   lifecycle {
