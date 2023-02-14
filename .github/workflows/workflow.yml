@@ -37,7 +37,7 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      #reate a bucket where we can store our artifacts
+      #create a bucket where we can store our artifacts
       - name: Terraform Init
         id: init
         run: terraform -chdir=terraform/publish-artifacts init
@@ -102,10 +102,9 @@ jobs:
           log_level: DEBUG # optional: set log level. Default WARNING
           #config_file: path/this_file
 
-
       #publish the checkov scan to a bucket using gcloud
       - name: upload checkov results to bucket
-        run: gcloud storage cp reports/results.sarif gs://resume-function-code-bucket/
+        run: gcloud storage cp -r reports/results.sarif gs://resume-function-code-bucket/
 
 
 
