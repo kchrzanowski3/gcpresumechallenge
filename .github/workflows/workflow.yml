@@ -103,7 +103,7 @@ jobs:
 
       #publish the checkov scan to a bucket using gcloud
       - name: upload checkov results to bucket
-        run: gcloud storage cp vulnscan-results.sarif gs://resume-function-code-bucket/
+        run: gcloud storage cp reports/vulnscan-results.sarif/results_cli.txt gs://resume-function-code-bucket/
 
 
 
