@@ -54,7 +54,7 @@ jobs:
 
       #python code has to be zipped before being deployed
       - name: Zip python code
-        run: zip -r code.zip "Back End Files/gcpfunction"
+        run: zip -r code.zip "Back End Files/gcpfunction/"
 
       #publish the zipped python code in the bucket using gcloud
       - name: upload the zipped file to a bucket so it can be deployed
@@ -98,9 +98,6 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       #use terraform to deploy all the infrastructure
-      - name: terraform init
-        run: terraform -chdir=terraform/deploy init
-
       - name: Terraform Init
         id: init
         run: terraform -chdir=terraform/deploy init
