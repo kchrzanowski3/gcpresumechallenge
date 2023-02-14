@@ -90,7 +90,6 @@ jobs:
 
       #vuln scan the deployment terraform
       - name: Run Checkov action
-        id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
           directory: terraform/deploy/
@@ -104,7 +103,6 @@ jobs:
 
       #vuln scan the build terraform
       - name: Run Checkov action
-        id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
           directory: terraform/publish-artifacts/
