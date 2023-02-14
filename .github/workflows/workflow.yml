@@ -67,9 +67,14 @@ jobs:
         run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
+
   vulnerability-scan:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
 
     steps:
       #auth so we can use gcloud
@@ -103,8 +108,9 @@ jobs:
         run: gcloud storage cp reports/results.sarif gs://resume-function-code-bucket/
 
 
+
   deploy:
-    needs: vulnerability-scan
+    needs: build
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
