@@ -5,3 +5,4 @@
 /terraform/modules/services/resume-architecture/.terraform/
 /terraform/publish-artifacts/.terraform/
 /terraform/**/.terraform/
+/.idea/workspace.xml
