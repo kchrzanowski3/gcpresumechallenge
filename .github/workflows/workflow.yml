@@ -164,7 +164,7 @@ jobs:
       #add a comment if there's a merge request
       - name: Update Pull Request comment
         uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
+        if: ${{ github.event_name == 'pull_request' }}
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
