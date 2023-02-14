@@ -54,15 +54,15 @@ jobs:
 
       #python code has to be zipped before being deployed
       - name: Zip python code
-        run: cd Back\ End\ Files/ && zip -r code.zip gcpfunction/ && cd ..
+        run: cd Back\ End\ Files/ && zip -r code.zip gcpfunction/ && cd ../..
 
       #publish the zipped python code in the bucket using gcloud
       - name: upload the zipped file to a bucket so it can be deployed
-        run: gcloud storage cp code.zip gs://resume-function-code-bucket/
+        run: gcloud storage cp Back\ End\ Files/code.zip gs://resume-function-code-bucket/
 
       #publish the artifact in the bucket using gcloud
       - name: upload base64 zipped file to a bucket so it can be deployed
-        run: gcloud storage cp openapi2-functions.yaml gs://resume-function-code-bucket/
+        run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
 
