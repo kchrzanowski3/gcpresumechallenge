@@ -54,7 +54,7 @@ jobs:
 
       #python code has to be zipped before being deployed
       - name: Zip python code
-        run: cd Back\ End\ Files/ && zip -r code.zip "Back End Files/gcpfunction/" && cd ..
+        run: cd Back\ End\ Files/ && zip -r code.zip gcpfunction/ && cd ..
 
       #publish the zipped python code in the bucket using gcloud
       - name: upload the zipped file to a bucket so it can be deployed
