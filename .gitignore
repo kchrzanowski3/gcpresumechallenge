@@ -1,8 +1,7 @@
 /node_modules/
-/.idea/workspace.xml
+/.idea/**
 /Back End Files/gcpfunction/code.zip
 /terraform/.terraform.lock.hcl
 /terraform/modules/services/resume-architecture/.terraform/
-/terraform/resume-architecture**/.terraform/**
 /terraform/publish-artifacts/.terraform/
-.idea/workspace.xml
+/terraform/**/.terraform/
