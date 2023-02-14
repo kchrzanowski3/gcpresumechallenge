@@ -67,9 +67,31 @@ jobs:
         run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
+  checkov-scan:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Test with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/deploy/
+          framework: terraform
+
+
+
 
   deploy:
-    needs: build
+    needs: checkov-scan
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
