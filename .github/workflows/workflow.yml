@@ -7,12 +7,11 @@ on:
       - 'Back\ End\ Files/**'
       - '.github/workflows/**'
       - 'terraform/**'
-      
-env:
-  GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
-  TF_VAR_GOOGLE_GHA_CREDS_PATH: $GOOGLE_GHA_CREDS_PATH
-  
+      - 'cypress/**'
+
 jobs:
+
+
   build:
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
@@ -21,10 +20,10 @@ jobs:
       id-token: 'write'
 
     steps:
-      # actions/checkout MUST come before auth
       - name: Checkout
         uses: 'actions/checkout@v3'
 
+      #auth so we can use gcloud
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
@@ -32,45 +31,194 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
+      #setup terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      #create a bucket where we can store our artifacts
       - name: Terraform Init
-        run: terraform -chdir=terraform/ init
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        id: init
+        run: terraform -chdir=terraform/publish-artifacts init
 
       - name: Terraform Validate
-        run: terraform -chdir=terraform/ validate
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        id: validate
+        run: terraform -chdir=terraform/publish-artifacts validate
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/ plan -out=planfile
+        id: plan
+        run: terraform -chdir=terraform/publish-artifacts plan -input=false
         continue-on-error: true
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform -chdir=terraform/ apply "planfile"
-        env:
-          TF_VAR_GOOGLE_GHA_CREDS_PATH: ${{ env.GOOGLE_GHA_CREDS_PATH }}
+        run: terraform -chdir=terraform/publish-artifacts apply -auto-approve -input=false
+
+      #python code has to be zipped before being deployed
+      - name: Zip python code
+        run: cd Back\ End\ Files/gcpfunction/ && zip -r code.zip * && cd ../../..
+
+      #publish the zipped python code in the bucket using gcloud
+      - name: upload the zipped file to a bucket so it can be deployed
+        run: gcloud storage cp Back\ End\ Files/gcpfunction/code.zip gs://resume-function-code-bucket/
+
+      #publish the artifact in the bucket using gcloud
+      - name: upload base64 zipped file to a bucket so it can be deployed
+        run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
-  test:
+
+  vulnerability-scan:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+
     steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+
+      #auth so we can use gcloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+      #vuln scan the deployment terraform
+      - name: Run Checkov action
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/deploy/
+          soft_fail: true # optional: do not return an error code if there are failed checks
+          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_file_path: vuln-scan-reports/vulnscan-deploy-results.sarif # folder and name of results file
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          log_level: DEBUG # optional: set log level. Default WARNING
+          #config_file: path/this_file
+
+      #vuln scan the build terraform
+      - name: Run Checkov action
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/publish-artifacts/
+          soft_fail: true # optional: do not return an error code if there are failed checks
+          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_file_path: vuln-scan-reports/vulnscan-build-results.sarif # folder and name of results file
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          log_level: DEBUG # optional: set log level. Default WARNING
+          #config_file: path/this_file
+
+      #publish the checkov scan to a bucket using gcloud
+      - name: upload checkov results to bucket
+        run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
+
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+
+      #auth so we can use gcloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      #auth and setup to terraform cloud
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          # terraform_version: 0.13.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      #use terraform to deploy all the infrastructure
+      - name: Terraform Init
+        id: init
+        run: terraform -chdir=terraform/deploy init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform -chdir=terraform/deploy validate
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform -chdir=terraform/deploy plan -input=false
+        continue-on-error: true
+
+      #add a comment if there's a merge request
+      - name: Update Pull Request comment
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
+
+      #publish the index file to the website
+      - name: Upload index file
+        run: gcloud storage cp "Front End Files/index.html" gs://resumebucket/
+      #publish the style.css file to the website
+      - name: Upload index file
+        run: gcloud storage cp "Front End Files/style.css" gs://resumebucket/
+      #publish the style.css file to the website
+      - name: Upload index file
+        run: gcloud storage cp "Front End Files/scripts.js" gs://resumebucket/
+
+
+
+  end-to-end-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+
       - name: Checkout
         uses: actions/checkout@v3
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
+        id: cypress_test
         uses: cypress-io/github-action@v5 # use the explicit version number
-        with:
-          #install: npm run install
-          script: npx cypress run

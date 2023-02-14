@@ -20,6 +20,7 @@
     "cypress": "^12.5.1"
   },
   "dependencies": {
+    "cypress-plugin-api": "^2.10.3",
     "wait-on": "^7.0.1"
   }
 }

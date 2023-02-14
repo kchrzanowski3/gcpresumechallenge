@@ -1,36 +1,50 @@
-let countertext1
-let countertext2
+import 'cypress-plugin-api'
+let res2
+let res1
 
 describe('tests the website is up and the API is working', () => {
 
-  it('Visits kylechrzanowski.com and gets the visitor count', () => {
+  it('Visits kylechrzanowski.com', () => {
+
     cy.visit('https://kylechrzanowski.com')
     cy.contains('Kyle Chrzanowski')
-    cy.get('[id=counter]',{ timeout: 10000 })
-        .invoke('text')
-        .should('match', /^[0-9]*$/)
-    cy.get('[id=counter]').then(($counter) => {
-      // save text from the first element
-      countertext1 = $counter.text()
-    })
   })
 
 
-  it('reloads and checks the updated visitor count has increased by 1', () => {
-    cy.visit('https://kylechrzanowski.com')
-    cy.get('[id=counter]', { timeout: 10000 })
-        .invoke('text')
-        .should('match', /^[0-9]*$/)
-    cy.get('[id=counter]').then(($counter) => {
-      // save text from the first element
-      countertext2 = $counter.text()
+  it('call the api #1 and store the value', () => {
+    cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+        //validate
+        cy.get('@details').its('status').should('eq',200)
+        cy.get('@details').then((response)  => {
+          res1 = response.body.body.count
+          cy.log(res1)
+        })
 
-      expect(String(Number(countertext1)+1)).to.equal(countertext2)
+        //.get('body').its('count') //.should('match', /^[0-9]*$/)
+
     })
-  })
+
+    it('call the api #2 and check it gets incremented', () => {
+        cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+        //validate
+        cy.get('@details').its('status').should('eq',200)
+        cy.get('@details').then((response)  => {
+            res2 = response.body.body.count
+            cy.log(res2)
+        })
+
+        //.get('body').its('count') //.should('match', /^[0-9]*$/)
+
+    })
 
 
+    it('compare the api calls to have incremented by 1', () => {
+        expect(Number(res1)+1).to.equal(res2)
 
+
+        })
+
+    
 })
 
 

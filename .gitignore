@@ -2,4 +2,6 @@
 /.idea/workspace.xml
 /Back End Files/gcpfunction/code.zip
 /terraform/.terraform.lock.hcl
-/terraform/.terraform/
+/terraform/modules/services/resume-architecture/.terraform/
+/terraform/resume-architecture**/.terraform/**
+/terraform/publish-artifacts/.terraform/
