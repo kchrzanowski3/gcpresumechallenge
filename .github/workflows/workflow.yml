@@ -52,7 +52,7 @@ jobs:
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts apply -auto-approve -input=false
 
-      #python code has to be zipped before being deployed
+      #python code has to be zipped before being deployed 
       - name: Zip python code
         run: zip -r code.zip "Back End Files/gcpfunction/"
 
