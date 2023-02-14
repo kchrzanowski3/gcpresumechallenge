@@ -77,6 +77,9 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+
       #auth so we can use gcloud
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
@@ -84,10 +87,6 @@ jobs:
         with:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
-
-
-      - name: Checkout
-        uses: 'actions/checkout@v3'
 
       - name: Run Checkov action
         id: checkov
