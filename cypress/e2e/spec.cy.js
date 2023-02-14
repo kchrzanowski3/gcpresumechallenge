@@ -12,7 +12,7 @@ describe('tests the website is up and the API is working', () => {
 
 
   it('call the api #1 and store the value', () => {
-    cy.api('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+    cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
         //validate
         cy.get('@details').its('status').should('eq',200)
         cy.get('@details').then((response)  => {
@@ -25,7 +25,7 @@ describe('tests the website is up and the API is working', () => {
     })
 
     it('call the api #2 and check it gets incremented', () => {
-        cy.api('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+        cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
         //validate
         cy.get('@details').its('status').should('eq',200)
         cy.get('@details').then((response)  => {
