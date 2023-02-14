@@ -36,9 +36,6 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       #reate a bucket where we can store our artifacts
-      - name: terraform init
-        run: terraform -chdir=terraform/publish-artifacts init
-
       - name: Terraform Init
         id: init
         run: terraform -chdir=terraform/publish-artifacts init
@@ -65,11 +62,11 @@ jobs:
 
       #api gateway config has to be base 64 encoded before deployment
       - name: base64 encode api gateway config
-        run: base64 Back\ End\ Files/APIGateway/openapi2-functions.yaml > Back\ End\ Files/APIGateway/openapi2-functions-base64.yaml
+        run: base64 Back\ End\ Files/APIGateway/openapi2-functions.yaml > openapi2-functions-base64.yaml
 
       #publish the artifact in the bucket using gcloud
       - name: upload base64 zipped file to a bucket so it can be deployed
-        run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions-base64.yaml gs://resume-function-code-bucket/
+        run: gcloud storage cp openapi2-functions-base64.yaml gs://resume-function-code-bucket/
 
 
 
@@ -147,6 +144,7 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
 
 
       - name: Terraform Apply
