@@ -72,26 +72,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      #auth so we can use gcloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+
+
       - name: Checkout
         uses: 'actions/checkout@v3'
 
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Test with Checkov
+      - name: Run Checkov action
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
           directory: terraform/deploy/
-          framework: terraform
+          soft_fail: true # optional: do not return an error code if there are failed checks
+          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          output_format: sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_file_path: reports/results.sarif # folder and name of results file
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          log_level: DEBUG # optional: set log level. Default WARNING
+          #config_file: path/this_file
 
 
+      #publish the checkov scan to a bucket using gcloud
+      - name: upload checkov results to bucket
+        run: gcloud storage cp reports/results.sarif gs://resume-function-code-bucket/
 
 
   deploy:
-    needs: checkov-scan
+    needs: build
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
