@@ -10,25 +10,7 @@ on:
       - 'cypress/**'
 
 jobs:
-
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
-
-      #python code has to be zipped before being deployed
-      - name: Zip python code
-        run: zip -r code.zip "Back End Files/gcpfunction"
-
-      #api gateway config has to be base 64 encoded before deployment
-      - name: base64 encode api gateway config
-        run: base64 Back\ End\ Files/APIGateway/openapi2-functions.yaml > Back\ End\ Files/APIGateway/openapi2-functions-base64.yaml
-
-
-
-  publish-artifact:
-    needs: build
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
@@ -47,13 +29,13 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
+      #setup terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      #use terraform to create a bucket where we can store our artifacts
+      #reate a bucket where we can store our artifacts
       - name: terraform init
         run: terraform -chdir=terraform/publish-artifacts init
 
@@ -73,9 +55,17 @@ jobs:
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts apply -auto-approve -input=false
 
-      #publish the artifact in the bucket using gcloud
+      #python code has to be zipped before being deployed
+      - name: Zip python code
+        run: zip -r code.zip "Back End Files/gcpfunction"
+
+      #publish the zipped python code in the bucket using gcloud
       - name: upload the zipped file to a bucket so it can be deployed
         run: gcloud storage cp code.zip gs://resume-function-code-bucket/
+
+      #api gateway config has to be base 64 encoded before deployment
+      - name: base64 encode api gateway config
+        run: base64 Back\ End\ Files/APIGateway/openapi2-functions.yaml > Back\ End\ Files/APIGateway/openapi2-functions-base64.yaml
 
       #publish the artifact in the bucket using gcloud
       - name: upload base64 zipped file to a bucket so it can be deployed
