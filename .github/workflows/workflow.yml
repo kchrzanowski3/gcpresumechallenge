@@ -67,7 +67,7 @@ jobs:
         run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
-  checkov-scan:
+  vulnerability-scan:
     needs: build
     runs-on: ubuntu-latest
 
@@ -104,7 +104,7 @@ jobs:
 
 
   deploy:
-    needs: build
+    needs: vulnerability-scan
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
     permissions:
