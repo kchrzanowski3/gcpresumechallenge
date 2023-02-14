@@ -66,7 +66,7 @@ resource "google_api_gateway_api_config" "api_config" {
   openapi_documents {
     document {
       path = "spec.yaml"
-      contents = (data.google_storage_bucket_object_content.configfile.content)
+      contents = base64encode(data.google_storage_bucket_object_content.configfile.content)
     }
   }
   lifecycle {
