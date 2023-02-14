@@ -44,9 +44,7 @@ describe('tests the website is up and the API is working', () => {
 
         })
 
-
-
-
+    
 })
 
 

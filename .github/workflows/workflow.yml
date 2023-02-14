@@ -10,6 +10,8 @@ on:
       - 'cypress/**'
 
 jobs:
+
+
   build:
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
@@ -139,7 +141,6 @@ jobs:
             })
 
 
-
       - name: Terraform Apply
         run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
 
@@ -158,8 +159,6 @@ jobs:
   end-to-end-test:
     needs: deploy
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
 
     steps:
 
