@@ -116,7 +116,7 @@ jobs:
 
       #publish the checkov scan to a bucket using gcloud
       - name: upload checkov results to bucket
-        run: gcloud storage cp -r reports/ gs://resume-function-code-bucket/
+        run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
 
 
