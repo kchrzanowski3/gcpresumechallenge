@@ -7,6 +7,7 @@ Status of Deployment Pipelines:
 
 
 ![CI/CD Pipeline](https://github.com/kchrzanowski3/gcpresumechallenge/blob/main/readme-images/pipeline.png?raw=true)
+
 The CI/CD Pipeline only runs in production right now. Vulnerability test results are stored in GCP. 
 Future enhancements:
 - Finish terraform definition so a test environment can be spun up before prod push
@@ -16,4 +17,5 @@ Future enhancements:
 
 
 ![GCP Architecture](https://github.com/kchrzanowski3/gcpresumechallenge/blob/main/readme-images/architecture.png?raw=true)
+
 The GCP Architecture as it is currently defined. Not all infrastructure and service accounts are defined by terraform. 
