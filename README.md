@@ -1,4 +1,4 @@
-# Kyle's Resume Challenge - GCP
+# Kyle's Resume Challenge - GCP README
 
 This is a repository of files for the google cloud resume challenge
 
