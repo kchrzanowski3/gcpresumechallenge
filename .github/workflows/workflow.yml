@@ -121,16 +121,22 @@ jobs:
       #generate a Software Bill of Materials (SBOM)
       - uses: anchore/sbom-action@v0
         with:
-          output-file: sbom.spdx
-
-      - name: show files
-        run: ls
+          output-file: sbom.spdx.json
 
       #publish the SBOM to a bucket using gcloud
       - name: upload SBOM results to bucket
         run: gcloud storage cp sbom.spdx gs://resume-function-code-bucket/
 
+      - name: Scan SBOM
+        id: sbomscan
+        uses: anchore/scan-action@v3
+        with:
+          sbom: "sbom.spdx.json"
 
+      #publish the SBOM scan results to a bucket using gcloud
+      - name: upload SBOM scan results to bucket
+        run: cat ${{ steps.scan.outputs.sarif }} > sbom-scan.json && gcloud storage cp sbom-scan.json gs://resume-function-code-bucket/
+      
 
 
   deploy:
