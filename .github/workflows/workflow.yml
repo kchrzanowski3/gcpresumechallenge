@@ -123,11 +123,14 @@ jobs:
         with:
           artifact-name: sbom.spdx
 
+      - name: show files
+        run: ls
+
       #publish the SBOM to a bucket using gcloud
       - name: upload SBOM results to bucket
         run: gcloud storage cp sbom.spdx gs://resume-function-code-bucket/
 
-      
+
 
 
   deploy:
