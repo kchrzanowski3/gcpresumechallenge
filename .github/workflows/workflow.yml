@@ -118,6 +118,16 @@ jobs:
       - name: upload checkov results to bucket
         run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
+      #generate a Software Bill of Materials (SBOM)
+      - uses: anchore/sbom-action@v0
+        with:
+          artifact-name: sbom.spdx
+
+      #publish the SBOM to a bucket using gcloud
+      - name: upload SBOM results to bucket
+        run: gcloud storage cp sbom.spdx gs://resume-function-code-bucket/
+
+      
 
 
   deploy:
