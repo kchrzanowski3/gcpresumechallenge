@@ -127,6 +127,7 @@ jobs:
       - name: upload SBOM results to bucket
         run: gcloud storage cp sbom.spdx gs://resume-function-code-bucket/
 
+      #scan the sbom for vulnerabilities
       - name: Scan SBOM
         id: sbomscan
         uses: anchore/scan-action@v3
