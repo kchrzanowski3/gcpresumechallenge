@@ -121,7 +121,7 @@ jobs:
       #generate a Software Bill of Materials (SBOM)
       - uses: anchore/sbom-action@v0
         with:
-          artifact-name: sbom.spdx
+          output-file: sbom.spdx
 
       - name: show files
         run: ls
