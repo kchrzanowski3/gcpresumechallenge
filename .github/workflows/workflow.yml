@@ -135,8 +135,8 @@ jobs:
 
       #publish the SBOM scan results to a bucket using gcloud
       - name: upload SBOM scan results to bucket
-        run: cat ${{ steps.scan.outputs.sarif }} > sbom-scan.json && gcloud storage cp sbom-scan.json gs://resume-function-code-bucket/
-      
+        run: cat ${{ steps.sbomscan.outputs.sarif }} > sbom-scan.json && gcloud storage cp sbom-scan.json gs://resume-function-code-bucket/
+
 
 
   deploy:
