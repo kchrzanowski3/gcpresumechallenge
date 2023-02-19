@@ -125,7 +125,7 @@ jobs:
 
       #publish the SBOM to a bucket using gcloud
       - name: upload SBOM results to bucket
-        run: gcloud storage cp sbom.spdx gs://resume-function-code-bucket/
+        run: gcloud storage cp sbom.spdx.json gs://resume-function-code-bucket/
 
       #scan the sbom for vulnerabilities
       - name: Scan SBOM
@@ -133,7 +133,7 @@ jobs:
         uses: anchore/scan-action@v3
         with:
           sbom: "sbom.spdx.json"
- 
+
       #publish the SBOM scan results to a bucket using gcloud
       - name: upload SBOM scan results to bucket
         run: cat ${{ steps.sbomscan.outputs.sarif }} > sbom-scan.json && gcloud storage cp sbom-scan.json gs://resume-function-code-bucket/
