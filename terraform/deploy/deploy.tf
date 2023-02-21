@@ -133,7 +133,7 @@ resource "google_compute_global_address" "default" {
 //create the https load balancer
 resource "google_compute_target_https_proxy" "default" {
   name             = "resumelb2-target-proxy"
-  url_map          = google_compute_url_map.default.id
+  url_map          = google_compute_url_map.https.id
   ssl_certificates = [google_compute_managed_ssl_certificate.default.id]
 }
 
@@ -144,7 +144,7 @@ resource "google_compute_managed_ssl_certificate" "default" {
   }
 }
 
-resource "google_compute_url_map" "default" {
+resource "google_compute_url_map" "https" {
   name        = "resumelb2"
   description = "the https load balancer that services https traffic from the static ip"
 
@@ -166,6 +166,16 @@ resource "google_compute_url_map" "default" {
   }
 }
 
+resource "google_compute_url_map" "http" {
+  name            = "newloadbalancer-redirect"
+  description = "Automatically generated HTTP to HTTPS redirect for the newloadbalancer forwarding rule"
+  default_url_redirect {
+    https_redirect = true
+    strip_query    = false
+    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+  }
+}
+
 resource "google_compute_backend_bucket" "bucket_backend" {
   name             = "resumebackend"
   description      = "Contains kyle's resume site"
@@ -173,3 +183,10 @@ resource "google_compute_backend_bucket" "bucket_backend" {
   enable_cdn       = true
   compression_mode = "DISABLED"
 }
+
+//create the http load balancer that redirects to https
+resource "google_compute_target_http_proxy" "default" {
+  name = "newloadbalancer-target-proxy"
+  url_map = google_compute_url_map.http.id
+}
+
