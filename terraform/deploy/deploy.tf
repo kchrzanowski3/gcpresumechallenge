@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.51.0"
+      version = "4.53.1"
     }
   }
   cloud {
@@ -14,18 +14,28 @@ terraform {
   }
 }
 
-
 provider "google" {
-  project     = "strange-cycle-371319"
-  region      = "us-east1"
-  zone        = "us-east1-b"
+  project = "strange-cycle-371319"
+  region  = "us-east1"
+  zone    = "us-east1-b"
 }
 
 provider "google-beta" {
-  project     = "strange-cycle-371319"
-  region      = "us-east1"
-  zone        = "us-east1-b"
+  project = "strange-cycle-371319"
+  region  = "us-east1"
+  zone    = "us-east1-b"
 }
+
+
+
+
+// the project
+resource "google_project" "my_project" {
+  name            = "Resume Challenge"
+  project_id      = "strange-cycle-371319"
+  billing_account = "01C1E9-56FA78-90F2BA"
+}
+
 
 //creates the storage bucket
 resource "google_storage_bucket" "resumebucket" {
@@ -48,7 +58,7 @@ resource "google_storage_bucket_iam_member" "public" {
 //api gateway construction
 resource "google_api_gateway_api" "api" {
   provider = google-beta
-  api_id = "resumeapi2"
+  api_id   = "resumeapi2"
 }
 
 //get the base64 encoded version of the config file so it can be included in the api config
@@ -59,13 +69,13 @@ data "google_storage_bucket_object_content" "configfile" {
 
 //api config creation
 resource "google_api_gateway_api_config" "api_config" {
-  provider = google-beta
-  api = google_api_gateway_api.api.api_id
+  provider      = google-beta
+  api           = google_api_gateway_api.api.api_id
   api_config_id = "kyleapiconfig"
 
   openapi_documents {
     document {
-      path = "spec.yaml"
+      path     = "spec.yaml"
       contents = base64encode(data.google_storage_bucket_object_content.configfile.content)
     }
   }
@@ -76,7 +86,7 @@ resource "google_api_gateway_api_config" "api_config" {
 
 //api gateway gateway creation
 resource "google_api_gateway_gateway" "api_gw" {
-  provider = google-beta
+  provider   = google-beta
   api_config = google_api_gateway_api_config.api_config.id
   gateway_id = "apigateway10"
 }
@@ -95,4 +105,71 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_object = "code.zip"
   trigger_http          = true
   entry_point           = "hello_get"
+}
+
+resource "google_project_service" "firestore" {
+  provider = google-beta
+
+  service = "firestore.googleapis.com"
+}
+
+resource "google_firestore_database" "datastore_mode_database" {
+  provider = google-beta
+
+  name = "(default)"
+
+  location_id = "us-east1"
+  type        = "DATASTORE_MODE"
+
+  depends_on = [google_project_service.firestore]
+}
+
+# reserved IP address
+resource "google_compute_global_address" "default" {
+  provider = google-beta
+  name     = "resumeip"
+}
+
+//create the https load balancer
+resource "google_compute_target_https_proxy" "default" {
+  name             = "resumelb2-target-proxy"
+  url_map          = google_compute_url_map.default.id
+  ssl_certificates = [google_compute_managed_ssl_certificate.default.id]
+}
+
+resource "google_compute_managed_ssl_certificate" "default" {
+  name = "cert3"
+  managed {
+    domains = ["kylechrzanowski.com", "www.kylechrzanowski.com"]
+  }
+}
+
+resource "google_compute_url_map" "default" {
+  name        = "resumelb2"
+  description = "the https load balancer that services https traffic from the static ip"
+
+  default_service = google_compute_backend_bucket.bucket_backend.id
+
+  host_rule {
+    hosts        = ["kylechrzanowski.com", "www.kylechrzanowski.com"]
+    path_matcher = "allpaths"
+  }
+
+  path_matcher {
+    name            = "allpaths"
+    default_service = google_compute_backend_bucket.bucket_backend.id
+
+    path_rule {
+      paths   = ["/*"]
+      service = google_compute_backend_bucket.bucket_backend.id
+    }
+  }
+}
+
+resource "google_compute_backend_bucket" "bucket_backend" {
+  name             = "resumebackend"
+  description      = "Contains kyle's resume site"
+  bucket_name      = google_storage_bucket.resumebucket.name
+  enable_cdn       = true
+  compression_mode = "DISABLED"
 }
