@@ -1,10 +1,24 @@
-#api for cicd auth and stuff
+##
+## apis for cicd auth and stuff
+## 
+
 resource "google_project_service" "crm" {
   project = var.project
   service = "cloudresourcemanager.googleapis.com"
 
   disable_dependent_services = false // Prevent disabling dependent APIs
 }
+
+resource "google_project_service" "iam_creds" {
+  project = var.project
+  service = "iamcredentials.googleapis.com"
+
+  disable_dependent_services = false // Prevent disabling dependent APIs
+}
+
+##
+## OIDC provider for ci/cd pipeline in github actions
+##
 
 # Workload Identity Pool
 resource "google_iam_workload_identity_pool" "github_pool" {
