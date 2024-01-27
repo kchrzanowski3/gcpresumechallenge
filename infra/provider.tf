@@ -26,9 +26,4 @@ provider "google" {
 
 }
  
-# provider "godaddy" {
-#   key    = var.go_daddy_key
-#   secret = var.go_daddy_secret
-# }
-
 

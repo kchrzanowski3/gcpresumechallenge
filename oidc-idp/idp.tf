@@ -58,6 +58,17 @@ resource "google_service_account_iam_member" "pool_member" {
   member = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${local.github_repository_name}"
 }
 
+#assign all the roles in the locals block above
+resource "google_project_iam_member" "roles" {
+  project = var.project
+  for_each = {
+    for role in local.roles : role => role
+  }
+  role   = each.value
+  member = "serviceAccount:${google_service_account.my_service_account.email}"
+}
+
+
 ##
 ## Outputs to put in the github actions yaml file
 ##
@@ -71,40 +82,3 @@ output "google_iam_workload_identity_pool_provider_github_name" {
   description = "Workload Identity Pool Provider ID. Put in yaml file -> workload_identity_provider:"
   value       = google_iam_workload_identity_pool_provider.github_provider.name
 }
-
-
-
-resource "google_project_iam_member" "roles" {
-  project = var.project
-  for_each = {
-    for role in local.roles : role => role
-  }
-  role   = each.value
-  member = "serviceAccount:${google_service_account.my_service_account.email}"
-}
-
-/*
-resource "google_project_iam_member" "storage_admin" {
-  project = var.project
-  role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
-}
-
-resource "google_project_iam_member" "api_gateway_admin" {
-  project = var.project
-  role    = "roles/apigateway.admin"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
-}
-
-resource "google_project_iam_member" "api_and_functions_admin" {
-  project = var.project
-  role    = "roles/serviceusage.serviceUsageAdmin"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
-}
-
-resource "google_project_iam_member" "cloud_run_admin" {
-  project = var.project
-  role    = "roles/run.admin"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
-}
-*/

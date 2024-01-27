@@ -85,7 +85,7 @@ jobs:
   # #     # - name: upload checkov results to bucket
   # #     #   run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
-  deploy:
+  deployInfrastructure:
     #needs: build
     runs-on: ubuntu-latest
     env:

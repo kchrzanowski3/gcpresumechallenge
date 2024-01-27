@@ -114,7 +114,13 @@ resource "google_compute_global_forwarding_rule" "my_https_forwarding_rule" {
   ip_address = google_compute_global_address.https_public_ip.address
 }
 
+##
+## Output for DNS entry
+##
 
-
+output "public_ip_address_for_DNS" {
+  description = "public IP address of the application load balancer so it can be put into a DNS entry"
+  value       = google_compute_global_address.https_public_ip.address
+}
 
 
