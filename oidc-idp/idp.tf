@@ -41,11 +41,8 @@ resource "google_service_account" "my_service_account" {
   display_name = "Service Account for Github Actions"
 }
 
-data "google_project" "gcp_project" {}
-
-locals {
-  repository_name = "kchrzanowski3" # case sensitive
-  github_org_name = "gcpresumechallenge"  # case sensitive
+data "google_project" "gcp_project" {
+  project_id = var.project
 }
 
 resource "google_service_account_iam_member" "pool_member" {
@@ -55,19 +52,20 @@ resource "google_service_account_iam_member" "pool_member" {
 }
 
 ##
-## Service account that is used by the idp provider
+## Service account permissions that is used by the idp provider
 ##
 
 
-resource "google_project_iam_member" "storage_admin" {
-  project = var.project
-  role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
-}
 
 resource "google_project_iam_member" "full_admin" {
   project = var.project
   role    = "roles/owner"
+  member  = "serviceAccount:${google_service_account.my_service_account.email}"
+}
+/*
+resource "google_project_iam_member" "storage_admin" {
+  project = var.project
+  role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
@@ -88,3 +86,4 @@ resource "google_project_iam_member" "cloud_run_admin" {
   role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
+*/
