@@ -38,7 +38,7 @@ jobs:
 
       #create a bucket where we can store our artifacts
       - name: Terraform Init
-        id: init
+        id: init 
         run: terraform -chdir=terraform/publish-artifacts init
 
       - name: Terraform Validate
