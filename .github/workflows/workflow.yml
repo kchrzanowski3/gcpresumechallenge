@@ -7,7 +7,7 @@ on:
       - '.github/workflows/**'
       - 'terraform/**'
       - 'cypress/**'
-      - '*.tf'
+      - '**.tf'
 
 jobs:
 
