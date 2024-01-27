@@ -104,10 +104,11 @@ jobs:
       #auth so we can use gcloud
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth@v2'
         with:
+          project_id: 'resume-challenge-kyle-3'
           workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
+
 
       #auth and setup to terraform cloud
       - name: Setup Terraform
