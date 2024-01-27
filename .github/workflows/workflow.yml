@@ -113,52 +113,20 @@ jobs:
       # #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-      #   #with: 
-      #     #cli_config_credentials_token: ${{ secrets.TF_TOKEN_app_terraform_io }}
-
-      #create a bucket where we can store our artifacts
+     
+      #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform plan 
 
-      # #add a comment if there's a merge request
-      # - name: Update Pull Request comment
-      #   uses: actions/github-script@v6
-      #   if: ${{ github.event_name == 'pull_request' }}
-      #   env:
-      #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
 
-      #       <details><summary>Show Plan</summary>
+  # end-to-end-test:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
 
-      #       \`\`\`\n
-      #       ${process.env.PLAN}
-      #       \`\`\`
- 
-      #       </details>
+  #   steps:
 
-      #       *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: output
-      #       })
-
-
-  end-to-end-test:
-    needs: deploy
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v3
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests

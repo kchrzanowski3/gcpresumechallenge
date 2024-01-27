@@ -95,7 +95,7 @@ resource "google_compute_managed_ssl_certificate" "my_certificate" {
   name = "my-ssl-certificate"
 
   managed {
-    domains = ["secnowski.com"] 
+    domains = [local.domain] 
   }
 }
 

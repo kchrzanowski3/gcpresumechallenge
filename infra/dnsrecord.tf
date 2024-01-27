@@ -11,7 +11,7 @@ variable "go_daddy_key" {
 }
 
 resource "godaddy_domain_record" "secnowski" {
-  domain = "secnowski.com"
+  domain = var.domain
   #customer = "414897602"
   #addresses = [google_compute_global_address.https_public_ip.address]
   nameservers = ["ns59.domaincontrol.com", "ns60.domaincontrol.com"]
