@@ -126,11 +126,11 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       #create a bucket where we can store our artifacts
-      # - name: Apply Infrastructure Terraform 
-      #   run: cd infra; terraform init; terraform apply -auto-approve
+      - name: Apply Infrastructure Terraform 
+        run: cd infra; terraform init; terraform apply -auto-approve
 
-      - name: Terraform Destroy old stuff
-        run: cd terraform/publish-artifacts; terraform init; terraform destroy -auto-approve; 
+      # - name: Terraform Destroy old stuff
+      #   run: cd terraform/publish-artifacts; terraform init; terraform destroy -auto-approve; 
 
 
       # #add a comment if there's a merge request
