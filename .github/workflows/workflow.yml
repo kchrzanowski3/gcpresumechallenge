@@ -106,6 +106,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
+          create_credentials_file: 'true'
           workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com
 
@@ -113,11 +114,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with: 
-          cli_config_credentials_token: ${{ secrets.TF_TOKEN_app_terraform_io }}
+          #cli_config_credentials_token: ${{ secrets.TF_TOKEN_app_terraform_io }}
 
       #create a bucket where we can store our artifacts
       - name: Apply Infrastructure Terraform 
-        run: cd infra; terraform init; terraform apply -auto-approve
+        run: cd infra; terraform init; terraform plan 
 
       # #add a comment if there's a merge request
       # - name: Update Pull Request comment
