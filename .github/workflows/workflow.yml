@@ -88,6 +88,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+
     # Add "id-token" with the intended permissions.
     permissions:
       contents: 'read'
@@ -106,11 +109,11 @@ jobs:
           workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
 
-      #auth and setup to terraform cloud
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+      # #auth and setup to terraform cloud
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v1
+      #   with:
+      #     cli_config_credentials_token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
 
       #create a bucket where we can store our artifacts
       - name: Apply Infrastructure Terraform 
