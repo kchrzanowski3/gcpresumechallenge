@@ -113,7 +113,7 @@ jobs:
       #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        with: 
+        #with: 
           #cli_config_credentials_token: ${{ secrets.TF_TOKEN_app_terraform_io }}
 
       #create a bucket where we can store our artifacts
