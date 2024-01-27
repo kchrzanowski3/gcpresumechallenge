@@ -55,13 +55,14 @@ resource "google_service_account_iam_member" "pool_member" {
 ## Service account permissions that is used by the idp provider
 ##
 
-
-
 resource "google_project_iam_member" "full_admin" {
-  project = var.project
+  project = data.google_project.gcp_project.project_id
   role    = "roles/owner"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
+
+
+
 /*
 resource "google_project_iam_member" "storage_admin" {
   project = var.project

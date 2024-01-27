@@ -11,82 +11,82 @@ on:
 
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+  # build:
+  #   runs-on: ubuntu-latest
+  #   # Add "id-token" with the intended permissions.
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
 
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
+  #   steps:
+  #     - name: Checkout
+  #       uses: 'actions/checkout@v3'
 
 
-      # #python code has to be zipped before being deployed
-      # - name: Zip python code
-      #   run: cd Back\ End\ Files/gcpfunction/ && zip -r code.zip * && cd ../../..
+  #     # #python code has to be zipped before being deployed
+  #     # - name: Zip python code
+  #     #   run: cd Back\ End\ Files/gcpfunction/ && zip -r code.zip * && cd ../../..
 
-      # #publish the zipped python code in the bucket using gcloud
-      # - name: upload the zipped file to a bucket so it can be deployed
-      #   run: gcloud storage cp Back\ End\ Files/gcpfunction/code.zip gs://resume-function-code-bucket/
+  #     # #publish the zipped python code in the bucket using gcloud
+  #     # - name: upload the zipped file to a bucket so it can be deployed
+  #     #   run: gcloud storage cp Back\ End\ Files/gcpfunction/code.zip gs://resume-function-code-bucket/
 
-      # #publish the artifact in the bucket using gcloud
-      # - name: upload base64 zipped file to a bucket so it can be deployed
-      #   run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
+  #     # #publish the artifact in the bucket using gcloud
+  #     # - name: upload base64 zipped file to a bucket so it can be deployed
+  #     #   run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
-  vulnerability-scan:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-      pull-requests: write
+  # # vulnerability-scan:
+  # #   needs: build
+  # #   runs-on: ubuntu-latest
+  # #   permissions:
+  # #     contents: 'read'
+  # #     id-token: 'write'
+  # #     pull-requests: write
 
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
+  # #   steps:
+  # #     - name: Checkout
+  # #       uses: 'actions/checkout@v3'
 
-      #auth so we can use gcloud
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+  # #     #auth so we can use gcloud
+  # #     - id: 'auth'
+  # #       name: 'Authenticate to Google Cloud'
+  # #       uses: 'google-github-actions/auth@v1'
+  # #       with:
+  # #         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+  # #         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-      #vuln scan the deployment terraform
-      - name: Run Checkov action
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: terraform/deploy/
-          soft_fail: true # optional: do not return an error code if there are failed checks
-          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
-          output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-          output_file_path: vuln-scan-reports/vulnscan-deploy-results.sarif # folder and name of results file
-          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-          log_level: DEBUG # optional: set log level. Default WARNING
-          #config_file: path/this_file
+  # #     #vuln scan the deployment terraform
+  # #     - name: Run Checkov action
+  # #       uses: bridgecrewio/checkov-action@master
+  # #       with:
+  # #         directory: terraform/deploy/
+  # #         soft_fail: true # optional: do not return an error code if there are failed checks
+  # #         framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+  # #         output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+  # #         output_file_path: vuln-scan-reports/vulnscan-deploy-results.sarif # folder and name of results file
+  # #         download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+  # #         log_level: DEBUG # optional: set log level. Default WARNING
+  # #         #config_file: path/this_file
 
-      #vuln scan the build terraform
-      - name: Run Checkov action
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: terraform/publish-artifacts/
-          soft_fail: true # optional: do not return an error code if there are failed checks
-          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
-          output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-          output_file_path: vuln-scan-reports/vulnscan-build-results.sarif # folder and name of results file
-          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-          log_level: DEBUG # optional: set log level. Default WARNING
-          #config_file: path/this_file
+  # #     #vuln scan the build terraform
+  # #     - name: Run Checkov action
+  # #       uses: bridgecrewio/checkov-action@master
+  # #       with:
+  # #         directory: terraform/publish-artifacts/
+  # #         soft_fail: true # optional: do not return an error code if there are failed checks
+  # #         framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+  # #         output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+  # #         output_file_path: vuln-scan-reports/vulnscan-build-results.sarif # folder and name of results file
+  # #         download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+  # #         log_level: DEBUG # optional: set log level. Default WARNING
+  # #         #config_file: path/this_file
 
-      #publish the checkov scan to a bucket using gcloud
-      # - name: upload checkov results to bucket
-      #   run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
+  # #     #publish the checkov scan to a bucket using gcloud
+  # #     # - name: upload checkov results to bucket
+  # #     #   run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
   deploy:
-    needs: build
+    #needs: build
     runs-on: ubuntu-latest
     env:
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
@@ -99,7 +99,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v4'
 
       #auth so we can use gcloud
       - id: 'auth'
