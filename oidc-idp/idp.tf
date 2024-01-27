@@ -54,10 +54,20 @@ resource "google_service_account_iam_member" "pool_member" {
   member = "principalSet://iam.googleapis.com/projects/${data.google_project.gcp_project.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.github_pool.workload_identity_pool_id}/attribute.repository/${local.github_org_name}/${local.repository_name}"
 }
 
+##
+## Service account that is used by the idp provider
+##
+
 
 resource "google_project_iam_member" "storage_admin" {
   project = var.project
   role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.my_service_account.email}"
+}
+
+resource "google_project_iam_member" "full_admin" {
+  project = var.project
+  role    = "roles/owner"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
