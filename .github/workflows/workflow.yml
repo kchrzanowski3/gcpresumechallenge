@@ -27,8 +27,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
 
 
 
@@ -43,8 +43,6 @@ jobs:
       # #publish the artifact in the bucket using gcloud
       # - name: upload base64 zipped file to a bucket so it can be deployed
       #   run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
-
-
 
   vulnerability-scan:
     needs: build
@@ -96,8 +94,6 @@ jobs:
       # - name: upload checkov results to bucket
       #   run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
-
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -105,7 +101,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-      pull-requests: write
+      pull-requests: write      
 
     steps:
       - name: Checkout
@@ -116,14 +112,15 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
+
       #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           # terraform_version: 0.13.0
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          # cli_config_credentials_token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
 
       #create a bucket where we can store our artifacts
       - name: Apply Infrastructure Terraform 
