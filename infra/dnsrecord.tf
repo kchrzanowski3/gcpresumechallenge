@@ -1,5 +1,14 @@
 /*
-The godaddy config was very verbose and thought every apply was a change so I turned it off for now 
+
+
+#The godaddy config was very verbose and thought every apply was a change so I turned it off for now 
+
+variable "go_daddy_secret" {
+    type = string
+}
+variable "go_daddy_key" {
+    type = string
+}
 
 resource "godaddy_domain_record" "secnowski" {
   domain = "secnowski.com"
