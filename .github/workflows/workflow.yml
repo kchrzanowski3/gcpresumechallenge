@@ -30,28 +30,7 @@ jobs:
           workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
           service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
-      #setup terraform
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      #create a bucket where we can store our artifacts
-      - name: Terraform Init
-        id: init 
-        run: terraform -chdir=terraform/publish-artifacts init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform -chdir=terraform/publish-artifacts validate
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform -chdir=terraform/publish-artifacts plan -input=false
-        continue-on-error: true
-
-      - name: Terraform Destroy
-        run: terraform -chdir=terraform/publish-artifacts destroy -auto-approve -input=false
 
       # #python code has to be zipped before being deployed
       # - name: Zip python code
@@ -146,19 +125,13 @@ jobs:
           # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      # #use terraform to deploy all the infrastructure
-      # - name: Terraform Init
-      #   id: init
-      #   run: terraform -chdir=terraform/deploy init
+      #create a bucket where we can store our artifacts
+      # - name: Apply Infrastructure Terraform 
+      #   run: cd infra; terraform init; terraform apply -auto-approve
 
-      # - name: Terraform Validate
-      #   id: validate
-      #   run: terraform -chdir=terraform/deploy validate
+      - name: Terraform Destroy old stuff
+        run: cd terraform/publish-artifacts; terraform init; terraform destroy -auto-approve; 
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: terraform -chdir=terraform/deploy plan -input=false
-      #   continue-on-error: true
 
       # #add a comment if there's a merge request
       # - name: Update Pull Request comment
@@ -189,22 +162,6 @@ jobs:
       #         repo: context.repo.repo,
       #         body: output
       #       })
-
-
-      # - name: Terraform Apply
-      #   run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
-
-        
-      # #publish the index file to the website
-      # - name: Upload index file
-      #   run: gcloud storage cp "Front End Files/index.html" gs://resumebucket/
-      # #publish the style.css file to the website
-      # - name: Upload index file
-      #   run: gcloud storage cp "Front End Files/style.css" gs://resumebucket/
-      # #publish the style.css file to the website
-      # - name: Upload index file
-      #   run: gcloud storage cp "Front End Files/scripts.js" gs://resumebucket/
-
 
 
   end-to-end-test:
