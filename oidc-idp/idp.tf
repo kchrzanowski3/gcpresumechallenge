@@ -13,8 +13,8 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
   description            = "Provider for GitHub OIDC"
   attribute_mapping = {
     "google.subject"        = "assertion.sub"
-    # "attribute.actor"       = "assertion.actor"
-    # "attribute.repository"  = "assertion.repository"
+    "attribute.actor"       = "assertion.actor"
+    "attribute.repository"  = "assertion.repository"
   }
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
@@ -33,10 +33,17 @@ resource "google_service_account" "my_service_account" {
   display_name = "Service Account for Github Actions"
 }
 
+data "google_project" "gcp_project" {}
+
+locals {
+  repository_name = "kchrzanowski3" # case sensitive
+  github_org_name = "gcpresumechallenge"  # case sensitive
+}
+
 resource "google_service_account_iam_member" "pool_member" {
   service_account_id = google_service_account.my_service_account.name
-  role               = "roles/iam.serviceAccountTokenCreator"
-member = "serviceAccount:${google_service_account.my_service_account.email}"
+  role               = "roles/iam.workloadIdentityUser"
+  member = "principalSet://iam.googleapis.com/projects/${data.google_project.gcp_project.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.github_pool.workload_identity_pool_id}/attribute.repository/${local.github_org_name}/${local.repository_name}"
 }
 
 
