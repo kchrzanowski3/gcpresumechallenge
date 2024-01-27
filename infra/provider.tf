@@ -26,14 +26,14 @@ provider "google" {
 
 }
 
-provider "godaddy" {
-  key    = var.go_daddy_key
-  secret = var.go_daddy_secret
-}
+# provider "godaddy" {
+#   key    = var.go_daddy_key
+#   secret = var.go_daddy_secret
+# }
 
-variable "go_daddy_secret" {
-    type = string
-}
-variable "go_daddy_key" {
-    type = string
-}
+# variable "go_daddy_secret" {
+#     type = string
+# }
+# variable "go_daddy_key" {
+#     type = string
+# }
