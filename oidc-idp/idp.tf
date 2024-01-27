@@ -51,6 +51,7 @@ resource "google_service_account" "my_service_account" {
   description  = "link to Workload Identity Pool used by GitHub Actions"
 }
 
+#attach it to the pool
 resource "google_service_account_iam_member" "pool_member" {
   service_account_id = google_service_account.my_service_account.name
   role               = "roles/iam.workloadIdentityUser"
@@ -72,16 +73,17 @@ output "google_iam_workload_identity_pool_provider_github_name" {
 }
 
 
-/*
+
 resource "google_project_iam_member" "roles" {
   project = var.project
   for_each = {
     for role in local.roles : role => role
   }
   role   = each.value
-  member = "serviceAccount:${google_service_account.github_actions.email}"
+  member = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
+/*
 resource "google_project_iam_member" "storage_admin" {
   project = var.project
   role    = "roles/storage.admin"
