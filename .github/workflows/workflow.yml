@@ -22,15 +22,6 @@ jobs:
       - name: Checkout
         uses: 'actions/checkout@v3'
 
-      #auth so we can use gcloud
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
-
-
 
       # #python code has to be zipped before being deployed
       # - name: Zip python code
@@ -125,10 +116,6 @@ jobs:
       #create a bucket where we can store our artifacts
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform apply -auto-approve
-
-      # - name: Terraform Destroy old stuff
-      #   run: cd terraform/publish-artifacts; terraform init; terraform destroy -auto-approve; 
-
 
       # #add a comment if there's a merge request
       # - name: Update Pull Request comment
