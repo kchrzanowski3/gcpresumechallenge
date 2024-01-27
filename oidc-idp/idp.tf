@@ -36,7 +36,7 @@ resource "google_service_account" "my_service_account" {
 resource "google_service_account_iam_member" "pool_member" {
   service_account_id = google_service_account.my_service_account.name
   role               = "roles/iam.serviceAccountTokenCreator"
-  member = "principalSet://iam.googleapis.com/projects/${var.subscription}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.github_pool.workload_identity_pool_id}/providers/${google_iam_workload_identity_pool_provider.github_provider.workload_identity_pool_provider_id}"
+member = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
 

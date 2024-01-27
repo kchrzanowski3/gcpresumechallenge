@@ -20,3 +20,4 @@ variable "subscription" {
   type = string
   default = "resume-challenge-kyle-3"
 }
+
