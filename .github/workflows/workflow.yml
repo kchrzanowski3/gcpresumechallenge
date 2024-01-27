@@ -27,8 +27,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
+          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
 
 
 
