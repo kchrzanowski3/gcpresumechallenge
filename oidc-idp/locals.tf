@@ -4,6 +4,6 @@ variable "project" {
 }
 
 locals {
-  repository_name = "kchrzanowski3" # case sensitive
-  github_org_name = "gcpresumechallenge"  # case sensitive
+  repository_name = "gcpresumechallenge" # case sensitive
+  github_org_name = "kchrzanowski3"  # case sensitive
 }

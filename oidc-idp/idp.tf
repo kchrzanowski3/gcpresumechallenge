@@ -1,3 +1,11 @@
+locals {
+  roles = [
+    "roles/resourcemanager.projectIamAdmin", # GitHub Actions identity
+    "roles/editor", # allow to manage all resources
+  ]
+  github_repository_name = "<your github repo name>" # e.g. yourname/yourrepo
+}
+
 ##
 ## OIDC provider for ci/cd pipeline in github actions
 ##
