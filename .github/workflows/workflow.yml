@@ -24,11 +24,11 @@ jobs:
 
       #auth so we can use gcloud
       - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-          service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+        service_account: 'github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com'
 
 
 
@@ -120,7 +120,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           # terraform_version: 0.13.0
-          # cli_config_credentials_token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+          cli_config_credentials_token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
 
       #create a bucket where we can store our artifacts
       - name: Apply Infrastructure Terraform 
