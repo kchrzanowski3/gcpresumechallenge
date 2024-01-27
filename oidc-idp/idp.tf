@@ -3,7 +3,11 @@ locals {
     "roles/resourcemanager.projectIamAdmin", # GitHub Actions identity
     "roles/editor", # allow to manage all resources
   ]
-  github_repository_name = "<your github repo name>" # e.g. yourname/yourrepo
+  github_repository_name = "kchrzanowski3/gcpresumechallenge" # e.g. yourname/yourrepo
+}
+
+data "google_project" "gcp_project" {
+  project_id = var.project
 }
 
 ##
@@ -12,6 +16,7 @@ locals {
 
 # Workload Identity Pool
 resource "google_iam_workload_identity_pool" "github_pool" {
+  project = var.project
   workload_identity_pool_id = "github-pool"
   display_name        = "Pool for GitHub Actions"
   description         = "Identity pool for authenticating GitHub Actions"
@@ -19,6 +24,7 @@ resource "google_iam_workload_identity_pool" "github_pool" {
 
 # Workload Identity Provider - GitHub OIDC
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
+  project = var.project
   workload_identity_pool_id   = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = "github-provider"
   display_name           = "GitHub OIDC Provider"
@@ -27,12 +33,10 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
     "google.subject"        = "assertion.sub"
     "attribute.actor"       = "assertion.actor"
     "attribute.repository"  = "assertion.repository"
+    "attribute.owner"      = "assertion.repository_owner"
   }
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
-    # allowed_audiences = [
-    #   "projects/${var.subscription}/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
-    # ]
   }
 }
 
@@ -41,33 +45,43 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 # 
 
 resource "google_service_account" "my_service_account" {
+  project = var.project
   account_id   = "github-actions-sa" 
   display_name = "Service Account for Github Actions"
-}
-
-data "google_project" "gcp_project" {
-  project_id = var.project
+  description  = "link to Workload Identity Pool used by GitHub Actions"
 }
 
 resource "google_service_account_iam_member" "pool_member" {
   service_account_id = google_service_account.my_service_account.name
   role               = "roles/iam.workloadIdentityUser"
-  member = "principalSet://iam.googleapis.com/projects/${data.google_project.gcp_project.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.github_pool.workload_identity_pool_id}/attribute.repository/${local.github_org_name}/${local.repository_name}"
+  member = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${local.github_repository_name}"
 }
 
 ##
-## Service account permissions that is used by the idp provider
+## Outputs to put in the github actions yaml file
 ##
 
-resource "google_project_iam_member" "full_admin" {
-  project = data.google_project.gcp_project.project_id
-  role    = "roles/owner"
-  member  = "serviceAccount:${google_service_account.my_service_account.email}"
+output "service_account_github_actions_email" {
+  description = "Service Account used by GitHub Actions. Put in yaml file -> service_account:"
+  value       = google_service_account.my_service_account.email
 }
 
+output "google_iam_workload_identity_pool_provider_github_name" {
+  description = "Workload Identity Pool Provider ID. Put in yaml file -> workload_identity_provider:"
+  value       = google_iam_workload_identity_pool_provider.github_provider.name
+}
 
 
 /*
+resource "google_project_iam_member" "roles" {
+  project = var.project
+  for_each = {
+    for role in local.roles : role => role
+  }
+  role   = each.value
+  member = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
 resource "google_project_iam_member" "storage_admin" {
   project = var.project
   role    = "roles/storage.admin"
