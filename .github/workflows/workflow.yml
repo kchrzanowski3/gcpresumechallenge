@@ -1,13 +1,13 @@
 name: Update cloud infrastructure
-run-name: ${{ github.actor }} is updating cloud files and infrastructure
+run-name: Infrastructure Pipeline
 on:
   push:
     paths:
-      - 'Front\ End\ Files/**'
       - 'Back\ End\ Files/**'
       - '.github/workflows/**'
       - 'terraform/**'
       - 'cypress/**'
+      - '*.tf'
 
 jobs:
 
@@ -54,17 +54,17 @@ jobs:
       - name: Terraform Apply
         run: terraform -chdir=terraform/publish-artifacts apply -auto-approve -input=false
 
-      #python code has to be zipped before being deployed
-      - name: Zip python code
-        run: cd Back\ End\ Files/gcpfunction/ && zip -r code.zip * && cd ../../..
+      # #python code has to be zipped before being deployed
+      # - name: Zip python code
+      #   run: cd Back\ End\ Files/gcpfunction/ && zip -r code.zip * && cd ../../..
 
-      #publish the zipped python code in the bucket using gcloud
-      - name: upload the zipped file to a bucket so it can be deployed
-        run: gcloud storage cp Back\ End\ Files/gcpfunction/code.zip gs://resume-function-code-bucket/
+      # #publish the zipped python code in the bucket using gcloud
+      # - name: upload the zipped file to a bucket so it can be deployed
+      #   run: gcloud storage cp Back\ End\ Files/gcpfunction/code.zip gs://resume-function-code-bucket/
 
-      #publish the artifact in the bucket using gcloud
-      - name: upload base64 zipped file to a bucket so it can be deployed
-        run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
+      # #publish the artifact in the bucket using gcloud
+      # - name: upload base64 zipped file to a bucket so it can be deployed
+      #   run: gcloud storage cp Back\ End\ Files/APIGateway/openapi2-functions.yaml gs://resume-function-code-bucket/
 
 
 
@@ -115,8 +115,8 @@ jobs:
           #config_file: path/this_file
 
       #publish the checkov scan to a bucket using gcloud
-      - name: upload checkov results to bucket
-        run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
+      # - name: upload checkov results to bucket
+      #   run: gcloud storage cp -r vuln-scan-reports/ gs://resume-function-code-bucket/
 
 
 
@@ -147,63 +147,64 @@ jobs:
           # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      #use terraform to deploy all the infrastructure
-      - name: Terraform Init
-        id: init
-        run: terraform -chdir=terraform/deploy init
+      # #use terraform to deploy all the infrastructure
+      # - name: Terraform Init
+      #   id: init
+      #   run: terraform -chdir=terraform/deploy init
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform -chdir=terraform/deploy validate
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: terraform -chdir=terraform/deploy validate
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform -chdir=terraform/deploy plan -input=false
-        continue-on-error: true
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: terraform -chdir=terraform/deploy plan -input=false
+      #   continue-on-error: true
 
-      #add a comment if there's a merge request
-      - name: Update Pull Request comment
-        uses: actions/github-script@v6
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+      # #add a comment if there's a merge request
+      # - name: Update Pull Request comment
+      #   uses: actions/github-script@v6
+      #   if: ${{ github.event_name == 'pull_request' }}
+      #   env:
+      #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
 
-            <details><summary>Show Plan</summary>
+      #       <details><summary>Show Plan</summary>
 
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
+      #       \`\`\`\n
+      #       ${process.env.PLAN}
+      #       \`\`\`
  
-            </details>
+      #       </details>
 
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+      #       *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: output
+      #       })
 
 
-      - name: Terraform Apply
-        run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
+      # - name: Terraform Apply
+      #   run: terraform -chdir=terraform/deploy apply -auto-approve -input=false
 
-      #publish the index file to the website
-      - name: Upload index file
-        run: gcloud storage cp "Front End Files/index.html" gs://resumebucket/
-      #publish the style.css file to the website
-      - name: Upload index file
-        run: gcloud storage cp "Front End Files/style.css" gs://resumebucket/
-      #publish the style.css file to the website
-      - name: Upload index file
-        run: gcloud storage cp "Front End Files/scripts.js" gs://resumebucket/
+        
+      # #publish the index file to the website
+      # - name: Upload index file
+      #   run: gcloud storage cp "Front End Files/index.html" gs://resumebucket/
+      # #publish the style.css file to the website
+      # - name: Upload index file
+      #   run: gcloud storage cp "Front End Files/style.css" gs://resumebucket/
+      # #publish the style.css file to the website
+      # - name: Upload index file
+      #   run: gcloud storage cp "Front End Files/scripts.js" gs://resumebucket/
 
 
 
@@ -218,6 +219,7 @@ jobs:
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
-        id: cypress_test
-        uses: cypress-io/github-action@v5 # use the explicit version number
+
+      # - name: Cypress run
+      #   id: cypress_test
+      #   uses: cypress-io/github-action@v5 # use the explicit version number

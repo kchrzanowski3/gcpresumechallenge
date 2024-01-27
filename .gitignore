@@ -7,3 +7,6 @@
 /terraform/**/.terraform/
 /.idea/workspace.xml
 .idea/workspace.xml
+*/.terraform/*
+*/.terraform.lock.hcl
+*secrets.env
