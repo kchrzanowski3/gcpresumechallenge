@@ -10,14 +10,10 @@ terraform {
 }
 
 provider "google" {
-  project     = var.subscription
+  project     = var.project
   region      = "us-east1"
   zone    =     "us-east1-a"
 
 }
 
-variable "subscription" {
-  type = string
-  default = "resume-challenge-kyle-3"
-}
 

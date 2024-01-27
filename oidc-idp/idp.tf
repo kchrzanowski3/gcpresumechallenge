@@ -1,3 +1,11 @@
+#api for cicd auth and stuff
+resource "google_project_service" "crm" {
+  project = var.project
+  service = "cloudresourcemanager.googleapis.com"
+
+  disable_dependent_services = false // Prevent disabling dependent APIs
+}
+
 # Workload Identity Pool
 resource "google_iam_workload_identity_pool" "github_pool" {
   workload_identity_pool_id = "github-pool"
@@ -48,25 +56,25 @@ resource "google_service_account_iam_member" "pool_member" {
 
 
 resource "google_project_iam_member" "storage_admin" {
-  project = var.subscription
+  project = var.project
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
 resource "google_project_iam_member" "api_gateway_admin" {
-  project = var.subscription
+  project = var.project
   role    = "roles/apigateway.admin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
 resource "google_project_iam_member" "api_and_functions_admin" {
-  project = var.subscription
+  project = var.project
   role    = "roles/serviceusage.serviceUsageAdmin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
 
 resource "google_project_iam_member" "cloud_run_admin" {
-  project = var.subscription
+  project = var.project
   role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.my_service_account.email}"
 }
