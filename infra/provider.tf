@@ -12,7 +12,7 @@ terraform {
 terraform {
   required_providers {
     godaddy = {
-      source = "n3integration/godaddy"
+      source  = "n3integration/godaddy"
       version = "~> 1.9.1" # Replace with the desired version
     }
   }
@@ -20,10 +20,10 @@ terraform {
 
 
 provider "google" {
-  project     = "resume-challenge-kyle-3"
-  region      = "us-east1"
-  zone    =     "us-east1-a"
+  project = "resume-challenge-kyle-3"
+  region  = "us-east1"
+  zone    = "us-east1-a"
 
 }
- 
+
 
