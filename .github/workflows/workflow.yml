@@ -50,38 +50,33 @@ jobs:
         
 
 
-  # # vulnerability-scan:
-  # #   needs: build
-  # #   runs-on: ubuntu-latest
-  # #   permissions:
-  # #     contents: 'read'
-  # #     id-token: 'write'
-  # #     pull-requests: write
+  staticVulnScan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
 
-  # #   steps:
-  # #     - name: Checkout
-  # #       uses: 'actions/checkout@v3'
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
 
-  # #     #auth so we can use gcloud
-  # #     - id: 'auth'
-  # #       name: 'Authenticate to Google Cloud'
-  # #       uses: 'google-github-actions/auth@v1'
-  # #       with:
-  # #         workload_identity_provider: 'projects/585423355911/locations/global/workloadIdentityPools/githubpool/providers/providerid'
-  # #         service_account: 'sa-githubpublish@strange-cycle-371319.iam.gserviceaccount.com'
+      #vuln scan the infrastructure deployment terraform
+      - name: Run Checkov action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          soft_fail: true # optional: do not return an error code if there are failed checks
+          output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_file_path: console,results.sarif # folder and name of results file
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          #log_level: DEBUG # optional: set log level. Default WARNING
+          #config_file: path/this_file
 
-  # #     #vuln scan the deployment terraform
-  # #     - name: Run Checkov action
-  # #       uses: bridgecrewio/checkov-action@master
-  # #       with:
-  # #         directory: terraform/deploy/
-  # #         soft_fail: true # optional: do not return an error code if there are failed checks
-  # #         framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
-  # #         output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-  # #         output_file_path: vuln-scan-reports/vulnscan-deploy-results.sarif # folder and name of results file
-  # #         download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-  # #         log_level: DEBUG # optional: set log level. Default WARNING
-  # #         #config_file: path/this_file
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif
 
   # #     #vuln scan the build terraform
   # #     - name: Run Checkov action
