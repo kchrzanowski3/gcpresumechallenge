@@ -30,11 +30,10 @@ def hello_get(request):
         currentpageview = fetch_pageview(key=table_key,field=field)
     except: 
         create_pageview(key=table_key, siteName=sitename)
-        currentpageview = fetch_pageview(sitename=sitename,field=field)
+        currentpageview = 0
     
     #incremenet the page view +1
     newvalue = store_pageview(key=table_key, field=field, storevalue=currentpageview + 1)
-
 
     headers = {
         'Access-Control-Allow-Origin': '*'
@@ -59,10 +58,8 @@ def store_pageview(key,field,storevalue):
     # Prepares the entity
     entity = datastore.Entity(key=key)
     entity[field] = storevalue
-
     # Saves the entity (table)
     datastore_client.put(entity)
-
     return storevalue
 
 

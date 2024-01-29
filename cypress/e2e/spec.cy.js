@@ -5,14 +5,14 @@ let res1
 describe('tests the website is up and the API is working', () => {
 
   it('Visits kylechrzanowski.com', () => {
-
-    cy.visit('https://kylechrzanowski.com')
+    
+    cy.visit('https://secnowski.com')
     cy.contains('Kyle Chrzanowski')
   })
 
 
   it('call the api #1 and store the value', () => {
-    cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+    cy.request('https://kyle-resume-api-gateway-4jnr4ia3.ue.gateway.dev/getvisitors').as('details')
         //validate
         cy.get('@details').its('status').should('eq',200)
         cy.get('@details').then((response)  => {
@@ -25,7 +25,7 @@ describe('tests the website is up and the API is working', () => {
     })
 
     it('call the api #2 and check it gets incremented', () => {
-        cy.request('https://apigateway10-7gxty8ef.ue.gateway.dev/getvisitors').as('details')
+        cy.request('https://kyle-resume-api-gateway-4jnr4ia3.ue.gateway.dev/getvisitors').as('details')
         //validate
         cy.get('@details').its('status').should('eq',200)
         cy.get('@details').then((response)  => {
