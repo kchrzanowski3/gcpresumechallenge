@@ -45,3 +45,10 @@ resource "google_storage_bucket_object" "css" {
   bucket = google_storage_bucket.static-site.name
 }
 
+#upload scripts.js file
+resource "google_storage_bucket_object" "script" {
+  name   = "scripts.js"
+  source = "../scripts.js"
+  bucket = google_storage_bucket.static-site.name
+}
+

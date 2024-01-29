@@ -11,11 +11,11 @@ produces:
 paths:
   /getvisitors:
     get:
-      summary: Greet a user 
+      summary: Return count of total page hits
       operationId: visitorcounter
       x-google-backend:
-        address: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
-        jwt_audience: https://us-east1-strange-cycle-371319.cloudfunctions.net/function-2
+        address: https://us-east1-resume-challenge-kyle-3.cloudfunctions.net/resume-visitor-counter-function
+        jwt_audience: https://us-east1-resume-challenge-kyle-3.cloudfunctions.net/resume-visitor-counter-function
 
       responses:
         '200':
