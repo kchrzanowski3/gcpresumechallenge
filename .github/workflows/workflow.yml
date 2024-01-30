@@ -116,7 +116,8 @@ jobs:
           output-format: sarif
 
       - name: Save SBOM Scan Results
-        run: cat ${{ steps.SBOM-scan.outputs.sarif }} > vulnresults/SBOM-results.sarif
+        if: always()
+        run: echo ${{ steps.SBOM-scan.outputs.sarif }} > vulnresults/SBOM-results.sarif;ls vulnruesults
         
 
       #upload the sarif file results to github actions security
