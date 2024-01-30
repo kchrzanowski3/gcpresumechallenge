@@ -47,7 +47,6 @@ jobs:
       - name: End to End Functional Tests (Cypress)
         uses: cypress-io/github-action@v5 # use the explicit version number
         
-
   staticVulnScan:
     runs-on: ubuntu-latest
     permissions:
@@ -63,40 +62,37 @@ jobs:
         if: always()  
         uses: bridgecrewio/checkov-action@v12
         with:
-          #soft_fail: true # optional: do not return an error code if there are failed checks
           output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
           output_file_path: console,vulnresults/checkov-results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          hard_fail_on: 'HIGH,CRITICAL'
 
       #vuln scan the python 3.6 code
       - name: Snyk Python 3.6 Vulnerability Scan
         if: always()  
         uses: snyk/actions/python-3.6@master
-        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/python-results.sarif
+          args: --sarif-file-output=vulnresults/python-results.sarif --severity-threshold=medium
 
       #vuln scan the Node code
       - name: Snyk Node Vulnerability Scan
         if: always()
         uses: snyk/actions/node@master
-        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/node-results.sarif
+          args: --sarif-file-output=vulnresults/node-results.sarif --severity-threshold=medium
 
       #vuln scan the iac code
       - name: Snyk IaC Vulnerability Scan
         if: always()
         uses: snyk/actions/iac@master
-        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif
+          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=medium
 
       #sbom creation
       - name: SBOM  
@@ -108,7 +104,7 @@ jobs:
           output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
           dependency-snapshot: 'true'
       
-      #gryf SBOM scan
+      #gryft SBOM scan
       - name: Scan SBOM
         if: always()
         uses: anchore/scan-action@v3
