@@ -99,3 +99,10 @@ jobs:
         with:
           sarif_file: vulnresults
 
+      #sbom creation
+      - name: SBOM  
+        uses: anchore/sbom-action@v0
+        with:
+          dependency-snapshot: true
+
+          
