@@ -63,39 +63,32 @@ jobs:
         with:
           soft_fail: true # optional: do not return an error code if there are failed checks
           output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-          output_file_path: console,vulnresults/results.sarif # folder and name of results file
+          output_file_path: console,vulnresults/checkov-results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
 
-      #vuln scan the iac code
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/iac@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        with:
-          args: --sarif-file-output=snyk-scan.sarif
-
-      - run: ls; ls ..
-
-      #upload the sarif file results to github actions security
-      - name: Upload SARIF File to Github Security
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
-
-  vulnSnykPython:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
-      
       #vuln scan the python 3.6 code
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.6@master
         continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/results.sarif
+          args: --sarif-file-output=vulnresults/python-results.sarif
+
+      #vuln scan the Node code
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        with:
+          args: --sarif-file-output=vulnresults/node-results.sarif
+
+      # #vuln scan the iac code
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/iac@master
+      #   continue-on-error: true # To make sure that SARIF upload gets called
+      #   
+      #   with:
+      #     args: --sarif-file-output=vulnresults/iacsnyk-scan.sarif
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
@@ -103,25 +96,3 @@ jobs:
         with:
           sarif_file: vulnresults
 
-
-  # vulnSnykNode:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: 'actions/checkout@v3'
-      
-  #     # #vuln scan the Node code
-  #     - name: Run Snyk to check for vulnerabilities
-  #       uses: snyk/actions/node@master
-  #       continue-on-error: true # To make sure that SARIF upload gets called
-  #       with:
-  #         args: --sarif-file-output=results.sarif
-
-  #     #upload the sarif file results to github actions security
-  #     - name: Upload SARIF File to Github Security
-  #       uses: github/codeql-action/upload-sarif@v3
-  #       with:
-  #         sarif_file: results.sarif
