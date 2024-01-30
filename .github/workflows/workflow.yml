@@ -3,7 +3,6 @@ run-name: Infrastructure Pipeline
 on:
   push:
     paths:
-      - 'Back\ End\ Files/**'
       - '.github/workflows/**'
       - 'terraform/**'
       - 'cypress/**'
@@ -97,29 +96,35 @@ jobs:
       #sbom creation
       - name: SBOM  
         if: always()
-        uses: anchore/sbom-action@v0
+        uses: anchore/sbom-action@main
         with:
           path: '.'
           format: spdx-json
           output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
           dependency-snapshot: 'true'
       
-      #gryft SBOM scan
-      - name: Scan SBOM
-        id: SBOM-scan
-        if: always()
-        uses: anchore/scan-action@v3
-        with:
-          sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
-          fail-build: true
-          severity-cutoff: high
-          output-format: sarif
-          add-cpes-if-none: true
+      #dependecy generation
+      - name: Submit Dependency Snapshot
+        uses: advanced-security/maven-dependency-submission-action@v3
+        
       
-      #moves SBOM scan results to the folder everything gets uploaded in
-      - name: Save SBOM Scan Results
-        if: always()
-        run: cat ${{ steps.SBOM-scan.outputs.sarif }}; sudo cp ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif; 
+      # #gryft SBOM scan
+      # - name: Scan SBOM
+      #   id: SBOM-scan
+      #   if: always()
+      #   uses: anchore/scan-action@main
+      #   with:
+      #     sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
+      #     fail-build: true
+      #     severity-cutoff: high
+      #     output-format: sarif
+      #     acs-report-enable: true
+          
+      
+      # #moves SBOM scan results to the folder everything gets uploaded in
+      # - name: Save SBOM Scan Results
+      #   if: always()
+      #   run: cat ${{ steps.SBOM-scan.outputs.sarif }}; sudo cp ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif; 
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
@@ -129,3 +134,17 @@ jobs:
           sarif_file: vulnresults/
 
 
+      # # upload SBOM results
+      # - name: Run snapshot action
+      #   uses: actions/go-dependency-submission@v1
+      #   with:
+      #       # Required: Define the repo path to the go.mod file used by the
+      #       # build target
+      #       go-mod-path: go-example/go.mod
+      #       #
+      #       # Optional. Define the repo path of a build target,
+      #       # a file with a `main()` function.
+      #       # If undefined, this action will collect all dependencies
+      #       # used by all build targets for the module. This may
+      #       # include Go dependencies used by tests and tooling.
+      #       go-build-target: go-example/cmd/octocat.go
