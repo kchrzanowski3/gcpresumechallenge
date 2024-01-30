@@ -102,12 +102,13 @@ jobs:
           format: spdx-json
           output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
           dependency-snapshot: 'true'
-
+      
+      #gryf SBOM scan
       - name: Scan SBOM
         uses: anchore/scan-action@v3
         with:
-          sbom: "vulresults/${{ github.event.repository.name }}-sbom.spdx.sarif"
-          fail-build: false
+          sbom: "vulresults/${{ github.event.repository.name }}-sbom.spdx.json"
+          fail-build: 'false'
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
