@@ -36,7 +36,7 @@ def hello_get(request):
     newvalue = store_pageview(key=table_key, field=field, storevalue=currentpageview + 1)
 
     headers = {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': 'secnowski.com'
     }
 
     value = {
