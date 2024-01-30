@@ -119,8 +119,7 @@ jobs:
       #moves SBOM scan results to the folder everything gets uploaded in
       - name: Save SBOM Scan Results
         if: always()
-        run: sudo mv ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif; cat ${{ steps.SBOM-scan.outputs.sarif }}
-        
+        run: cat ${{ steps.SBOM-scan.outputs.sarif }}; sudo cp ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif; 
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
