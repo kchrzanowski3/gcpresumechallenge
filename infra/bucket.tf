@@ -6,25 +6,19 @@ resource "google_storage_bucket" "static-site" {
   location      = "US"
   force_destroy = true
 
-  uniform_bucket_level_access = true
+  #uniform_bucket_level_access = true
 
   website {
     main_page_suffix = "index.html"
     #not_found_page   = "404.html"
   }
 
-  /*
-  cors {
-    origin          = ["http://image-store.com"]
-    method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
-    response_header = ["*"]
-    max_age_seconds = 3600
-  }
-*/
 }
 
-#makes bucket public
-resource "google_storage_bucket_iam_member" "public" {
+
+
+# make bucket public
+resource "google_storage_bucket_iam_member" "default" {
   bucket = google_storage_bucket.static-site.name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
