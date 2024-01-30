@@ -5,8 +5,7 @@ resource "google_storage_bucket" "static-site" {
   name          = "kyle-resume-site"
   location      = "US"
   force_destroy = true
-
-  #uniform_bucket_level_access = true
+  uniform_bucket_level_access = true
 
   website {
     main_page_suffix = "index.html"
