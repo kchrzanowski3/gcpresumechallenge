@@ -48,7 +48,6 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         
 
-
   staticVulnScan:
     runs-on: ubuntu-latest
     permissions:
@@ -72,21 +71,21 @@ jobs:
         uses: snyk/actions/python-3.6@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=vulnresults/python36.sarif
+          args: --sarif-file-output=vulnresults/python36-results.sarif
 
       #vuln scan the Node code
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=vulnresults/node.sarif
+          args: --sarif-file-output=vulnresults/node-results.sarif
 
       #vuln scan the Node code
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=vulnresults/iac.sarif
+          args: --sarif-file-output=vulnresults/iac-results.sarif
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
