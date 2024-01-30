@@ -114,6 +114,7 @@ jobs:
           fail-build: true
           severity-cutoff: high
           output-format: sarif
+          add-cpes-if-none: true
       
       #moves SBOM scan results to the folder everything gets uploaded in
       - name: Save SBOM Scan Results
