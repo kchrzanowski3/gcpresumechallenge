@@ -60,17 +60,19 @@ jobs:
 
       #vuln scan the infrastructure deployment terraform
       - name: Checkov Terraform Scan
+        if: always()  
         uses: bridgecrewio/checkov-action@v12
         with:
-          soft_fail: true # optional: do not return an error code if there are failed checks
+          #soft_fail: true # optional: do not return an error code if there are failed checks
           output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
           output_file_path: console,vulnresults/checkov-results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
 
       #vuln scan the python 3.6 code
       - name: Snyk Python 3.6 Vulnerability Scan
+        if: always()  
         uses: snyk/actions/python-3.6@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -78,8 +80,9 @@ jobs:
 
       #vuln scan the Node code
       - name: Snyk Node Vulnerability Scan
+        if: always()
         uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -87,8 +90,9 @@ jobs:
 
       #vuln scan the iac code
       - name: Snyk IaC Vulnerability Scan
+        if: always()
         uses: snyk/actions/iac@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        #continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -96,6 +100,7 @@ jobs:
 
       #sbom creation
       - name: SBOM  
+        if: always()
         uses: anchore/sbom-action@v0
         with:
           path: '.'
@@ -105,6 +110,7 @@ jobs:
       
       #gryf SBOM scan
       - name: Scan SBOM
+        if: always()
         uses: anchore/scan-action@v3
         with:
           sbom: "vulresults/${{ github.event.repository.name }}-sbom.spdx.json"
@@ -112,6 +118,7 @@ jobs:
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: vulnresults
