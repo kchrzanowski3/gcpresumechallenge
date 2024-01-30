@@ -117,7 +117,7 @@ jobs:
 
       - name: Save SBOM Scan Results
         if: always()
-        run: echo ${{ steps.SBOM-scan.outputs.sarif }} > vulnresults/SBOM-results.sarif;ls vulnruesults
+        run: mv ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif
         
 
       #upload the sarif file results to github actions security
