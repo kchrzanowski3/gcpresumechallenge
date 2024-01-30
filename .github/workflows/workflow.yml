@@ -68,7 +68,7 @@ jobs:
         with:
           soft_fail: true # optional: do not return an error code if there are failed checks
           output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-          output_file_path: console, checkov-infra-results.sarif # folder and name of results file
+          output_file_path: console,results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
 
       - name: Upload SARIF File to Github Security
