@@ -93,16 +93,25 @@ jobs:
         with:
           args: --sarif-file-output=vulnresults/iacsnyk-results.sarif
 
+      #sbom creation
+      - name: SBOM  
+        uses: anchore/sbom-action@v0
+        with:
+          path: '.'
+          format: spdx-json
+          output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
+          dependency-snapshot: 'true'
+
+      # - name: Scan SBOM
+      #   uses: anchore/scan-action@v3
+      #   with:
+      #     sbom: "vulresults/${{ github.event.repository.name }}-sbom.spdx.sarif"
+      #     fail-build: false
+
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: vulnresults
 
-      #sbom creation
-      - name: SBOM  
-        uses: anchore/sbom-action@v0
-        with:
-          dependency-snapshot: true
 
-          
