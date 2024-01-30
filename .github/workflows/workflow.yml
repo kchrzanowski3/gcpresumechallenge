@@ -52,6 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      contents: write
 
     steps:
       - name: Checkout
