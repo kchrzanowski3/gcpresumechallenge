@@ -85,15 +85,16 @@ jobs:
           args: --sarif-file-output=vulnresults/node-results.sarif
 
       #vuln scan the iac code
-      - name: Snyk IaC 3.6 Vulnerability Scan
+      - name: Snyk IaC Vulnerability Scan
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
-        
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=vulnresults/iacsnyk-results.sarif
 
       #upload the sarif file results to github actions security
-      - name: Upload SARIF File to Github Security
+      - name: Upload SARIF Files to Github Security
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: vulnresults
