@@ -67,7 +67,7 @@ jobs:
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
 
       #vuln scan the python 3.6 code
-      - name: Run Snyk to check for vulnerabilities
+      - name: Snyk Python 3.6 Vulnerability Scan
         uses: snyk/actions/python-3.6@master
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
@@ -76,7 +76,7 @@ jobs:
           args: --sarif-file-output=vulnresults/python-results.sarif
 
       #vuln scan the Node code
-      - name: Run Snyk to check for vulnerabilities
+      - name: Snyk Node Vulnerability Scan
         uses: snyk/actions/node@master
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
@@ -85,7 +85,7 @@ jobs:
           args: --sarif-file-output=vulnresults/node-results.sarif
 
       #vuln scan the iac code
-      - name: Run Snyk to check for vulnerabilities
+      - name: Snyk IaC 3.6 Vulnerability Scan
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
         
