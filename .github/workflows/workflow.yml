@@ -48,7 +48,7 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         
 
-  staticVulnScan:
+  vulnCheckoviac:
     runs-on: ubuntu-latest
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
@@ -66,21 +66,7 @@ jobs:
           output_file_path: console,vulnresults/results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
 
-      #vuln scan the python 3.6 code
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python-3.6@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        with:
-          args: --sarif-file-output=vulnresults/python36-results.sarif
-
-      #vuln scan the Node code
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        with:
-          args: --sarif-file-output=vulnresults/node-results.sarif
-
-      #vuln scan the Node code
+      #vuln scan the iac code
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
@@ -93,5 +79,47 @@ jobs:
         with:
           sarif_file: vulnresults
 
+  vulnSnykPython:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+      
+      #vuln scan the python 3.6 code
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.6@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        with:
+          args: --sarif-file-output=vulnresults/results.sarif
+
+      #upload the sarif file results to github actions security
+      - name: Upload SARIF File to Github Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults
 
 
+  vulnSnykNode:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v3'
+      
+      # #vuln scan the Node code
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        with:
+          args: --sarif-file-output=vulnresults/results.sarif
+
+      #upload the sarif file results to github actions security
+      - name: Upload SARIF File to Github Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults
