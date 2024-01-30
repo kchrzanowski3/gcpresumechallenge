@@ -118,7 +118,7 @@ jobs:
       #moves SBOM scan results to the folder everything gets uploaded in
       - name: Save SBOM Scan Results
         if: always()
-        run: sudo mv ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif
+        run: sudo mv ${{ steps.SBOM-scan.outputs.sarif }} vulnresults/SBOM-results.sarif; cat ${{ steps.SBOM-scan.outputs.sarif }}
         
 
       #upload the sarif file results to github actions security
@@ -126,6 +126,6 @@ jobs:
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: vulnresults
+          sarif_file: vulnresults/
 
 
