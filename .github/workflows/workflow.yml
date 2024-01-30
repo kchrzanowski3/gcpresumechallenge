@@ -104,6 +104,7 @@ jobs:
           dependency-snapshot: 'true'
 
       - name: Scan for Secrets
+        if: always()  
         uses: secret-scanner/action@0.0.2
       
       #upload the sarif file results to github actions security
