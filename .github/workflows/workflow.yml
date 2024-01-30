@@ -71,7 +71,9 @@ jobs:
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=results.sarif
+          args: --sarif-file-output=snyk-scan.sarif
+
+      - run: ls; ls ..
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
@@ -102,24 +104,24 @@ jobs:
           sarif_file: vulnresults
 
 
-  vulnSnykNode:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+  # vulnSnykNode:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
 
-    steps:
-      - name: Checkout
-        uses: 'actions/checkout@v3'
+  #   steps:
+  #     - name: Checkout
+  #       uses: 'actions/checkout@v3'
       
-      # #vuln scan the Node code
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        with:
-          args: --sarif-file-output=results.sarif
+  #     # #vuln scan the Node code
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/node@master
+  #       continue-on-error: true # To make sure that SARIF upload gets called
+  #       with:
+  #         args: --sarif-file-output=results.sarif
 
-      #upload the sarif file results to github actions security
-      - name: Upload SARIF File to Github Security
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
+  #     #upload the sarif file results to github actions security
+  #     - name: Upload SARIF File to Github Security
+  #       uses: github/codeql-action/upload-sarif@v3
+  #       with:
+  #         sarif_file: results.sarif
