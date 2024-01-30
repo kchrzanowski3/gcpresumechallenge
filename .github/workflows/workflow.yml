@@ -106,11 +106,18 @@ jobs:
       
       #gryft SBOM scan
       - name: Scan SBOM
+        id: SBOM-scan
         if: always()
         uses: anchore/scan-action@v3
         with:
           sbom: "vulresults/${{ github.event.repository.name }}-sbom.spdx.json"
-          fail-build: 'false'
+          fail-build: true
+          severity-cutoff: high
+          output-format: sarif
+
+      - name: Save SBOM Scan Results
+        run: cat ${{ steps.SBOM-scan.outputs.sarif }} > vulnresults/SBOM-results.sarif
+        
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF Files to Github Security
