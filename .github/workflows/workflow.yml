@@ -78,6 +78,20 @@ jobs:
         with:
           args: --sarif-file-output=vulnresults/python36.sarif
 
+      #vuln scan the Node code
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        with:
+          args: --sarif-file-output=vulnresults/node.sarif
+
+      #vuln scan the Node code
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/iac@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        with:
+          args: --sarif-file-output=vulnresults/iac.sarif
+
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
         uses: github/codeql-action/upload-sarif@v3
