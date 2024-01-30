@@ -56,6 +56,7 @@ data "archive_file" "init" {
 resource "google_storage_bucket" "functions_bucket" {
   name     = "py_function-visitor-counter"
   location = "US"
+  uniform_bucket_level_access = true
 }
 
 # upload the zip to the bucket
