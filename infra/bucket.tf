@@ -15,10 +15,8 @@ resource "google_storage_bucket" "static-site" {
 
 }
 
-
-
-# make bucket public
-resource "google_storage_bucket_iam_member" "default" {
+#makes bucket accessible by all
+resource "google_storage_bucket_iam_member" "public" {
   bucket = google_storage_bucket.static-site.name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
