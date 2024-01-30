@@ -71,13 +71,13 @@ jobs:
         uses: snyk/actions/iac@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=vulnresults/iac-results.sarif
+          args: --sarif-file-output=results.sarif
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: vulnresults
+          sarif_file: results.sarif
 
   vulnSnykPython:
     runs-on: ubuntu-latest
@@ -116,10 +116,10 @@ jobs:
         uses: snyk/actions/node@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=vulnresults/results.sarif
+          args: --sarif-file-output=results.sarif
 
       #upload the sarif file results to github actions security
       - name: Upload SARIF File to Github Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: vulnresults
+          sarif_file: results.sarif
