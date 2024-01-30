@@ -21,7 +21,6 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-      pull-requests: write      
 
     steps:
       
@@ -53,9 +52,6 @@ jobs:
   staticVulnScan:
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id-token: 'write'
-      pull-requests: write
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
 
     steps:
