@@ -1,50 +1,14 @@
-name: Update cloud infrastructure
-run-name: Infrastructure Pipeline
+name: Run static vulnerability scanning on infrastructure and code
+run-name: Security Scan Pipeline
 on:
   push:
     paths:
-      - '.github/workflows/**'
-      - 'terraform/**'
-      - 'cypress/**'
+      - '.github/workflows/static-vuln-scan.yml'
+      - '**.py'
+      - '**.js'
       - '**.tf'
 
 jobs:
-
-  deploySiteInfrastructure:
-    #needs: build
-    runs-on: ubuntu-latest
-    env:
-      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
-
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
-    steps:
-      
-      - name: Check Out Repository
-        uses: 'actions/checkout@v4'
-
-      #auth so we can use gcloud. make sure to have run the oidc infr before this and updated these attributes
-      - name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          create_credentials_file: 'true'
-          workload_identity_provider: 'projects/356251802763/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: github-actions-sa@resume-challenge-kyle-3.iam.gserviceaccount.com
-
-      # #auth and setup to terraform cloud
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-     
-      #run the terraform that sets up the infrastructure 
-      - name: Apply Infrastructure Terraform 
-        run: cd infra; terraform init; terraform plan 
-
-      #run some end to end tests using cypress
-      - name: End to End Functional Tests (Cypress)
-        uses: cypress-io/github-action@v5 # use the explicit version number
         
   staticVulnScan:
     runs-on: ubuntu-latest
