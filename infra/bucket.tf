@@ -1,5 +1,3 @@
-
-
 #storage bucket
 resource "google_storage_bucket" "static-site" {
   name          = "kyle-resume-site"
@@ -11,7 +9,6 @@ resource "google_storage_bucket" "static-site" {
     main_page_suffix = "index.html"
     #not_found_page   = "404.html"
   }
-
 }
 
 #makes bucket accessible by all
@@ -20,7 +17,6 @@ resource "google_storage_bucket_iam_member" "public" {
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
-
 
 #upload index file
 resource "google_storage_bucket_object" "webpage" {

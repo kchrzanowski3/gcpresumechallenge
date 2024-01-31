@@ -2,6 +2,7 @@ locals {
   roles = [
     "roles/resourcemanager.projectIamAdmin", # GitHub Actions identity
     "roles/editor", # allow to manage all resources
+    "roles/storage.admin",
   ]
   github_repository_name = "kchrzanowski3/gcpresumechallenge" # e.g. yourname/yourrepo
 }
