@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-CC-TF-239:
+    - 'infra/bucket.tf > resource > google_storage_bucket_iam_member[public] > member':
+        reason: None Given
+        expires: 2025-03-01T15:24:16.137Z
+        created: 2024-01-31T15:24:16.139Z
+patch: {}

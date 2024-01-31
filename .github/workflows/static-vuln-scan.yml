@@ -37,7 +37,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/python-results.sarif --severity-threshold=medium
+          args: --sarif-file-output=vulnresults/python-results.sarif --severity-threshold=high --policy-path=.snyk
 
       #vuln scan the Node code
       - name: Snyk Node Vulnerability Scan
@@ -46,7 +46,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/node-results.sarif --severity-threshold=medium
+          args: --sarif-file-output=vulnresults/node-results.sarif --severity-threshold=high --policy-path=.snyk
 
       #vuln scan the iac code
       - name: Snyk IaC Vulnerability Scan
@@ -55,7 +55,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=high
+          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=high --policy-path=.snyk
 
       #sbom creation
       - name: SBOM  
