@@ -1,5 +1,6 @@
 #enable apis for this
 resource "google_project_service" "compute-engine-api" {
+  project = module.enabled_google_apis.project_id
   service = "compute.googleapis.com"
 
   timeouts {
@@ -17,12 +18,14 @@ resource "google_project_service" "compute-engine-api" {
 
 #vpc 
 resource "google_compute_network" "alb_network" {
+  project = module.enabled_google_apis.project_id
   name                    = "my-alb-network"
   auto_create_subnetworks = false
 }
 
 #subnet in the vpc
 resource "google_compute_subnetwork" "alb_subnet" {
+  project = module.enabled_google_apis.project_id
   name          = "my-alb-subnet"
   network       = google_compute_network.alb_network.id
   region        = "us-east1"
@@ -31,6 +34,7 @@ resource "google_compute_subnetwork" "alb_subnet" {
 
 #bucket as a back end target for the load balancer
 resource "google_compute_backend_bucket" "image_backend" {
+  project = module.enabled_google_apis.project_id
   name        = "backend-resume-bucket"
   description = "Points to Kyle Chrzanowski's resume bucket"
   bucket_name = google_storage_bucket.static-site.name
@@ -44,6 +48,7 @@ resource "google_compute_backend_bucket" "image_backend" {
 
 #create a public ip
 resource "google_compute_global_address" "https_public_ip" {
+  project = module.enabled_google_apis.project_id
   name = "https-lb-global-address"
 }
 
@@ -54,6 +59,7 @@ resource "google_compute_global_address" "https_public_ip" {
 
 #url map (route table)
 resource "google_compute_url_map" "my_url_map" {
+  project = module.enabled_google_apis.project_id
   name        = "http-redirect"
   description = "a basic HTTP URL map that reroutes HTTP traffic to HTTPS"
 
@@ -66,12 +72,14 @@ resource "google_compute_url_map" "my_url_map" {
 
 #http proxy ties the url map to the load balancer
 resource "google_compute_target_http_proxy" "my_http_proxy" {
+  project = module.enabled_google_apis.project_id
   name    = "http-redirect"
   url_map = google_compute_url_map.my_url_map.self_link
 }
 
 #route traffic to the public ip and tie it to the proxy
 resource "google_compute_global_forwarding_rule" "my_http_forwarding_rule" {
+  project = module.enabled_google_apis.project_id
   name       = "http-redirect"
   target     = google_compute_target_http_proxy.my_http_proxy.self_link
   ip_address = google_compute_global_address.https_public_ip.address
@@ -85,21 +93,26 @@ resource "google_compute_global_forwarding_rule" "my_http_forwarding_rule" {
 
 #https proxy for the front end
 resource "google_compute_target_https_proxy" "https" {
+  project = module.enabled_google_apis.project_id
   name             = "https-proxy"
   url_map          = google_compute_url_map.https.id
   ssl_certificates = [google_compute_managed_ssl_certificate.my_certificate.id]
+
+  depends_on = [ google_compute_managed_ssl_certificate.my_certificate ]
 }
 
 #create ssl cert
 resource "google_compute_managed_ssl_certificate" "my_certificate" {
-  name = "my-ssl-certificate"
+  project = module.enabled_google_apis.project_id
+  name = google_project.deploy_to_project.name
 
   managed {
-    domains = [local.domain]
+    domains = [var.domain]
   }
 }
 
 resource "google_compute_url_map" "https" {
+  project = module.enabled_google_apis.project_id
   name            = "https-url-map"
   description     = "a description"
   default_service = google_compute_backend_bucket.image_backend.id
@@ -107,6 +120,7 @@ resource "google_compute_url_map" "https" {
 
 #route traffic to the public ip and tie it to the proxy
 resource "google_compute_global_forwarding_rule" "my_https_forwarding_rule" {
+  project = module.enabled_google_apis.project_id
   name        = "my-https-forwarding-rule"
   ip_protocol = "TCP"
   port_range  = "443"

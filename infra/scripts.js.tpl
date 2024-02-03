@@ -1,4 +1,4 @@
-fetch('https://kyle-resume-api-gateway-4jnr4ia3.ue.gateway.dev/getvisitors')
+fetch('${api_link}')
     .then(res => res.json())
     .then(res => {document.getElementById("counter").innerHTML = Number(res.body.count)})
     .then(data => console.log(data));

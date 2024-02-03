@@ -3,7 +3,7 @@
 ##
 
 resource "google_firestore_database" "datastore_mode_database" {
-  project                           = var.project
+  project                           = module.enabled_google_apis.project_id
   name                              = "(default)"
   location_id                       = "nam5"
   type                              = "DATASTORE_MODE"

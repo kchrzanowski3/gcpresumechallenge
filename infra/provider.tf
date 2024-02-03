@@ -4,31 +4,32 @@ terraform {
     organization = "kylechrzanowski"
 
     workspaces {
+      #project = "${local.terraform_workspace}"
       name = "infrastructure"
     }
   }
-}
 
-terraform {
   required_providers {
-    godaddy = {
-      source  = "n3integration/godaddy"
-      version = "~> 1.9.1" # Replace with the desired version
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4.0"
     }
   }
 }
 
+provider "cloudflare" {
+  api_token = var.cloudflare_api_key
+}
 
 provider "google" {
-  project = var.project
+  project = var.project_with_oidc_auth
   region  = "us-east1"
   zone    = "us-east1-a"
-
 }
 
 #api gateway functions are in beta so have to use this
 provider "google-beta" {
-  project     = var.project
+  project     = var.project_with_oidc_auth
   region      = "us-east1"
   zone = "us-east1-a"
 }

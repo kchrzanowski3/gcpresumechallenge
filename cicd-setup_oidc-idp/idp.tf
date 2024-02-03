@@ -1,5 +1,5 @@
 locals {
-  roles = [
+  project_roles = [
     "roles/resourcemanager.projectIamAdmin", # GitHub Actions identity
     "roles/editor", # allow to manage all resources
     "roles/storage.admin",
@@ -41,9 +41,9 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
   }
 }
 
-# 
-# Configure the service account that can do stuff for users
-# 
+## 
+## Configure the service account that can do stuff for users
+## 
 
 resource "google_service_account" "my_service_account" {
   project = var.project
@@ -59,16 +59,15 @@ resource "google_service_account_iam_member" "pool_member" {
   member = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${local.github_repository_name}"
 }
 
-#assign all the roles in the locals block above
+#assign all the project roles in the locals block above
 resource "google_project_iam_member" "roles" {
   project = var.project
   for_each = {
-    for role in local.roles : role => role
+    for role in local.project_roles : role => role
   }
   role   = each.value
   member = "serviceAccount:${google_service_account.my_service_account.email}"
 }
-
 
 ##
 ## Outputs to put in the github actions yaml file
