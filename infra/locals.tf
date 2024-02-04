@@ -19,10 +19,6 @@ variable "environment" {
   type = string
 }
 
-variable "organization" {
-  default = "116132192113"
-}
-
 variable "domain" {
   default = "kylenowski.com"
 }
@@ -41,6 +37,5 @@ variable "cloudflare_api_key" {
 variable "cloudflare_zone_id" {
   type = string
   default = "2ca1b94cd239ae09d0034d87c19739d8"
-  
 }
 
