@@ -2,7 +2,7 @@
 ## Create a folder structure that goes: 
 ##   
 ##      Environment  (e.g., Prod/Test)
-##          Project
+##          Project 
 ##
 
 data "google_organization" "org" {
