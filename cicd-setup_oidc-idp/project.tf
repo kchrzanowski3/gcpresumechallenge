@@ -44,7 +44,7 @@ resource "google_project" "gcp_project" {
 resource "google_organization_iam_member" "organization" {
   org_id  = data.google_organization.org.org_id
   for_each = {
-    for role in local.project_roles : role => role
+    for role in local.org_roles : role => role
   }
   role    = each.value
   member  = "serviceAccount:${ google_service_account.my_service_account.email }"
