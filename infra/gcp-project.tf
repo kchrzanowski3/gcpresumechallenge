@@ -40,3 +40,4 @@ resource "random_string" "project_name_suffix" {
   upper = false
 }
 
+ 
