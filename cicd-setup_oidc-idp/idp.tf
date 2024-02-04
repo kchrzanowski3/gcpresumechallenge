@@ -14,7 +14,7 @@ data "google_project" "gcp_project" {
   project_id = var.project
 }
 
-##
+## 
 ## OIDC provider for ci/cd pipeline in github actions
 ##
 
