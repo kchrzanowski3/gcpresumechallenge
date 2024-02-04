@@ -10,9 +10,6 @@ locals {
   github_repository_name = "kchrzanowski3/gcpresumechallenge" # e.g. yourname/yourrepo
 }
 
-data "google_project" "gcp_project" {
-  project_id = var.project
-}
 
 ## 
 ## OIDC provider for ci/cd pipeline in github actions
@@ -20,7 +17,7 @@ data "google_project" "gcp_project" {
 
 # Workload Identity Pool
 resource "google_iam_workload_identity_pool" "github_pool" {
-  project = var.project
+  project = google_project.gcp_project.project_id
   workload_identity_pool_id = "github-pool"
   display_name        = "Pool for GitHub Actions"
   description         = "Identity pool for authenticating GitHub Actions"
@@ -28,7 +25,7 @@ resource "google_iam_workload_identity_pool" "github_pool" {
 
 # Workload Identity Provider - GitHub OIDC
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
-  project = var.project
+  project = google_project.gcp_project.project_id
   workload_identity_pool_id   = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = "github-provider"
   display_name           = "GitHub OIDC Provider"
@@ -49,7 +46,7 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 ## 
 
 resource "google_service_account" "my_service_account" {
-  project = var.project
+  project = google_project.gcp_project.project_id
   account_id   = "github-actions-sa" 
   display_name = "Service Account for Github Actions"
   description  = "link to Workload Identity Pool used by GitHub Actions"
@@ -64,7 +61,7 @@ resource "google_service_account_iam_member" "pool_member" {
 
 #assign all the project roles in the locals block above
 resource "google_project_iam_member" "roles" {
-  project = var.project
+  project = google_project.gcp_project.project_id
   for_each = {
     for role in local.project_roles : role => role
   }

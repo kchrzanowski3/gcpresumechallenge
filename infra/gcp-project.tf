@@ -1,6 +1,6 @@
 ##
 ## Create a folder structure that goes: 
-##   
+##
 ##      Environment  (e.g., Prod/Test)
 ##          Project 
 ##
@@ -30,7 +30,7 @@ resource "google_project" "deploy_to_project" {
   name       = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
   project_id = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
   folder_id  = google_folder.environment_folder.id
-  billing_account = "01259D-F0CA06-979A1E" #data.google_billing_account.acct.billing_account
+  billing_account = var.billing_account #data.google_billing_account.acct.billing_account
 }
 
 resource "random_string" "project_name_suffix" {

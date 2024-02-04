@@ -5,7 +5,7 @@
 module "enabled_google_apis" {
   source                      = "terraform-google-modules/project-factory/google//modules/project_services"
   #version                     = "10.2.0"
-  project_id =      var.project
+  project_id =      google_project.gcp_project.project_id
   activate_apis               = [
     # MUST-HAVE for GitHub Actions setup
     "iam.googleapis.com",                  # Identity and Access Management (IAM) API
