@@ -11,4 +11,4 @@ resource "local_file" "rendered_cypress_test" {
   })
 
   filename = "../cypress/e2e/spec.cy.js"
-}
+} 
