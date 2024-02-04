@@ -27,15 +27,15 @@ resource "google_folder" "environment_folder" {
 }
 
 resource "google_project" "deploy_to_project" {
-  name       = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
-  project_id = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
+  name       = var.project_title
+  project_id = var.project_title
   folder_id  = google_folder.environment_folder.id
   billing_account = var.billing_account #data.google_billing_account.acct.billing_account
 }
 
-resource "random_string" "project_name_suffix" {
-  length           = 6
-  special          = false
-  numeric = false
-  upper = false
-}
+# resource "random_string" "project_name_suffix" {
+#   length           = 6
+#   special          = false
+#   numeric = false
+#   upper = false
+# }

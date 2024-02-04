@@ -39,3 +39,7 @@ variable "cloudflare_zone_id" {
   default = "2ca1b94cd239ae09d0034d87c19739d8"
 }
 
+variable "project_title" {
+  type = string
+  default = "resume-challenge-prod-iwxabg"
+}
