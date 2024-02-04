@@ -27,7 +27,7 @@ jobs:
       TF_CLOUD_PROJECT: gcpresumechallenge
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
 
-    # Add "id-token" with the intended permissions.
+    # Add "id-token" with the intended permissions
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -45,9 +45,15 @@ jobs:
           workload_identity_provider: 'projects/282969675607/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: github-actions-sa@resume-challenge-oidc-auth.iam.gserviceaccount.com
 
-      # #auth and setup to terraform cloud
+      #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Create TF Cloud Workspace
+        run: terraform workspace new ${{ env.TF_CLOUD_WORKSPACE }}
+
+      - name: Switch to TF Cloud Workspace
+        run: terraform workspace select ${{ env.TF_CLOUD_WORKSPACE }}
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 

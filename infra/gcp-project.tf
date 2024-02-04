@@ -1,5 +1,3 @@
-
-
 data "google_organization" "org" {
   domain = "kylenowski.com"
 }
