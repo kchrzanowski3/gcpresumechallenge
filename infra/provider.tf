@@ -3,6 +3,10 @@ terraform {
   cloud {
     organization = "kylechrzanowski"
 
+    # workspaces {
+    #   project = "gcpresumechallenge"
+    #   name = "infrastructure"
+    # }
   } 
 
   required_providers {

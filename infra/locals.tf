@@ -15,7 +15,7 @@ variable "product" {
 }
 
 variable "environment" {
-  default = "prod"
+  default = "test"
   type = string
 }
 
