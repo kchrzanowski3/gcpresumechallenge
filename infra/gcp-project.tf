@@ -39,5 +39,3 @@ resource "random_string" "project_name_suffix" {
   numeric = false
   upper = false
 }
-
- 
