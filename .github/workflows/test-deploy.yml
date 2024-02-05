@@ -1,4 +1,4 @@
-name: Deploy cloud infrastructure to GCP production
+name: Deploy cloud infrastructure to GCP test environment
 run-name: Infrastructure Pipeline (Test)
 on:
   pull_request:
