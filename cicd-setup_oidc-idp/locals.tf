@@ -13,3 +13,8 @@ variable "billing_account_id" {
   default = "01259D-F0CA06-979A1E"
   
 }
+
+variable "product" {
+  default = "resume-challenge"
+  type = string
+}

@@ -1,9 +1,9 @@
-name: Deploy cloud infrastructure to GCP production environment
-run-name: Infrastructure Pipeline (Prod)
+name: Deploy cloud infrastructure to GCP production
+run-name: Infrastructure Pipeline (Test)
 on:
   pull_request:
-    branches:
-      - main
+    branches: 
+      - test
     paths:
       - '.github/workflows/main-deploy.yml'
       - 'cypress/**'
@@ -14,27 +14,22 @@ on:
       - '**.css'
 
 jobs:
-
   deploySiteInfrastructure:
     runs-on: ubuntu-latest
     env:
-      TF_VAR_environment: prod #this determines where it gets deployed (test/dev/prod environments)
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
-      TF_VAR_project_title: "resume-challenge-prod-iwxabg" 
-
-      #TF Cloud specific variables
-      TF_CLOUD_PROJECT: gcpresumechallenge
-      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
-      TF_WORKSPACE: "infrastructure"
+      TF_VAR_environment: test #this determines where it gets deployed (test/dev/prod environments)
+      TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}" 
       
-
-    # Add "id-token" with the intended permissions.
+      TF_WORKSPACE: "infrastructure-test"
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
+      
+    # Add "id-token" with the intended permissions
     permissions:
       contents: 'read'
       id-token: 'write'
 
     steps:
-      
       - name: Check Out Repository
         uses: 'actions/checkout@v4'
 
@@ -45,8 +40,8 @@ jobs:
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/282969675607/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: github-actions-sa@resume-challenge-oidc-auth.iam.gserviceaccount.com
-
-      # #auth and setup to terraform cloud
+      
+      #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 

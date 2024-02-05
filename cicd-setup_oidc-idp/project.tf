@@ -27,6 +27,32 @@ resource "google_project" "gcp_project" {
   billing_account = var.billing_account_id #data.google_billing_account.acct.billing_account
 }
 
+
+##
+## Create a folder structure that goes: 
+##  Product (Resume name)
+##      Environment  (e.g., Prod/Test)
+##          Projects - each pull request
+##
+
+# top level folder
+resource "google_folder" "product_folder" {  
+  display_name = var.product
+  parent       = "organizations/${ data.google_organization.org.org_id }"
+}
+
+#environment level prod folder
+resource "google_folder" "environment_folder" {
+  display_name = "prod"
+  parent       = google_folder.product_folder.name
+}
+
+#environment level test folder
+resource "google_folder" "environment_folder" {
+  display_name = "test"
+  parent       = google_folder.product_folder.name
+}
+
 ##
 ## roles to give the service account permissions to do all the actions stuff
 ##
