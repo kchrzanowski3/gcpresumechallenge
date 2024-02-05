@@ -2,6 +2,7 @@ name: Deploy cloud infrastructure to GCP production environment
 run-name: Infrastructure Pipeline (Prod)
 on:
   pull_request:
+    types: [closed]
     branches:
       - main
     paths:
@@ -14,8 +15,9 @@ on:
       - '**.css'
 
 jobs:
-
   deploySiteInfrastructure:
+    #only runs if there's a successful merged pull request into main
+    if: github.event.pull_request.merged == true 
     runs-on: ubuntu-latest
     env:
       TF_VAR_environment: prod #this determines where it gets deployed (test/dev/prod environments)

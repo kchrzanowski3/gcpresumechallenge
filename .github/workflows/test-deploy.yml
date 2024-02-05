@@ -1,11 +1,11 @@
-name: Deploy cloud infrastructure to GCP production
+name: Deploy cloud infrastructure to GCP test environment
 run-name: Infrastructure Pipeline (Test)
 on:
   pull_request:
     branches: 
-      - test
+      - main
     paths:
-      - '.github/workflows/main-deploy.yml'
+      - '.github/workflows/test-deploy.yml'
       - 'cypress/**'
       - '**.tf'
       - 'infra/**'
