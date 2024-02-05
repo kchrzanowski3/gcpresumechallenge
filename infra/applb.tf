@@ -31,7 +31,7 @@ resource "google_compute_subnetwork" "alb_subnet" {
   region        = "us-east1"
   ip_cidr_range = "10.0.10.0/24"
 }
-
+ 
 #bucket as a back end target for the load balancer
 resource "google_compute_backend_bucket" "image_backend" {
   project = module.enabled_google_apis.project_id
