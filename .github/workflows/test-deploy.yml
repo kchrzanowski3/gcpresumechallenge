@@ -14,18 +14,18 @@ on:
       - '**.css'
 
 jobs:
-
   deploySiteInfrastructure:
     runs-on: ubuntu-latest
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
       TF_VAR_environment: test #this determines where it gets deployed (test/dev/prod environments)
-      TF_VAR_project_title: "${{ github.event.pull_request.base.ref }}-${{ github.event.number }}"
+      TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}"
       
       #TF Cloud specific variables
-      TF_CLOUD_WORKSPACE: "test-${{ github.event.number }}"
+      TF_CLOUD_WORKSPACE: "resume-test-${{ github.event.number }}"
       TF_CLOUD_PROJECT: gcpresumechallenge
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
+      TF_CLOUD_ORGANIZATION: kylechrzanowski
 
     # Add "id-token" with the intended permissions
     permissions:
@@ -33,7 +33,6 @@ jobs:
       id-token: 'write'
 
     steps:
-      
       - name: Check Out Repository
         uses: 'actions/checkout@v4'
 

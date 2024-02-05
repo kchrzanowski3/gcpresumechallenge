@@ -1,8 +1,7 @@
 #terraform cloud connection
 terraform {
   cloud {
-    organization = "kylechrzanowski"
-
+    # organization = "kylechrzanowski"
     # workspaces {
     #   project = "gcpresumechallenge"
     #   name = "infrastructure"
