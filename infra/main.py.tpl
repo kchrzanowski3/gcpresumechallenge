@@ -11,7 +11,7 @@ def hello_get(request):
         # Allows GET requests from any origin with the Content-Type
         # header and caches preflight response for an 3600s
         headers = {
-            'Access-Control-Allow-Origin': 'https://kylenowski.com',
+            'Access-Control-Allow-Origin': '${app_ip}',
             'Access-Control-Allow-Methods': 'GET',
             'Access-Control-Allow-Headers': 'Content-Type',
             'Access-Control-Max-Age': '3600'
@@ -36,14 +36,14 @@ def hello_get(request):
     newvalue = store_pageview(key=table_key, field=field, storevalue=currentpageview + 1)
 
     headers = {
-        'Access-Control-Allow-Origin': 'https://kylenowski.com'
+        'Access-Control-Allow-Origin': '${app_ip}'
     }
 
     value = {
         "headers": {
             "content-type": "application/json",
             "Access-Control-Allow-Headers": "application/json",
-            "Access-Control-Allow-Origin": "https://kylenowski.com'",
+            "Access-Control-Allow-Origin": "${app_ip}",
             "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
         },
         "statusCode": 200,

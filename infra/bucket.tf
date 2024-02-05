@@ -1,6 +1,7 @@
 #storage bucket
 resource "google_storage_bucket" "static-site" {
-  name          = "kyle-resume-site"
+  project = module.enabled_google_apis.project_id
+  name          = "${var.project_title}-kyle-resume-site"
   location      = "US"
   force_destroy = true
   uniform_bucket_level_access = true
@@ -32,10 +33,19 @@ resource "google_storage_bucket_object" "css" {
   bucket = google_storage_bucket.static-site.name
 }
 
+#substitute the api gateway link into the javascript file
+resource "local_file" "script_file" {
+  content = templatefile("${path.module}/scripts.js.tpl", {
+    api_link = "https://${google_api_gateway_gateway.api_gw.default_hostname}/${local.api_path}"
+  })
+
+  filename = "${path.module}/scripts.js"
+}
+
 #upload scripts.js file
 resource "google_storage_bucket_object" "script" {
   name   = "scripts.js"
-  source = "../scripts.js"
+  source = local_file.script_file.filename
   bucket = google_storage_bucket.static-site.name
 }
 

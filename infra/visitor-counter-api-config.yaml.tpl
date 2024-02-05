@@ -1,6 +1,6 @@
 info:
   title: My Resume API Visitor Count Template
-  description: This API is for project resume-challenge-prod-iwxabg
+  description: This API is for project ${project_name}
 
 # openapi2-functions.yaml
 swagger: '2.0'
@@ -13,13 +13,13 @@ schemes:
 produces:
   - application/json
 paths:
-  /getvisitors:
+  /${api_path}:
     get:
       summary: Return count of total page hits
       operationId: visitorcounter
       x-google-backend:
-        address: https://us-east1-resume-challenge-prod-iwxabg.cloudfunctions.net/resume-visitor-counter-function
-        jwt_audience: https://us-east1-resume-challenge-prod-iwxabg.cloudfunctions.net/resume-visitor-counter-function
+        address: https://${region}-${project_name}.cloudfunctions.net/${function_name}
+        jwt_audience: https://${region}-${project_name}.cloudfunctions.net/${function_name}
 
       responses:
         '200':
