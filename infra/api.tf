@@ -87,6 +87,8 @@ data "archive_file" "init" {
   type        = "zip"
   source_dir = "${path.module}/api-function"
   output_path = "${path.module}/api-function.zip"
+
+  depends_on = [ local_file.rendered_python_function ]
 }
 
 # bucket to upload the zip to create a google function
