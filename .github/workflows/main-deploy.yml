@@ -70,6 +70,7 @@ jobs:
   destroyTestEnvironmnet:
     #only runs if there's a successful merged pull request into main
     if: github.event.pull_request.merged == true 
+    needs: deploySiteInfrastructure #runs after a successful prod deploy
     runs-on: ubuntu-latest
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
@@ -106,7 +107,7 @@ jobs:
           output_value=$(echo ${{env.TF_VAR_project_title}} | tr '/' '-')
           echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
-      #run the terraform that sets up the infrastructure 
+      #run the terraform that destroys the test infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform destroy -auto-approve 
   
