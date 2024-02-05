@@ -5,7 +5,7 @@ on:
     branches: 
       - test
     paths:
-      - '.github/workflows/main-deploy.yml'
+      - '.github/workflows/test-deploy.yml'
       - 'cypress/**'
       - '**.tf'
       - 'infra/**'
