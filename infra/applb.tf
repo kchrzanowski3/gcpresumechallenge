@@ -161,7 +161,7 @@ resource "google_compute_target_http_proxy" "test_http_proxy" {
 }
 
 #route traffic to the public ip and tie it to the proxy
-resource "google_compute_global_forwarding_rule" "my_http_forwarding_rule" {
+resource "google_compute_global_forwarding_rule" "test_http_forwarding_rule" {
   count = var.environment == "test" ? 1 : 0
   
   project = module.enabled_google_apis.project_id
