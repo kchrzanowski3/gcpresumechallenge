@@ -4,9 +4,9 @@ let res1
 
 describe('tests the website is up and the API is working', () => {
 
-  it('Visits 34.49.11.35', () => {
+  it('Visits kylenowski.com', () => {
     
-    cy.visit('34.49.11.35')
+    cy.visit('https://kylenowski.com')
     cy.contains('Kyle Chrzanowski')
   })
 
