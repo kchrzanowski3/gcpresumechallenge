@@ -4,11 +4,6 @@ on:
   pull_request:
     branches: 
       - main
-    paths:
-      - '.github/workflows/static-vuln-scan.yml'
-      - '**.py'
-      - '**.js'
-      - '**.tf'
 
 jobs:
         
