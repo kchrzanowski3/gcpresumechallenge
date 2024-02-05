@@ -3,7 +3,7 @@ run-name: Infrastructure Pipeline (Test)
 on:
   pull_request:
     branches: 
-      - test
+      - main
     paths:
       - '.github/workflows/test-deploy.yml'
       - 'cypress/**'
