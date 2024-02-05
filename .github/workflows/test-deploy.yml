@@ -19,7 +19,7 @@ jobs:
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
       TF_VAR_environment: test #this determines where it gets deployed (test/dev/prod environments)
-      TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}"
+      TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}" 
       
       #TF Cloud specific variables
       #TF_CLOUD_ORGANIZATION: kylechrzanowski
@@ -27,7 +27,6 @@ jobs:
       TF_WORKSPACE: "infrastructure-test"
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
       
-
     # Add "id-token" with the intended permissions
     permissions:
       contents: 'read'
@@ -49,8 +48,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Create TF Cloud Workspace
-        run: terraform workspace new ${{ env.TF_WORKSPACE }}
+      - name: Convert Project Title Variable
+        id: project-name
+        run: |
+          output_value=$(${{env.TF_VAR_project_title}}" | tr '/' '-')
+          echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
