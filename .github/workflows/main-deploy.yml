@@ -20,11 +20,12 @@ jobs:
     env:
       TF_VAR_environment: prod #this determines where it gets deployed (test/dev/prod environments)
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
-      
+      TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}" 
+
       #TF Cloud specific variables
-      TF_CLOUD_WORKSPACE: infrastructure #the prod TF cloud workspace
       TF_CLOUD_PROJECT: gcpresumechallenge
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
+      TF_WORKSPACE: "infrastructure-test"
       
 
     # Add "id-token" with the intended permissions.
@@ -48,6 +49,12 @@ jobs:
       # #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Convert Project Title Variable
+        id: project-name
+        run: |
+          output_value=$(echo ${{env.TF_VAR_project_title}} | tr '/' '-')
+          echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
