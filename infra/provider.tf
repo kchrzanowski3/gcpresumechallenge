@@ -1,11 +1,11 @@
 #terraform cloud connection
 terraform {
   cloud {
-    # organization = "kylechrzanowski"
-    # workspaces {
-    #   project = "gcpresumechallenge"
-    #   name = "infrastructure"
-    # }
+    organization = "kylechrzanowski"
+    workspaces {
+      project = "gcpresumechallenge"
+      #name = "infrastructure-test"
+    }
   } 
 
   required_providers {

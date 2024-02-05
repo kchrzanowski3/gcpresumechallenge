@@ -22,9 +22,9 @@ jobs:
       TF_VAR_project_title: "${{ github.head_ref }}-${{ github.event.number }}"
       
       #TF Cloud specific variables
-      TF_CLOUD_ORGANIZATION: kylechrzanowski
-      TF_CLOUD_PROJECT: gcpresumechallenge
-      TF_WORKSPACE: "resume-test-${{ github.event.number }}"
+      #TF_CLOUD_ORGANIZATION: kylechrzanowski
+      #TF_CLOUD_PROJECT: gcpresumechallenge
+      TF_WORKSPACE: "infrastructure-test"
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
       
 
@@ -44,16 +44,13 @@ jobs:
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/282969675607/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: github-actions-sa@resume-challenge-oidc-auth.iam.gserviceaccount.com
-
+      
       #auth and setup to terraform cloud
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Create TF Cloud Workspace
         run: terraform workspace new ${{ env.TF_WORKSPACE }}
-
-      # - name: Switch to TF Cloud Workspace
-      #   run: terraform workspace select ${{ env.TF_WORKSPACE }}
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
