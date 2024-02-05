@@ -25,7 +25,7 @@ jobs:
       #TF Cloud specific variables
       TF_CLOUD_PROJECT: gcpresumechallenge
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
-      TF_WORKSPACE: "infrastructure-test"
+      TF_WORKSPACE: "infrastructure"
       
 
     # Add "id-token" with the intended permissions.
