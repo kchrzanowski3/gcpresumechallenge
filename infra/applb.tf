@@ -89,7 +89,6 @@ resource "google_compute_global_forwarding_rule" "my_http_forwarding_rule" {
   port_range = "80"
 }
 
-
 ##
 ## HTTPS load balancer (if production environment)
 ##
@@ -143,19 +142,18 @@ resource "google_compute_global_forwarding_rule" "my_https_forwarding_rule" {
 #url map (route table)
 resource "google_compute_url_map" "test_url_map" {
   count = var.environment == "test" ? 1 : 0
-  
   project = module.enabled_google_apis.project_id
-  name        = "http-test"
-  description = "a basic HTTP URL map for use in test environments (non https)"
 
+  name        = "http-test"
+  description = "a basic HTTP URL map for use in test environments"
   default_service = google_compute_backend_bucket.image_backend.id
 }
 
 #http proxy ties the url map to the load balancer
 resource "google_compute_target_http_proxy" "test_http_proxy" {
   count = var.environment == "test" ? 1 : 0
-  
   project = module.enabled_google_apis.project_id
+
   name    = "http-test"
   url_map = google_compute_url_map.test_url_map[count.index].id
 }
@@ -163,12 +161,14 @@ resource "google_compute_target_http_proxy" "test_http_proxy" {
 #route traffic to the public ip and tie it to the proxy
 resource "google_compute_global_forwarding_rule" "test_http_forwarding_rule" {
   count = var.environment == "test" ? 1 : 0
-  
   project = module.enabled_google_apis.project_id
+
   name       = "http-test"
   target     = google_compute_target_http_proxy.test_http_proxy[count.index].id
   ip_address = google_compute_global_address.https_public_ip.address
   port_range = "80"
+  ip_protocol           = "TCP"
+
 }
 
 
