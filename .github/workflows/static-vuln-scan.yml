@@ -1,7 +1,9 @@
 name: Run static vulnerability scanning on infrastructure and code
 run-name: Security Scan Pipeline
 on:
-  push:
+  pull_request:
+    branches: 
+      - main
     paths:
       - '.github/workflows/static-vuln-scan.yml'
       - '**.py'
