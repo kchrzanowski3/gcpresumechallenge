@@ -41,5 +41,5 @@ variable "cloudflare_zone_id" {
 
 variable "project_title" {
   type = string
-  default = "resume-challenge-prod-iwxabg"
+  default = "feature-testautomation-14" #"resume-challenge-prod-iwxabg"
 }
