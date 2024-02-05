@@ -79,7 +79,7 @@ data "archive_file" "init" {
 # bucket to upload the zip to create a google function
 resource "google_storage_bucket" "functions_bucket" {
   project = module.enabled_google_apis.project_id
-  name     = "py_function-visitor-counter"
+  name     = "${var.project_title}-py_function-visitor-counter"
   location = "US"
   uniform_bucket_level_access = true
 }

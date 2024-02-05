@@ -1,7 +1,7 @@
 #storage bucket
 resource "google_storage_bucket" "static-site" {
   project = module.enabled_google_apis.project_id
-  name          = "kyle-resume-site"
+  name          = "${var.project_title}-kyle-resume-site"
   location      = "US"
   force_destroy = true
   uniform_bucket_level_access = true
