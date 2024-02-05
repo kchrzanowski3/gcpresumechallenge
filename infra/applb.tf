@@ -102,7 +102,7 @@ resource "google_compute_target_https_proxy" "https" {
   url_map          = google_compute_url_map.https[count.index].id
   ssl_certificates = [google_compute_managed_ssl_certificate.my_certificate[count.index].id]
 
-  depends_on = [ google_compute_managed_ssl_certificate[count.index].my_certificate ]
+  depends_on = [ google_compute_managed_ssl_certificate.my_certificate ]
 }
 
 #create ssl cert
