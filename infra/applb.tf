@@ -76,7 +76,7 @@ resource "google_compute_target_http_proxy" "my_http_proxy" {
   count = var.environment == "prod" ? 1 : 0
   project = module.enabled_google_apis.project_id
   name    = "http-redirect"
-  url_map = google_compute_url_map.my_url_map.self_link
+  url_map = google_compute_url_map.my_url_map[count.index].self_link
 }
 
 #route traffic to the public ip and tie it to the proxy
@@ -99,8 +99,8 @@ resource "google_compute_target_https_proxy" "https" {
   count = var.environment == "prod" ? 1 : 0
   project = module.enabled_google_apis.project_id
   name             = "https-proxy"
-  url_map          = google_compute_url_map.https.id
-  ssl_certificates = [google_compute_managed_ssl_certificate.my_certificate.id]
+  url_map          = google_compute_url_map.https[count.index].id
+  ssl_certificates = [google_compute_managed_ssl_certificate.my_certificate[count.index].id]
 
   depends_on = [ google_compute_managed_ssl_certificate.my_certificate ]
 }
@@ -157,7 +157,7 @@ resource "google_compute_target_http_proxy" "test_http_proxy" {
   
   project = module.enabled_google_apis.project_id
   name    = "http-test"
-  url_map = google_compute_url_map.test_url_map.id
+  url_map = google_compute_url_map.test_url_map[count.index].id
 }
 
 #route traffic to the public ip and tie it to the proxy
