@@ -51,7 +51,7 @@ jobs:
       - name: Convert Project Title Variable
         id: project-name
         run: |
-          output_value=$(${{env.TF_VAR_project_title}}" | tr '/' '-')
+          output_value=$(${{env.TF_VAR_project_title}} | tr '/' '-')
           echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
       #run the terraform that sets up the infrastructure 
