@@ -50,10 +50,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Create TF Cloud Workspace
-        run: terraform workspace new ${{ env.TF_CLOUD_WORKSPACE }}
+        run: terraform workspace new ${{ env.TF_WORKSPACE }}
 
       - name: Switch to TF Cloud Workspace
-        run: terraform workspace select ${{ env.TF_CLOUD_WORKSPACE }}
+        run: terraform workspace select ${{ env.TF_WORKSPACE }}
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
