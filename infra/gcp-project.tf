@@ -1,10 +1,3 @@
-##
-## Create a folder structure that goes: 
-##
-##      Environment  (e.g., Prod/Test)
-##          Project 
-##
-
 data "google_organization" "org" {
   domain = "kylenowski.com"
 }
@@ -14,28 +7,22 @@ data "google_billing_account" "acct" {
   open         = true
 }
 
-# top level folder
-resource "google_folder" "product_folder" {
-  display_name = var.product
-  parent       = "organizations/${ data.google_organization.org.org_id }"
-}
-
-#environment level folder
-resource "google_folder" "environment_folder" {
-  display_name = var.environment
-  parent       = google_folder.product_folder.name
-}
-
 resource "google_project" "deploy_to_project" {
-  name       = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
-  project_id = "${var.product}-${ var.environment }-${ random_string.project_name_suffix.result }"
-  folder_id  = google_folder.environment_folder.id
+  name       = var.project_title
+  project_id = var.project_title
+  folder_id  = data.google_folder.environment_folder.id
   billing_account = var.billing_account #data.google_billing_account.acct.billing_account
 }
 
-resource "random_string" "project_name_suffix" {
-  length           = 6
-  special          = false
-  numeric = false
-  upper = false
+# test or prod folder
+data "google_folder" "environment_folder" {
+  #sets the folder to the prod folder or the test folder depending on what the environment is 
+  folder = var.environment == "prod" ? "953495757565" : "663093161526" 
 }
+
+# resource "random_string" "project_name_suffix" {
+#   length           = 6
+#   special          = false
+#   numeric = false
+#   upper = false
+# }

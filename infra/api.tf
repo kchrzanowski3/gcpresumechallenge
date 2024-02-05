@@ -66,6 +66,19 @@ resource "local_file" "rendered_openapi" {
 }
 
 ##
+## dynamically create and load the main function python file (main.py)
+##
+
+#dynamically inject variables into the cypress spec.cy.js test file 
+resource "local_file" "rendered_python_function" {
+  content = templatefile("${path.module}/main.py.tpl", {
+    app_ip = var.environment == "prod" ? "https://${var.domain}" : "http://${google_compute_global_address.https_public_ip.address}"
+  })
+
+  filename = "${path.module}/api-function/main.py"
+} 
+
+##
 ## Cloud Function to update the db on the back end
 ##
 
@@ -74,12 +87,14 @@ data "archive_file" "init" {
   type        = "zip"
   source_dir = "${path.module}/api-function"
   output_path = "${path.module}/api-function.zip"
+
+  depends_on = [ local_file.rendered_python_function ]
 }
 
 # bucket to upload the zip to create a google function
 resource "google_storage_bucket" "functions_bucket" {
   project = module.enabled_google_apis.project_id
-  name     = "py_function-visitor-counter"
+  name     = "${var.project_title}-py_function-visitor-counter"
   location = "US"
   uniform_bucket_level_access = true
 }

@@ -2,12 +2,11 @@
 terraform {
   cloud {
     organization = "kylechrzanowski"
-
     workspaces {
-      #project = "${local.terraform_workspace}"
-      name = "infrastructure"
+      project = "gcpresumechallenge"
+      #name = "infrastructure-test"
     }
-  }
+  } 
 
   required_providers {
     cloudflare = {
