@@ -1,7 +1,44 @@
+.hero {
+  background-color: #f0f0f0; /* Light gray */
+  text-align: center;
+  padding: 10px 0; 
+  
+}
+
+.featured-experience {
+  margin: 30px auto;
+  width: 80%; 
+  background-color: white;
+}
+
+.left-column {
+  width: 65%; /* Adjust the balance between the columns */
+  float: left;
+  margin-left: 2%;
+  vertical-align: top;
+}
+
+.right-column {
+  margin-top: 55px;
+  width: 30%; /* Make sure this adds up to around 100% with left-column */
+  float: left;  /* Or 'float:right' if desired */
+  margin-left: 0%; /* Adds space between columns */
+  margin-right: 3%;
+  vertical-align: top;
+}
+
+/* Styling Within the Right Column */
+.experience, .certifications, .education, .publications, .skills {
+   margin-bottom: 30px; /* Space between sections in the right column */ 
+}
+
+/* Styling Within the Left Column */
+.mandiant, .google, .attconsultant, .cyberdevprogram {
+   margin-bottom: 30px; /* Space between sections in the right column */ 
+}
 
 html {
   font-size: 12px; /* px means "pixels": the base font size is now 10 pixels high */
-  font-family: "Open Sans", sans-serif; /* this should be the rest of the output you got from Google Fonts */
 }
 
 h1 {
@@ -12,17 +49,17 @@ h1 {
 
 h3 {
   margin: 0 auto;
-  padding: 0 0px 0px 20px;
+  padding: 0 0px 5px 0px;
 }
 
 h4 {
   margin: 0 auto;
-  padding: 0 0px 0px 40px;
+  padding: 0 0px 0px 20px;
 }
 
 h5 {
   margin: 0 auto;
-  padding: 0 0px 0px 60px;
+  padding: 0 0px 0px 40px;
 }
 
 #center {
@@ -31,27 +68,93 @@ h5 {
 }
 
 #bullet1 {
+  margin: 0 40;
+  padding: 0 0px 0px 0px;
+  margin-left: 15px;
+}
 
-  margin: 0 100;
+#bullet2 {
+  margin: 0 40;
   padding: 0 0px 0px 00px;
   margin-left: 40px;
 }
 
-#bullet2 {
-  margin: 0 100;
-  padding: 0 0px 0px 00px;
-  margin-left: 60px;
-}
-
-body {
-  width: 800px;
-  margin: 0 auto;
-  padding: 0 20px 20px 20px;
-  border: 5px solid black;
+ul {
+  margin-top: 0
 }
 
 #email {
   font-size: 12px;
   text-align: center;
-  background-color: #00539f;
+}
+
+body {
+   font-family: "Open Sans", sans-serif; 
+}
+
+.featured-experience h2 {
+    text-align: left;
+}
+
+.google-color1, .google-color2, .google-color3, .google-color4 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 70px;
+}
+
+.google-color1 {
+  color: #4285F4; /* Google Blue */
+}
+
+.google-color2 {
+  color: #EA4335; /* Google Red */
+}
+
+.google-color3 {
+  color: #FBBC05; /* Google Yellow */
+}
+
+.google-color4 {
+  color: #34A853; /* Google Green */
+}
+
+.search-container {
+  width: 400px;  /* Adjust as desired */
+  margin: 0 auto; 
+  padding: 15px;
+}
+
+.search-box {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #dfe1e5;
+  border-radius: 25px;  
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search-button, .lucky-button {
+  border: none; 
+  border-radius: 4px; /* Slightly less rounded than search box */
+  padding: 8px 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s; /* Smooth hover effect */
+}
+
+.search-button {
+  background-color: #f2f2f2; 
+  color: #5f6368; 
+}
+
+.search-button:hover {
+  background-color: #e8e8e8; 
+}
+
+.lucky-button {
+  background-color: #4285f4; /* Google Blue */
+  color: white;
+}
+
+.lucky-button:hover {
+  background-color: #3367d6; /* Darker blue on hover */
 }
