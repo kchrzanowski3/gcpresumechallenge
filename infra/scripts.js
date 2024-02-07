@@ -5,9 +5,6 @@ function totalvisitors() {
         .then(data => console.log(data));
 }
 
-
-
-
 function dropdowns() {
     const questionBoxes = document.querySelectorAll('.question-box');
 
