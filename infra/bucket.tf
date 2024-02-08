@@ -31,6 +31,10 @@ resource "google_storage_bucket_object" "css" {
   name   = "style.css"
   source = "../style.css"
   bucket = google_storage_bucket.static-site.name
+
+  # required for css file to be imported by html, i spent several hours trying to figure this out
+  content_type = "text/css"
+  
 }
 
 #substitute the api gateway link into the javascript file
