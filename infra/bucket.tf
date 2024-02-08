@@ -39,7 +39,7 @@ resource "local_file" "script_file" {
     api_link = "https://${google_api_gateway_gateway.api_gw.default_hostname}/${local.api_path}"
   })
 
-  filename = "${path.module}/scripts.js"
+  filename = "../scripts.js"
 }
 
 #upload scripts.js file
