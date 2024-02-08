@@ -10,3 +10,4 @@
 */.terraform/*
 */.terraform.lock.hcl
 *secrets.env
+manual-terraform-management/*

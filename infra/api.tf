@@ -22,9 +22,6 @@ resource "google_api_gateway_api_config" "api_config" {
       contents = local.config_base64
     }
   }
-  lifecycle {
-    create_before_destroy = true
-  }
   depends_on = [ local_file.rendered_openapi ]
 }
 
@@ -72,7 +69,7 @@ resource "local_file" "rendered_openapi" {
 #dynamically inject variables into the cypress spec.cy.js test file 
 resource "local_file" "rendered_python_function" {
   content = templatefile("${path.module}/main.py.tpl", {
-    app_ip = var.environment == "prod" ? "https://${var.domain}" : "http://${google_compute_global_address.https_public_ip.address}"
+    app_ip = var.environment == "prod" ? "https://${var.domain}" : "*"  #http://${google_compute_global_address.https_public_ip.address}"
   })
 
   filename = "${path.module}/api-function/main.py"

@@ -1,7 +1,7 @@
 function totalvisitors() {
     fetch('${api_link}')
         .then(res => res.json())
-        .then(res => {document.getElementById("counter").innerHTML = Number(res.body.count)})
+        .then(res => {document.getElementById("visitorCount").innerHTML = Number(res.body.count)})
         .then(data => console.log(data));
 }
 
@@ -22,4 +22,10 @@ function dropdowns(event) {
     }
 }
     
-    
+function linkedinredirect() {
+    window.location.href = "https://www.linkedin.com/in/kylechrzanowski/"; // Replace with your target URL
+}
+
+function emailme() {
+    window.location.href = "mailto:kylenowski@google.com?subject=Nice to Meet You! &body=Hi Kyle, I saw your website and..."; 
+}

@@ -1,5 +1,5 @@
 function totalvisitors() {
-    fetch('https://kyle-resume-api-gateway-3ti78e4q.ue.gateway.dev/getvisitors')
+    fetch('https://kyle-resume-api-gateway-6qm4k23f.ue.gateway.dev/getvisitors')
         .then(res => res.json())
         .then(res => {document.getElementById("visitorCount").innerHTML = Number(res.body.count)})
         .then(data => console.log(data));
@@ -22,4 +22,10 @@ function dropdowns(event) {
     }
 }
     
-    
+function linkedinredirect() {
+    window.location.href = "https://www.linkedin.com/in/kylechrzanowski/"; // Replace with your target URL
+}
+
+function emailme() {
+    window.location.href = "mailto:kylenowski@google.com?subject=Nice to Meet You! &body=Hi Kyle, I saw your website and..."; 
+}
