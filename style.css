@@ -262,8 +262,11 @@ body {
 }
 
 .answer {
-  display: none; /*  Initially hidden */
+  display: block; /*  Initially hidden */
   margin-top: 20px; 
-  margin-left: 12px;
+  margin-left: 12px; 
 }
 
+.answer.show {
+  display: none; 
+}

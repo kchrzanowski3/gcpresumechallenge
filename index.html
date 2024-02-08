@@ -4,6 +4,7 @@
 <!--- The head sets the page attributes --->
 
 <head>
+    <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/apexcharts@3.40.0/dist/apexcharts.min.js"></script>
     <link type="text/css" rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/apexcharts@3.40.0/dist/apexcharts.min.css" />
@@ -21,6 +22,8 @@
     <title>Kyle's Resume</title>
 </head>
 
+<body>
+    <script src="scripts.js"></script>
 <h1>
     <span class="google-color1">K</span><span class="google-color2">y</span><span class="google-color3">l</span><span class="google-color1">e </span><span class="google-color4">C</span><span class="google-color2">h</span><span class="google-color1">r</span><span class="google-color2">z</span><span class="google-color3">a</span><span class="google-color1">n</span><span class="google-color4">o</span><span class="google-color2">w</span><span class="google-color1">s</span><span class="google-color2">k</span><span class="google-color3">i</span>
 </h1>
@@ -55,7 +58,7 @@
 
 <h2 class="people-ask">People also ask</h2>
 
-<div class="question-box" onclick="dropdowns()">
+<div class="question-box" onclick="dropdowns(event)">
     <div class="question">
         Summary <span class="expand-icon">+</span>
     </div>
@@ -71,7 +74,7 @@
     </div>
 </div>
 
-<div class="question-box">
+<div class="question-box" onclick="dropdowns(event)">
     <div class="question">
         Certifications <span class="expand-icon">+</span>
     </div>
@@ -201,6 +204,7 @@
     </section>
 </section>
 
-<script src="scripts.js"></script>
+
+</body>
 
 </html>
