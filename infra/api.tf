@@ -22,9 +22,6 @@ resource "google_api_gateway_api_config" "api_config" {
       contents = local.config_base64
     }
   }
-  lifecycle {
-    create_before_destroy = true
-  }
   depends_on = [ local_file.rendered_openapi ]
 }
 
