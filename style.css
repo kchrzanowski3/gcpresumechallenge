@@ -1,22 +1,25 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
 
 
 .hero {
-  background-color: #f0f0f0; /* Light gray */
+  background-color: #f0f0f0;
+  /* Light gray */
   text-align: center;
-  padding: 10px 0; 
-  
+  padding: 10px 0;
+
 }
 
 .featured-experience {
   margin: 30px auto;
-  width: 80%; 
+  width: 80%;
   background-color: white;
 }
 
 .left-column {
-  width: 65%; /* Adjust the balance between the columns */
+  width: 80%;
+  /* Adjust the balance between the columns */
   float: left;
   margin-left: 2%;
   vertical-align: top;
@@ -24,25 +27,38 @@
 
 .right-column {
   margin-top: 55px;
-  width: 30%; /* Make sure this adds up to around 100% with left-column */
-  float: left;  /* Or 'float:right' if desired */
-  margin-left: 0%; /* Adds space between columns */
+  width: 30%;
+  /* Make sure this adds up to around 100% with left-column */
+  float: left;
+  /* Or 'float:right' if desired */
+  margin-left: 0%;
+  /* Adds space between columns */
   margin-right: 3%;
   vertical-align: top;
 }
 
 /* Styling Within the Right Column */
-.experience, .certifications, .education, .publications, .skills {
-   margin-bottom: 30px; /* Space between sections in the right column */ 
+.experience,
+.certifications,
+.education,
+.publications,
+.skills {
+  margin-bottom: 30px;
+  /* Space between sections in the right column */
 }
 
 /* Styling Within the Left Column */
-.mandiant, .google, .attconsultant, .cyberdevprogram {
-   margin-bottom: 30px; /* Space between sections in the right column */ 
+.mandiant,
+.google,
+.attconsultant,
+.cyberdevprogram {
+  margin-bottom: 30px;
+  /* Space between sections in the right column */
 }
 
 html {
-  font-size: 12px; /* px means "pixels": the base font size is now 10 pixels high */
+  font-size: 12px;
+  /* px means "pixels": the base font size is now 10 pixels high */
 }
 
 h1 {
@@ -93,37 +109,45 @@ ul {
 }
 
 body {
-   font-family: "Open Sans", sans-serif; 
+  font-family: "Open Sans", sans-serif;
 }
 
 .featured-experience h2 {
-    text-align: left;
+  text-align: left;
 }
 
-.google-color1, .google-color2, .google-color3, .google-color4 {
+.google-color1,
+.google-color2,
+.google-color3,
+.google-color4 {
   font-family: "Open Sans", sans-serif;
   font-size: 70px;
 }
 
 .google-color1 {
-  color: #4285F4; /* Google Blue */
+  color: #4285F4;
+  /* Google Blue */
 }
 
 .google-color2 {
-  color: #EA4335; /* Google Red */
+  color: #EA4335;
+  /* Google Red */
 }
 
 .google-color3 {
-  color: #FBBC05; /* Google Yellow */
+  color: #FBBC05;
+  /* Google Yellow */
 }
 
 .google-color4 {
-  color: #34A853; /* Google Green */
+  color: #34A853;
+  /* Google Green */
 }
 
 .search-container {
-  width: 500px;  /* Adjust as desired */
-  margin: 0 auto; 
+  width: 500px;
+  /* Adjust as desired */
+  margin: 0 auto;
   padding: 15px;
 }
 
@@ -131,85 +155,106 @@ body {
   width: 100%;
   padding: 10px 15px;
   border: 1px solid #dfe1e5;
-  border-radius: 25px;  
+  border-radius: 25px;
   font-family: 'Open Sans', sans-serif;
 }
 
-.search-button, .lucky-button {
-  border: none; 
-  border-radius: 4px; /* Slightly less rounded than search box */
+.search-button,
+.lucky-button {
+  border: none;
+  border-radius: 4px;
+  /* Slightly less rounded than search box */
   padding: 8px 16px;
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s; /* Smooth hover effect */
+  transition: background-color 0.2s;
+  /* Smooth hover effect */
 }
 
 .search-button {
-  background-color: #f2f2f2; 
-  color: #5f6368; 
-  margin:20px;
+  background-color: #f2f2f2;
+  color: #5f6368;
+  margin: 20px;
   width: 200px;
 }
 
 .left-button {
-  width: 50%; /* Make sure this adds up to around 100% with left-column */
-  float: left;  /* Or 'float:right' if desired */
-  margin-left: 0%; /* Adds space between columns */
+  width: 50%;
+  /* Make sure this adds up to around 100% with left-column */
+  float: left;
+  /* Or 'float:right' if desired */
+  margin-left: 0%;
+  /* Adds space between columns */
   margin-right: 0%;
   vertical-align: top;
 }
 
 .right-button {
-  width: 50%; /* Make sure this adds up to around 100% with left-column */
-  float: right;  /* Or 'float:right' if desired */
-  margin-left: 0%; /* Adds space between columns */
+  width: 50%;
+  /* Make sure this adds up to around 100% with left-column */
+  float: right;
+  /* Or 'float:right' if desired */
+  margin-left: 0%;
+  /* Adds space between columns */
   margin-right: 0%;
   vertical-align: top;
 }
 
 .search-button:hover {
-  background-color: 
-  #3367d6; /* Darker blue on hover */
+  background-color:
+    #3367d6;
+  /* Darker blue on hover */
   color: white;
 }
 
 .lucky-button {
-  background-color: #f2f2f2; 
-  color: #5f6368; 
-  margin:20px;
+  background-color: #f2f2f2;
+  color: #5f6368;
+  margin: 20px;
   width: 200px;
 }
 
 .lucky-button:hover {
-  background-color: #3367d6; /* Darker blue on hover */
+  background-color: #3367d6;
+  /* Darker blue on hover */
   color: white;
 }
 
 .recent-searches {
-  display: none; /* Hidden by default */
-  position: absolute; /* Allows placement relative to search box */
+  display: none;
+  /* Hidden by default */
+  position: absolute;
+  /* Allows placement relative to search box */
   background-color: white;
   border: 1px solid #ddd;
-  box-sizing: border-box;  /* To ensure padding doesn't add to the width */
-  max-height: 300px;  /* Limit the max height of the dropdown */
-  overflow-y: auto;   /* Add scroll if too many items */
+  box-sizing: border-box;
+  /* To ensure padding doesn't add to the width */
+  max-height: 300px;
+  /* Limit the max height of the dropdown */
+  overflow-y: auto;
+  /* Add scroll if too many items */
   width: 500px;
 }
 
-.recent-searches li { 
+.recent-searches li {
   cursor: pointer;
-  font-family: 'Roboto', 'Arial Neue', Arial, sans-serif; /* Google's primary fonts */
-  font-size: 14px; /* Approx. size, adjust slightly as needed */
-  line-height: 1.5; /* Comfortable line spacing */
-  padding: 5px; 
-  color: rgb(65,33,125); /*google recent search history color*/
+  font-family: 'Roboto', 'Arial Neue', Arial, sans-serif;
+  /* Google's primary fonts */
+  font-size: 14px;
+  /* Approx. size, adjust slightly as needed */
+  line-height: 1.5;
+  /* Comfortable line spacing */
+  padding: 5px;
+  color: rgb(65, 33, 125);
+  /*google recent search history color*/
   list-style: none;
   margin-left: -30px;
-  
+
   background-image: url('https://cdn-icons-png.flaticon.com/512/109/109613.png');
-  background-repeat: no-repeat; 
-  padding-left: 45px;  /* Space for the bullet image */
+  background-repeat: no-repeat;
+  padding-left: 45px;
+  /* Space for the bullet image */
   background-size: 15px 15px;
   vertical-align: middle;
   background-position: 5px center;
@@ -219,58 +264,145 @@ body {
   background-color: #f0f0f0;
 }
 
-.search-box:focus + .recent-searches { 
-  display: block; /* Show on search box focus */
+.search-box:focus+.recent-searches {
+  display: block;
+  /* Show on search box focus */
 }
 
 .result-stats {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: "Google Sans",Roboto,arial,sans-serif;
+  font-family: "Google Sans", Roboto, arial, sans-serif;
   padding-top: 0;
   padding-bottom: 0;
   padding-right: 8px;
-  color: rgb(113,117,121);
+  color: rgb(113, 117, 121);
   font-size: 14px;
 
-  border-top: 1px solid rgb(218,220,224);
+  border-top: 1px solid rgb(218, 220, 224);
 }
 
 .people-ask {
-  font-family: Roboto,arial,sans-serif;
+  font-family: Roboto, arial, sans-serif;
   font-size: 22px;
   font-weight: 400;
   line-height: 28px;
 }
 
 .question-box {
-  border-top: 1px solid rgb(218,220,224);
-  border-bottom: 1px solid rgb(218,220,224);
+  border-top: 1px solid rgb(218, 220, 224);
+  border-bottom: 1px solid rgb(218, 220, 224);
   padding: 15px;
-  cursor: pointer; /* Indicate interactivity */
+  cursor: pointer;
+  /* Indicate interactivity */
   width: 80%;
 }
 
 .question {
-  flex:1;
-  margin:12px;
+  flex: 1;
+  margin: 12px;
   cursor: pointer;
   font-size: 16px;
-  font-family: Roboto,arial,sans-serif;
+  font-family: Roboto, arial, sans-serif;
   color: #202124;
 }
 
-.expand-icon { 
-  float: right; 
+.expand-icon {
+  float: right;
 }
 
 .answer {
-  display: none; /*  Initially hidden */
-  margin-top: 20px; 
-  margin-left: 12px; 
+  display: none;
+  /*  Initially hidden */
+  margin-top: 20px;
+  margin-left: 12px;
 }
 
 .answer.show {
-  display: block; 
+  display: block;
+}
+
+.logo-google {
+  width: 32px; 
+  height: 32px; 
+  background-image: url('https://somesha.io/wp-content/uploads/2019/04/Google-Cloud-Logo-Lockup-MAIN-png-1-300x300.png');
+  background-repeat: no-repeat;
+  background-size: 32px 32px;
+  background-color: rgb(242,243,243);
+  border-radius: 50%;
+  margin-right: 10px;
+
+  float: left;      
+}
+
+.logo-mandiant {
+  width: 32px; 
+  height: 32px; 
+  background-image: url('https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/xnufnefxfasirgroxqws');
+  background-repeat: no-repeat;
+  background-size: 32px 32px;
+  background-color: rgb(242,243,243);
+  border-radius: 50%;
+  margin-right: 10px;
+
+  float: left;      
+}
+
+.logo-att {
+  width: 32px; 
+  height: 32px; 
+  background-image: url('https://www.att.com/ecms/dam/att/consumer/global/logos/att_globe_500x500.jpg');
+  background-repeat: no-repeat;
+  background-size: 32px 32px;
+  background-color: rgb(242,243,243);
+  border-radius: 50%;
+  margin-right: 10px;
+
+  float: left;      
+}
+
+.company-name-bar {
+  display: flex;  /* Use Flexbox for easy alignment */
+  align-items: center; /* Vertically center the elements */
+  width: 500px;
+}
+
+.company-info {
+  width: 450px;
+  height: 50px;
+}
+
+.company-name {
+  font-family: Roboto,arial,sans-serif;
+  font-size: 14px;
+  color: #202124;
+  line-height: 20px;
+}
+
+.company-link {
+  font-family: Roboto,arial,sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  color: #4d5156;
+}
+
+.role-title {
+  color: #681da8;
+  font-size: 20px;
+  line-height: 26px;
+  font-family: Roboto,arial,sans-serif;
+  margin-top: 1px;
+  margin-bottom: 4px;
+  
+}
+
+.experience-bullets {
+  font-size: 14px;
+  color: #4d5156;
+  font-family: Roboto,arial,sans-serif;
+  padding: 0;
+  list-style-type: none;
+  line-height: 1.58;
+  margin-right: 5px;
 }
