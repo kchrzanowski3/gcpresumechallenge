@@ -68,13 +68,13 @@ h5 {
 }
 
 #bullet1 {
-  margin: 0 40;
+  margin: 0 40px;
   padding: 0 0px 0px 0px;
   margin-left: 15px;
 }
 
 #bullet2 {
-  margin: 0 40;
+  margin: 0 40px;
   padding: 0 0px 0px 00px;
   margin-left: 40px;
 }
@@ -201,7 +201,7 @@ body {
   padding: 5px; 
   color: rgb(65,33,125); /*google recent search history color*/
   list-style: none;
-  margin-left: -30;
+  margin-left: -30px;
   
   background-image: url('https://cdn-icons-png.flaticon.com/512/109/109613.png');
   background-repeat: no-repeat; 
