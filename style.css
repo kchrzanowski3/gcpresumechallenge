@@ -223,7 +223,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: Google Sans,Roboto,arial,sans-serif;
+  font-family: "Google Sans",Roboto,arial,sans-serif;
   padding-top: 0;
   padding-bottom: 0;
   padding-right: 8px;
