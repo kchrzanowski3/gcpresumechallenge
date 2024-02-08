@@ -289,7 +289,7 @@ body {
 }
 
 .answer.show {
-  display: block;
+  display: block;  
 }
 
 .logo-google {
@@ -378,3 +378,4 @@ body {
   line-height: 1.58;
   margin-right: 5px;
 }
+
