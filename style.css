@@ -11,11 +11,6 @@
 
 }
 
-.featured-experience {
-  margin: 30px auto;
-  width: 80%;
-  background-color: white;
-}
 
 .left-column {
   width: 80%;
@@ -25,36 +20,6 @@
   vertical-align: top;
 }
 
-.right-column {
-  margin-top: 55px;
-  width: 30%;
-  /* Make sure this adds up to around 100% with left-column */
-  float: left;
-  /* Or 'float:right' if desired */
-  margin-left: 0%;
-  /* Adds space between columns */
-  margin-right: 3%;
-  vertical-align: top;
-}
-
-/* Styling Within the Right Column */
-.experience,
-.certifications,
-.education,
-.publications,
-.skills {
-  margin-bottom: 30px;
-  /* Space between sections in the right column */
-}
-
-/* Styling Within the Left Column */
-.mandiant,
-.google,
-.attconsultant,
-.cyberdevprogram {
-  margin-bottom: 30px;
-  /* Space between sections in the right column */
-}
 
 html {
   font-size: 12px;
@@ -110,10 +75,6 @@ ul {
 
 body {
   font-family: "Open Sans", sans-serif;
-}
-
-.featured-experience h2 {
-  text-align: left;
 }
 
 .google-color1,
@@ -281,6 +242,13 @@ body {
   font-size: 14px;
 
   border-top: 1px solid rgb(218, 220, 224);
+  margin-left: 2%;
+}
+
+.people-ask-box {
+  padding-bottom: 40;
+  margin-left: 2%;
+  max-width: 600px;
 }
 
 .people-ask {
@@ -288,20 +256,21 @@ body {
   font-size: 22px;
   font-weight: 400;
   line-height: 28px;
+  
 }
 
 .question-box {
   border-top: 1px solid rgb(218, 220, 224);
   border-bottom: 1px solid rgb(218, 220, 224);
-  padding: 15px;
-  cursor: pointer;
-  /* Indicate interactivity */
+  padding: 12px;
+  cursor: pointer; /* Indicate interactivity */
   width: 80%;
+  
 }
 
 .question {
   flex: 1;
-  margin: 12px;
+  margin: 1px;
   cursor: pointer;
   font-size: 16px;
   font-family: Roboto, arial, sans-serif;
@@ -316,7 +285,7 @@ body {
   display: none;
   /*  Initially hidden */
   margin-top: 20px;
-  margin-left: 12px;
+  margin-left: 1px;
 }
 
 .answer.show {
@@ -358,8 +327,11 @@ body {
   background-color: rgb(242,243,243);
   border-radius: 50%;
   margin-right: 10px;
-
   float: left;      
+}
+
+.company {
+  max-width: 600px;
 }
 
 .company-name-bar {
@@ -388,7 +360,7 @@ body {
 }
 
 .role-title {
-  color: #681da8;
+  color: rgb(18,31,167);
   font-size: 20px;
   line-height: 26px;
   font-family: Roboto,arial,sans-serif;

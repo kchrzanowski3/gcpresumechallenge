@@ -19,7 +19,7 @@
 
 <body>
     <h1>
-        <span class="google-color1">K</span><span class="google-color2">y</span><span class="google-color3">l</span><span class="google-color1">e </span><span class="google-color4">C</span><span class="google-color2">h</span><span class="google-color1">r</span><span class="google-color2">z</span><span class="google-color3">a</span><span class="google-color1">n</span><span class="google-color4">o</span><span class="google-color2">w</span><span class="google-color1">s</span><span class="google-color2">k</span><span class="google-color3">i</span>
+        <span class="google-color1">K</span><span class="google-color3">y</span><span class="google-color4">l</span><span class="google-color2">e </span><span class="google-color4">C</span><span class="google-color2">h</span><span class="google-color1">r</span><span class="google-color2">z</span><span class="google-color3">a</span><span class="google-color1">n</span><span class="google-color4">o</span><span class="google-color2">w</span><span class="google-color1">s</span><span class="google-color2">k</span><span class="google-color3">i</span>
     </h1>
 
     <div class="search-container">
@@ -39,7 +39,7 @@
 
 
         <div class="left-button">
-            <button class="search-button">Connect</button>
+            <button class="search-button" onclick="linkedinredirect">Connect</button>
         </div>
         <div class="right-button">
             <button class="lucky-button">I'm Feeling Chatty</button>
@@ -54,64 +54,66 @@
         <p> About 24,700,000,000 results (<span id="visitorCount"></span> total visitors) </p>
     </section>
 
-    <h2 class="people-ask">People also ask</h2>
+    <div class="people-ask-box">
+        <h2 class="people-ask">People also ask</h2>
 
-    <div class="question-box" onclick="dropdowns(event)">
-        <div class="question">
-            Summary <span class="expand-icon">+</span>
+        <div class="question-box" onclick="dropdowns(event)">
+            <div class="question">
+                Summary <span class="expand-icon">+</span>
+            </div>
+            <div class="answer">
+                <p> Strategic thinking Cybersecurity Consultant with a demonstrated ability to operate in in
+                    large Fortune 500 enterprises and rapidly shift from leading highly technical and global cybersecurity
+                    teams, to acting as a security SME, to influencing C-suite/Executive stakeholders.</p>
+                <p> Passionate about transforming the way that cybersecurity organizations get work done,
+                    using lean manufacturing and DevSecOps principles so that businesses realize growth opportunities by
+                    maximizing security's speed and throughput in business value streams, delivering risk mitigation
+                    reliably
+                    and predictably, flexibly adapting and aligning with business strategy, identifying, improving, and
+                    harnessing bottlenecks, and creating a culture of cross-functional partnership and innovation.</p>
+            </div>
         </div>
-        <div class="answer">
-            <p> Strategic thinking Cybersecurity Consultant with a demonstrated ability to operate in in
-                large Fortune 500 enterprises and rapidly shift from leading highly technical and global cybersecurity
-                teams, to acting as a security SME, to influencing C-suite/Executive stakeholders.</p>
-            <p> Passionate about transforming the way that cybersecurity organizations get work done,
-                using lean manufacturing and DevSecOps principles so that businesses realize growth opportunities by
-                maximizing security's speed and throughput in business value streams, delivering risk mitigation
-                reliably
-                and predictably, flexibly adapting and aligning with business strategy, identifying, improving, and
-                harnessing bottlenecks, and creating a culture of cross-functional partnership and innovation.</p>
+        <div class="question-box" onclick="dropdowns(event)">
+            <div class="question">
+                Certifications <span class="expand-icon">+</span>
+            </div>
+            <div class="answer">
+                <ul>
+                    <li>Certified Information Security Systems Professional (CISSP)</li>
+                    <li>Certified SAFe 5 Product Owner/Product Manager</li>
+                    <li>Google Cloud Digital Leader</li>
+                    <li>Certificate of Cloud Security Knowledge (CCSK)</li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="question-box" onclick="dropdowns(event)">
-        <div class="question">
-            Certifications <span class="expand-icon">+</span>
+        <div class="question-box" onclick="dropdowns(event)">
+            <div class="question">
+                Education <span class="expand-icon">+</span>
+            </div>
+            <div class="answer">
+                <ul>
+                    <li>Georgia Institute of Technology (Georgia Tech)</li>
+                    <li>B.S. Electrical Engineering</li>
+                </ul>
+            </div>
         </div>
-        <div class="answer">
-            <ul>
-                <li>Certified Information Security Systems Professional (CISSP)</li>
-                <li>Certified SAFe 5 Product Owner/Product Manager</li>
-                <li>Google Cloud Digital Leader</li>
-                <li>Certificate of Cloud Security Knowledge (CCSK)</li>
-            </ul>
-        </div>
-    </div>
-    <div class="question-box" onclick="dropdowns(event)">
-        <div class="question">
-            Education <span class="expand-icon">+</span>
-        </div>
-        <div class="answer">
-            <ul>
-                <li>Georgia Institute of Technology (Georgia Tech)</li>
-                <li>B.S. Electrical Engineering</li>
-            </ul>
-        </div>
-    </div>
-    <div class="question-box" onclick="dropdowns(event)">
-        <div class="question">
-            Blogs & Publications <span class="expand-icon">+</span>
-        </div>
-        <div class="answer">
-            <ul>
-                <li><a href="https://www.mandiant.com/resources/blog/time-nameless-apt">Accelerated Cyber
-                        Transformation:
-                        Time. The Nameless APT</a></li>
-                <li><a
-                        href="https://cybersecurity.att.com/blogs/security-essentials/lessons-learned-conducting-an-information-security-risk-assessment">Lessons
-                        Learned Conducting an Information Security Risk Assessment </a></li>
-                <li><a
-                        href="https://cybersecurity.att.com/blogs/security-essentials/lessons-learned-conducting-an-information-security-risk-assessment">Lessons
-                        Learned From Developing an Inventory of Systems</a></li>
-            </ul>
+        <div class="question-box" onclick="dropdowns(event)">
+            <div class="question">
+                Blogs & Publications <span class="expand-icon">+</span>
+            </div>
+            <div class="answer">
+                <ul>
+                    <li><a href="https://www.mandiant.com/resources/blog/time-nameless-apt">Accelerated Cyber
+                            Transformation:
+                            Time. The Nameless APT</a></li>
+                    <li><a
+                            href="https://cybersecurity.att.com/blogs/security-essentials/lessons-learned-conducting-an-information-security-risk-assessment">Lessons
+                            Learned Conducting an Information Security Risk Assessment </a></li>
+                    <li><a
+                            href="https://cybersecurity.att.com/blogs/security-essentials/lessons-learned-conducting-an-information-security-risk-assessment">Lessons
+                            Learned From Developing an Inventory of Systems</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -122,7 +124,7 @@
 
 
     <section class="left-column">
-        <h2>Work Experience</h2>
+        <h2 class="people-ask">Work Experience</h2>
 
         <div class="company">
             <div class="company-name-bar">
@@ -250,10 +252,6 @@
 
         </section>
     </section>
-
-
-
-
 
 </body>
 
