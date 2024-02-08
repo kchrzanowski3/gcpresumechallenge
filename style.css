@@ -1,3 +1,8 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap)
+
+
 .hero {
   background-color: #f0f0f0; /* Light gray */
   text-align: center;
@@ -262,11 +267,11 @@ body {
 }
 
 .answer {
-  display: block; /*  Initially hidden */
+  display: none; /*  Initially hidden */
   margin-top: 20px; 
   margin-left: 12px; 
 }
 
 .answer.show {
-  display: none; 
+  display: block; 
 }

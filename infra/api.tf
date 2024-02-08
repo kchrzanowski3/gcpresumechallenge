@@ -72,7 +72,7 @@ resource "local_file" "rendered_openapi" {
 #dynamically inject variables into the cypress spec.cy.js test file 
 resource "local_file" "rendered_python_function" {
   content = templatefile("${path.module}/main.py.tpl", {
-    app_ip = var.environment == "prod" ? "https://${var.domain}" : "http://${google_compute_global_address.https_public_ip.address}"
+    app_ip = var.environment == "prod" ? "https://${var.domain}" : "*"  #http://${google_compute_global_address.https_public_ip.address}"
   })
 
   filename = "${path.module}/api-function/main.py"
