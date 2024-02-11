@@ -18,6 +18,8 @@
   float: left;
   margin-left: 2%;
   vertical-align: top;
+  padding-bottom: 100px;
+
 }
 
 
@@ -259,6 +261,16 @@ body {
   
 }
 
+.work-experience {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  font-family: Roboto, arial, sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 28px;
+  
+}
+
 .question-box {
   border-top: 1px solid rgb(218, 220, 224);
   border-bottom: 1px solid rgb(218, 220, 224);
@@ -337,7 +349,13 @@ body {
 .company-name-bar {
   display: flex;  /* Use Flexbox for easy alignment */
   align-items: center; /* Vertically center the elements */
-  width: 500px;
+  max-width: 700px;
+}
+
+.role-dates {
+  width: 100px;
+  text-align: right;
+  margin-left:auto;
 }
 
 .company-info {
@@ -366,15 +384,14 @@ body {
   font-family: Roboto,arial,sans-serif;
   margin-top: 1px;
   margin-bottom: 4px;
-  
 }
 
 .experience-bullets {
   font-size: 14px;
   color: #4d5156;
   font-family: Roboto,arial,sans-serif;
-  padding: 0;
-  list-style-type: none;
+  padding-left: 15px;
+  list-style-type:disc;
   line-height: 1.58;
   margin-right: 5px;
 }
