@@ -307,7 +307,7 @@ body {
 .logo-google {
   width: 32px; 
   height: 32px; 
-  background-image: url('https://somesha.io/wp-content/uploads/2019/04/Google-Cloud-Logo-Lockup-MAIN-png-1-300x300.png');
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png');
   background-repeat: no-repeat;
   background-size: 32px 32px;
   background-color: rgb(242,243,243);
@@ -320,7 +320,7 @@ body {
 .logo-mandiant {
   width: 32px; 
   height: 32px; 
-  background-image: url('https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/xnufnefxfasirgroxqws');
+  background-image: url('https://store-images.s-microsoft.com/image/apps.39472.e87bf6e9-52a7-455d-9ec2-2ee9828d2043.27e00106-3526-4987-a4ce-a0d1a9c509d2.6b3e1510-179b-4f7e-9c71-04dcef176ffc');
   background-repeat: no-repeat;
   background-size: 32px 32px;
   background-color: rgb(242,243,243);
@@ -344,23 +344,20 @@ body {
 
 .company {
   max-width: 700px;
+  padding-bottom: 20px;
 }
 
 .company-name-bar {
   display: flex;  /* Use Flexbox for easy alignment */
   align-items: center; /* Vertically center the elements */
   max-width: 700px;
+  padding-bottom: 8px;
 }
 
 .role-dates {
   width: 100px;
   text-align: right;
   margin-left:auto;
-}
-
-.company-info {
-  width: 450px;
-  height: 50px;
 }
 
 .company-name {
