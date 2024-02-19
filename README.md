@@ -13,7 +13,7 @@ The below diagram depicts the cloud infrastructure hosting: <https://kylenowski.
   
   
 ## Pipeline Architecture Diagram
-The below diagram depicts the various pipelines in this project  
+The below diagram depicts the various pipelines in this project.  
 
 ![GCP Architecture](readme-images/pipeline.png?raw=true)
   
