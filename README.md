@@ -2,7 +2,7 @@ Cloud Architecture Diagram
 
 The below diagram depicts the cloud infrastructure hosting: <https://kylenowski.com>
 
-![CI/CD Pipeline](https://github.com/kchrzanowski3/gcpresumechallenge/blob/main/readme-images/pipeline.png?raw=true)
+![CI/CD Pipeline](readme-images/pipeline.png?raw=true)
 
 Highlights:
 
@@ -20,7 +20,7 @@ Pipeline Architecture Diagram
 
 The below diagram depicts the various pipelines in this project
 
-![GCP Architecture](https://github.com/kchrzanowski3/gcpresumechallenge/blob/main/readme-images/architecture.png?raw=true)
+![GCP Architecture](readme-images/architecture.png?raw=true)
 
 Highlights:
 
