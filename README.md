@@ -1,11 +1,9 @@
 ## Cloud Architecture Diagram
-
 The below diagram depicts the cloud infrastructure hosting: <https://kylenowski.com>
 
 ![CI/CD Pipeline](readme-images/architecture.png?raw=true)
 
-### Architecture Highlights:
-
+#### Architecture Highlights:
 - All infrastructure including DNS records are defined as code (IaC).
 - The storage bucket hosting my site contains HTML, CSS, and JavaScript.
 - The JavaScript calls an API that retrieves the current hit count and stores a new value in a datastore database.
@@ -13,13 +11,11 @@ The below diagram depicts the cloud infrastructure hosting: <https://kylenowski.
 - All port 80 traffic is redirected to HTTPS.
 
 ## Pipeline Architecture Diagram
-
 The below diagram depicts the various pipelines in this project
 
 ![GCP Architecture](readme-images/pipeline.png?raw=true)
 
-### Pipeline Highlights:
-
+#### Pipeline Highlights:
 - A dedicated and separate staging environment is created for each pull request to main.
 - Security and functional tests are automated and produce results (e.g., SAST, SBOM vulnerability scanning, secrets scanning,).
 - Test results are visible in GitHub Advanced Security for management.
@@ -31,7 +27,6 @@ The below diagram depicts the various pipelines in this project
 
 
 ## Status of Deployment Pipelines:
-
 [![Cloud Resume Production](https://github.com/kchrzanowski3/gcpresumechallenge/actions/workflows/main-deploy.yml/badge.svg)](https://github.com/kchrzanowski3/gcpresumechallenge/actions/workflows/main-deploy.yml)
 
 [![Cloud Resume Staging](https://github.com/kchrzanowski3/gcpresumechallenge/actions/workflows/test-deploy.yml/badge.svg)](https://github.com/kchrzanowski3/gcpresumechallenge/actions/workflows/test-deploy.yml)
