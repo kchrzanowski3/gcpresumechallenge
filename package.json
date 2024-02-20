@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/kchrzanowski3/gcpresumechallenge#readme",
   "devDependencies": {
-    "cypress": "^12.17.4"
+    "cypress": "^13.6.4"
   },
   "dependencies": {
     "cypress-plugin-api": "^2.11.1",
