@@ -9,11 +9,6 @@ data "google_organization" "org" {
   domain = "kylenowski.com"
 }
 
-data "google_billing_account" "acct" {
-  display_name = "Kyle MasterCard"
-  open         = true
-}
-
 # top level folder
 resource "google_folder" "auth_folder" {
   display_name = "Authentication"
@@ -24,7 +19,7 @@ resource "google_project" "gcp_project" {
   name       = var.project
   project_id = var.project
   folder_id  = google_folder.auth_folder.id
-  billing_account = var.billing_account_id #data.google_billing_account.acct.billing_account
+  billing_account = var.billing_account_id 
 }
 
 
