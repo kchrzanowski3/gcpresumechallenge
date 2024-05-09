@@ -26,7 +26,7 @@ variable "domain" {
 variable "billing_account" {
   description = "The ID of the billing account to associate projects with"
   type        = string
-  default     = "01259D-F0CA06-979A1E"
+  default     = "01851E-E66527-58EC61"
 }
 
 variable "cloudflare_api_key" {
