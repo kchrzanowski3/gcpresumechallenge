@@ -10,7 +10,7 @@ variable "org_id" {
 
 variable "billing_account_id" {
   type = string
-  default = "01259D-F0CA06-979A1E"
+  default = "012DF5-8DA3C5-526E7C"
   
 }
 
