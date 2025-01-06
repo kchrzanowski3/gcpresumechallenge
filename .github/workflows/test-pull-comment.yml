@@ -3,14 +3,6 @@ run-name: Terraform Test Environment Reset
 on:
   issue_comment:
     types: [created]
-    # paths:
-    #   - '.github/workflows/test-deploy.yml'
-    #   - 'cypress/**'
-    #   - '**.tf'
-    #   - 'infra/**'
-    #   - '**.js'
-    #   - '**.html'
-    #   - '**.css'
 
 jobs:
   deploySiteInfrastructure:
