@@ -1,5 +1,5 @@
 name: Terraform Test Environment Reset
-run-name: Terraform Test Environment Reset
+run-name: Test Environment Destroy
 on:
   issue_comment:
     types: [created]
