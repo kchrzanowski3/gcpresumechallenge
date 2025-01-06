@@ -53,7 +53,7 @@ jobs:
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
-        run: cd infra; terraform init; terraform destroy -auto-approve 
+        run: cd infra; terraform init; terraform apply -auto-approve 
 
       #run some end to end tests using cypress
       - name: End to End Functional Tests (Cypress)
