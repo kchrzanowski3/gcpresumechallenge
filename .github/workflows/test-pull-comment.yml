@@ -1,5 +1,4 @@
-name: Terraform Test Environment Reset
-run-name: Test Environment Destroy
+name: Terraform Reset
 on:
   issue_comment:
     types: [created]
@@ -7,6 +6,7 @@ on:
 jobs:
   deploySiteInfrastructure:
     if: github.event.issue.pull_request && github.event.comment.body == 'terraform reset'
+    
     runs-on: ubuntu-latest
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
