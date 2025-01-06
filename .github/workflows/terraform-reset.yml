@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo "Event:"
+          echo "Event:" 
           echo ${{ toJSON(github.event) }}
