@@ -4,7 +4,6 @@ on: issue_comment
 
 permissions: read-all
 
-
 jobs:
   terraform-reset:
     runs-on: ubuntu-latest
