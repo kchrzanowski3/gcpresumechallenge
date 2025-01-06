@@ -5,17 +5,11 @@ on:
     types: [created]
 
 jobs:
+  jobs:
   terraform-reset:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Reset
-        run: terraform destroy -auto-approve
+      - name: Debug
+        run: |
+          echo "Event:"
+          echo ${{ toJSON(github.event) }}
