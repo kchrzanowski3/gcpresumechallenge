@@ -1,0 +1,22 @@
+name: Terraform Reset
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  terraform-reset:
+    if: github.event.issue.pull_request && github.event.comment.body == 'terraform reset'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Reset
+        run: terraform destroy -auto-approve
