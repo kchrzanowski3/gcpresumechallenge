@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploySiteInfrastructure:
+    if: github.event.issue.pull_request && github.event.comment.body == 'terraform reset'
     runs-on: ubuntu-latest
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
@@ -44,7 +45,6 @@ jobs:
      
       #run the terraform that sets up the infrastructure 
       - name: Destroy Infrastructure Terraform 
-        if: github.event.comment.body == 'terraform destroy'
         run: cd infra; terraform init; terraform destroy -auto-approve 
 
       #run some end to end tests using cypress
