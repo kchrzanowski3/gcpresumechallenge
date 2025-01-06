@@ -7,6 +7,7 @@ resource "google_project" "deploy_to_project" {
   project_id = var.project_title
   folder_id  = data.google_folder.environment_folder.id
   billing_account = var.billing_account 
+  deletion_policy = "DELETE"  
 }
 
 # test or prod folder
