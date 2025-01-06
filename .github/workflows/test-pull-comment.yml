@@ -1,0 +1,62 @@
+name: Terraform Test Environment Reset
+run-name: Terraform Test Environment Reset
+on:
+  issue_comment:
+    types: [created]
+    # paths:
+    #   - '.github/workflows/test-deploy.yml'
+    #   - 'cypress/**'
+    #   - '**.tf'
+    #   - 'infra/**'
+    #   - '**.js'
+    #   - '**.html'
+    #   - '**.css'
+
+jobs:
+  deploySiteInfrastructure:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
+      TF_VAR_environment: test #this determines where it gets deployed (test/dev/prod environments)
+      TF_VAR_project_title: "kac-${{ github.event.number }}-${{ github.head_ref }}" 
+      
+      TF_WORKSPACE: "infrastructure-test"
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
+      
+    # Add "id-token" with the intended permissions
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Check Out Repository
+        uses: 'actions/checkout@v4'
+
+      #auth so we can use gcloud. make sure to have run the oidc infr before this and updated these attributes
+      - name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: 'projects/282969675607/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: github-actions-sa@resume-challenge-oidc-auth.iam.gserviceaccount.com
+      
+      #auth and setup to terraform cloud
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Convert Project Title Variable
+        id: project-name
+        run: |
+          output_value=$(echo ${{env.TF_VAR_project_title}} | sed 's/[^A-Za-z0-9]//g' | cut -c 1-30 )
+          echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
+     
+      #run the terraform that sets up the infrastructure 
+      - name: Destroy Infrastructure Terraform 
+        if: github.event.comment.body == 'terraform destroy'
+        run: cd infra; terraform init; terraform destroy -auto-approve 
+
+      #run some end to end tests using cypress
+      - name: End to End Functional Tests (Cypress)
+        uses: cypress-io/github-action@v5 # use the explicit version number
+        
+  
