@@ -19,7 +19,7 @@ jobs:
     env:
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
       TF_VAR_environment: test #this determines where it gets deployed (test/dev/prod environments)
-      TF_VAR_project_title: "kac-44-${{ github.head_ref }}" #"kac-${{ github.event.number }}-${{ github.head_ref }}" 
+      TF_VAR_project_title: "kac-${{ github.event.number }}-${{ github.head_ref }}" #"kac-${{ github.event.number }}-${{ github.head_ref }}" 
       
       TF_WORKSPACE: "infrastructure-test"
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }} 
@@ -53,7 +53,7 @@ jobs:
      
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
-        run: cd infra; terraform init; terraform destroy -auto-approve 
+        run: cd infra; terraform init; terraform apply -auto-approve 
 
       #run some end to end tests using cypress
       - name: End to End Functional Tests (Cypress)
