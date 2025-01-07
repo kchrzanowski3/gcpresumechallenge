@@ -20,7 +20,7 @@ resource "google_project" "gcp_project" {
   project_id = var.project
   folder_id  = google_folder.auth_folder.id
   billing_account = var.billing_account_id 
-  deletion_policy = "DELETE"
+  
 }
 
 

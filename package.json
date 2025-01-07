@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "cypress-plugin-api": "^2.11.2",
-    "wait-on": "^7.0.1"
-
+    "wait-on": "^8.0.1"
   }
 }
