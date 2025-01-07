@@ -24,7 +24,7 @@ function dropdowns(event) {
 
 function dropdownsSummary(event) {    
     const questionBox = event.currentTarget;  
-    const answerSummary = questionBox.querySelector('.answer');
+    const answerSummary = questionBox.querySelector('.answerSummary');
     const expandIcon = questionBox.querySelector('.expand-icon');
 
     answerSummary.classList.toggle('show'); 
