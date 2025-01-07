@@ -35,7 +35,7 @@ function dropdownsSummary(event) {
     } else {
         expandIcon.textContent = '+';
     }
-}
+} 
     
 function linkedinredirect() {
     window.location.href = "https://www.linkedin.com/in/kylechrzanowski/"; // Replace with your target URL
