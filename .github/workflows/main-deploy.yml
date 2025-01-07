@@ -22,7 +22,7 @@ jobs:
     env:
       TF_VAR_environment: prod #this determines where it gets deployed (test/dev/prod environments)
       TF_VAR_cloudflare_api_key: ${{ secrets.TF_VAR_cloudflare_api_key }} 
-      TF_VAR_project_title: "resume-challenge-prod-afkslds" 
+      TF_VAR_project_title: "resume-challenge-prod-afksldsa" 
 
       #TF Cloud specific variables
       TF_CLOUD_PROJECT: gcpresumechallenge
