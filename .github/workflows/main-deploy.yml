@@ -109,5 +109,5 @@ jobs:
      
       #run the terraform that destroys the test infrastructure 
       - name: Apply Infrastructure Terraform 
-        run: cd infra; terraform init; terraform destroy -auto-approve 
+        run: cd infra; terraform init; terraform apply -auto-approve 
   
