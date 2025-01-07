@@ -1,3 +1,5 @@
+// REMEMBER THIS FILE GETS JENERATED BY A TEMPLATE FILE UPON DEPLOYMENT AND OVERWRITTEN
+
 function totalvisitors() {
     fetch('https://kyle-resume-api-gateway-6qm4k23f.ue.gateway.dev/getvisitors')
         .then(res => res.json())
