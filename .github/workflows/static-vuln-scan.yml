@@ -73,6 +73,7 @@ jobs:
         with:
           sarif_file: vulnresults/checkov-results.sarif 
           wait-for-processing: '5m' 
+          category: checkov-scan # Unique category for Checkov
 
       - name: Upload Python SARIF
         if: always()
@@ -80,6 +81,7 @@ jobs:
         with:
           sarif_file: vulnresults/python-results.sarif
           wait-for-processing: '5m' 
+          category: python-scan # Unique category for Python
 
       - name: Upload Node SARIF
         if: always()
@@ -87,6 +89,7 @@ jobs:
         with:
           sarif_file: vulnresults/node-results.sarif
           wait-for-processing: '5m' 
+          category: node-scan # Unique category for Node
 
       - name: Upload IaC SARIF
         if: always()
@@ -94,3 +97,4 @@ jobs:
         with:
           sarif_file: vulnresults/iacsnyk-results.sarif
           wait-for-processing: '5m' 
+          category: iac-scan # Unique category for IaC
