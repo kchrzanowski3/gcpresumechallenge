@@ -1,5 +1,7 @@
+// REMEMBER THIS FILE GETS JENERATED BY A TEMPLATE FILE UPON DEPLOYMENT AND OVERWRITTEN
+
 function totalvisitors() {
-    fetch('https://kyle-resume-api-gateway-6qm4k23f.ue.gateway.dev/getvisitors')
+    fetch('${api_link}')
         .then(res => res.json())
         .then(res => {document.getElementById("visitorCount").innerHTML = Number(res.body.count)})
         .then(data => console.log(data));
@@ -21,6 +23,21 @@ function dropdowns(event) {
         expandIcon.textContent = '+';
     }
 }
+
+function dropdownsSummary(event) {    
+    const questionBox = event.currentTarget;  
+    const answerSummary = questionBox.querySelector('.answerSummary');
+    const expandIcon = questionBox.querySelector('.expand-icon');
+
+    answerSummary.classList.toggle('show'); 
+
+    // Rotate the expand icon (no changes needed here)
+    if (expandIcon.textContent === '+') {
+        expandIcon.textContent = '-';
+    } else {
+        expandIcon.textContent = '+';
+    }
+} 
     
 function linkedinredirect() {
     window.location.href = "https://www.linkedin.com/in/kylechrzanowski/"; // Replace with your target URL

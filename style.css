@@ -304,6 +304,16 @@ body {
   display: block;  
 }
 
+.answerSummary {
+  display: block; /* Now shown by default */
+  margin-top: 20px;
+  margin-left: 1px;
+}
+
+.answerSummary.show { 
+  display: none; /* Hide when the 'show' class is not present */
+}
+
 .logo-google {
   width: 32px; 
   height: 32px; 
