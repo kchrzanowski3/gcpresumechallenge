@@ -69,7 +69,81 @@ jobs:
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: vulnresults/
+          sarif_file: vulnresults/*.sarif
           wait-for-processing: '5m'
 
+            #vuln scan the infrastructure deployment terraform
+      - name: Checkov Terraform Scan
+        if: always()  
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_file_path: console,vulnresults/checkov-results.sarif # folder and name of results file
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          hard_fail_on: 'HIGH,CRITICAL'
+
+      #vuln scan the python 3.6 code
+      - name: Snyk Python 3.6 Vulnerability Scan
+        if: always()  
+        uses: snyk/actions/python-3.6@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=vulnresults/python-results.sarif --severity-threshold=high --policy-path=.snyk
+
+      #vuln scan the Node code
+      - name: Snyk Node Vulnerability Scan
+        if: always()
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=vulnresults/node-results.sarif --severity-threshold=high --policy-path=.snyk
+
+      #vuln scan the iac code
+      - name: Snyk IaC Vulnerability Scan
+        if: always()
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=high --policy-path=.snyk
+
+      #sbom creation
+      - name: SBOM  
+        if: always()
+        uses: anchore/sbom-action@main
+        with:
+          path: '.'
+          format: spdx-json
+          output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
+          dependency-snapshot: 'true'
       
+      #upload the sarif file results to github actions security
+      - name: Upload Checkov SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults/checkov-results.sarif 
+          wait-for-processing: '5m' 
+
+      - name: Upload Python SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults/python-results.sarif
+          wait-for-processing: '5m' 
+
+      - name: Upload Node SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults/node-results.sarif
+          wait-for-processing: '5m' 
+
+      - name: Upload IaC SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: vulnresults/iacsnyk-results.sarif
+          wait-for-processing: '5m' 
