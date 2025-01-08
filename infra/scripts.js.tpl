@@ -30,10 +30,10 @@ function dropdownsSummary(event) {
     answerSummary.classList.toggle('show'); 
 
     // Rotate the expand icon (no changes needed here)
-    if (expandIcon.textContent === '+') {
-        expandIcon.textContent = '-';
-    } else {
+    if (expandIcon.textContent === '-') {
         expandIcon.textContent = '+';
+    } else {
+        expandIcon.textContent = '-';
     }
 } 
     
