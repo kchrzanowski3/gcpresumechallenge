@@ -13,25 +13,22 @@ public_viewer_roles := {
 }
 
 # Helper to check if a resource action is a create or update (i.e., not a delete-only action)
-is_create_or_update contains action if {
+is_create_or_update(actions) := output {
     some i
-    action := actions[i]
-    action != "delete"
+    output := actions[i] != "delete"
 }
 
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
-resource_not_deleted if {
-    change.after != null
+resource_not_deleted := output {
+    output := change.after != null
 }
 
 # Deny if a 'google_storage_bucket_iam_member' makes a bucket public
-deny contains msg if {
+deny[msg] {
     resource_change := input.resource_changes[_] # Iterate through each resource change
     resource_change.type == "google_storage_bucket_iam_member"
-    resource_not_deleted if {
-        resource_change.change
-    } # Ensure it's not just being deleted
+    resource_not_deleted := resource_change.change # Ensure it's not just being deleted
 
     config := resource_change.change.after # Get the configuration after the change
     config.role # Ensure role attribute exists
@@ -46,4 +43,3 @@ deny contains msg if {
         [config.bucket, config.role, config.member, resource_change.address]
     )
 }
-
