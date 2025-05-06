@@ -7,7 +7,7 @@ resource "google_storage_bucket" "static-site" {
   uniform_bucket_level_access = true
 
   labels = {
-    approved_for_public_consumption = "true"
+    approved_for_public_consumption = "false"
   }
 
   website {
