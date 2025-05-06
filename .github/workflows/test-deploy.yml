@@ -51,6 +51,11 @@ jobs:
           output_value=$(echo ${{env.TF_VAR_project_title}} | sed 's/[^A-Za-z0-9]//g' | cut -c 1-30 )
           echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
+      #PaC - save a terraofrm plan 
+      - name: Terraform Plan to JSON
+        run: cd infra; terraform init; terraform plan --out tfplan.binary; terraform show -json tfplan.binary > tfplan.json; 
+
+ 
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform apply -auto-approve 
