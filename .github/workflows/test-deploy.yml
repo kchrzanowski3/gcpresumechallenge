@@ -58,6 +58,15 @@ jobs:
       #PaC - upload the plan to the terraform cloud workspace
       - name: show PaC json in console
         run:  cat infra/tfplan.json; 
+
+      #PaC OPA rules
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+
+      - name: Run OPA Tests
+        run: opa test tests/*.rego -v
  
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
