@@ -14,18 +14,18 @@ public_viewer_roles := {
 
 # Helper to check if a resource action is a create or update (i.e., not a delete-only action)
 is_create_or_update(actions) {
-    actions[_] != "delete" # True if any action is not "delete"
+actions[_] != "delete" # True if any action is not "delete"
 } else = false { # Default to false if only "delete" or empty (though plan should have action)
     true
 }
+
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
 resource_not_deleted(change) {
     change.after != null
 }
 
-
-# Deny if a 'google_storage_bucket_iam_member' makes a bucket public
+# Deny if a 'google_storage_bucket_iam_member' makes a bucket public, only if it does not have the approved tag
 deny[msg] {
     resource_change := input.resource_changes[_] # Iterate through each resource change
     resource_change.type == "google_storage_bucket_iam_member"
@@ -39,8 +39,15 @@ deny[msg] {
     public_viewer_roles[config.role]        # Check if the role is a public viewer role
     public_principals[config.member]        # Check if the member is a public principal
 
+    not approved_for_public_consumption(config) # Ensure the bucket does not have the approved tag
+
     msg := sprintf(
         "Public GCS bucket access identified via google_storage_bucket_iam_member: Bucket '%s' grants role '%s' to '%s' in resource '%s'.",
         [config.bucket, config.role, config.member, resource_change.address]
     )
+}
+
+# Helper function to check if the bucket is approved for public consumption
+approved_for_public_consumption(config) := true {
+    config.labels.approved_for_public_consumption == "true"
 }
