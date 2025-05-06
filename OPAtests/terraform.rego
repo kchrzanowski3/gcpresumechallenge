@@ -21,7 +21,7 @@ is_create_or_update(actions) {
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
 resource_not_deleted(change) {
-    change.after != null if true
+    change.after != null
 }
 
 # Deny if a 'google_storage_bucket_iam_member' makes a bucket public
