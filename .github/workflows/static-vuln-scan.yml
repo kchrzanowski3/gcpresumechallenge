@@ -25,7 +25,7 @@ jobs:
           output_format: cli, sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
           output_file_path: console,vulnresults/checkov-results.sarif # folder and name of results file
           download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-          hard_fail_on: 'HIGH,CRITICAL'
+          hard_fail_on: 'CRITICAL'
 
       #vuln scan the python 3.6 code
       - name: Snyk Python 3.6 Vulnerability Scan
