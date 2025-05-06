@@ -1,61 +1,49 @@
 package terraform.gcp.gcs_public_access
 
-# This policy is written to conform to a specific "rego.v1" syntax requiring:
-# 1. 'if' keyword before the rule body for single-value rules.
-# 2. 'rule_name contains value if condition' for multi-value rules.
-
-# Define sets of public principals and roles that grant public read access or more.
-# Standard set definitions are assumed to be compatible.
+# Define sets of public principals and roles that grant public read access or more
 public_principals := {"allUsers", "allAuthenticatedUsers"}
 
+# Roles that, when combined with public principals, make objects in a bucket public.
+# This list can be expanded based on your organization's definition of "too permissive."
 public_viewer_roles := {
     "roles/storage.objectViewer",
     "roles/storage.legacyObjectReader",
     "roles/storage.legacyBucketReader"
-    # You can expand this list if other roles are considered too permissive for public access.
+    # Potentially add roles/storage.admin or roles/storage.legacyBucketOwner if any public grant is disallowed
 }
 
-# Helper rule to check if a resource is not being deleted.
-# According to "rego.v1" syntax: 'if' keyword before the rule body.
-resource_not_deleted(change) if {
-    # This rule is true if the 'change.after' field is not null,
-    # indicating the resource is being created or updated.
+# Helper to check if a resource action is a create or update (i.e., not a delete-only action)
+is_create_or_update contains action if {
+    some i
+    action := actions[i]
+    action != "delete"
+}
+
+# A simpler way, often sufficient: check if 'change.after' exists.
+# If change.after is null, it's a delete.
+resource_not_deleted if {
     change.after != null
 }
 
-# Deny rule using "rego.v1" 'contains value if condition' syntax.
-# This rule checks 'google_storage_bucket_iam_member' resources.
-deny contains generated_message if {
-    # Iterate through each resource change in the input Terraform plan.
-    resource_change := input.resource_changes[_],
+# Deny if a 'google_storage_bucket_iam_member' makes a bucket public
+deny contains msg if {
+    resource_change := input.resource_changes[_] # Iterate through each resource change
+    resource_change.type == "google_storage_bucket_iam_member"
+    resource_not_deleted if {
+        resource_change.change
+    } # Ensure it's not just being deleted
 
-    # Condition: The resource type must be 'google_storage_bucket_iam_member'.
-    resource_change.type == "google_storage_bucket_iam_member",
+    config := resource_change.change.after # Get the configuration after the change
+    config.role # Ensure role attribute exists
+    config.member # Ensure member attribute exists
+    config.bucket # Ensure bucket attribute exists
 
-    # Condition: The resource must not be undergoing a delete-only action.
-    # This calls our helper rule, which itself uses the "rego.v1" 'if' syntax.
-    resource_not_deleted(resource_change.change),
+    public_viewer_roles[config.role]        # Check if the role is a public viewer role
+    public_principals[config.member]        # Check if the member is a public principal
 
-    # Assign the planned state of the resource (after apply) to 'config'.
-    config := resource_change.change.after,
-
-    # Conditions: Ensure essential attributes exist in the configuration.
-    # In Rego, accessing a non-existent field results in 'undefined',
-    # which will cause the rule to not be satisfied (acting as a failed condition).
-    config.role,
-    config.member,
-    config.bucket,
-
-    # Condition: The role assigned must be one of the defined public viewer roles.
-    public_viewer_roles[config.role],
-
-    # Condition: The member being granted the role must be a public principal.
-    public_principals[config.member],
-
-    # If all preceding conditions are true, define the 'generated_message' value.
-    # This 'generated_message' is the 'value' part of 'deny contains value'.
-    generated_message = sprintf(
-        "Public GCS bucket access via iam_member: Bucket '%s' grants role '%s' to '%s'. Resource: '%s'.",
+    msg := sprintf(
+        "Public GCS bucket access identified via google_storage_bucket_iam_member: Bucket '%s' grants role '%s' to '%s' in resource '%s'.",
         [config.bucket, config.role, config.member, resource_change.address]
     )
 }
+
