@@ -65,9 +65,22 @@ jobs:
         with:
           version: v0.45.0
 
+      # Run OPA Tests and capture output
       - name: Run OPA Tests
-        run: opa test OPAtests/*.rego -v
- 
+        run: |
+          opa test OPAtests/*.rego -v > opa_output.json
+
+      # Process OPA output
+      - name: Process OPA Output
+        run: |
+          output=$(cat opa_output.json)
+          echo "OPA Output: $output"
+          if echo "$output" | grep -q '"deny"'; then
+            if ! echo "$output" | grep -q '"approve"'; then
+              echo "Pipeline failed due to deny rules."
+              exit 1
+            fi
+          fi
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform apply -auto-approve 
