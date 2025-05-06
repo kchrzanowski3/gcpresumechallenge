@@ -68,7 +68,7 @@ jobs:
       # Run OPA Tests and capture output
       - name: Run OPA Tests
         run: |
-          opa test OPAtests/*.rego -v > opa_output.json
+          opa test OPAtests/*.rego -v > opa_output.json 2>&1; cat opa_output.json
 
       # Process OPA output
       - name: Process OPA Output
