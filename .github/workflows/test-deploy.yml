@@ -63,7 +63,7 @@ jobs:
       - name: Setup OPA
         uses: open-policy-agent/setup-opa@v2
         with:
-          version: latest
+          version: v0.45.0
 
       - name: Run OPA Tests
         run: opa test OPAtests/*.rego -v
@@ -75,5 +75,4 @@ jobs:
       #run some end to end tests using cypress
       - name: End to End Functional Tests (Cypress)
         uses: cypress-io/github-action@v5 # use the explicit version number
-        
-  
+
