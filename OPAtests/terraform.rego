@@ -15,7 +15,7 @@ public_viewer_roles := {
 # Helper to check if a resource action is a create or update (i.e., not a delete-only action)
 is_create_or_update(actions) {
     some i
-    actions[i] != "delete" if true
+    actions[i] != "delete"
 }
 
 # A simpler way, often sufficient: check if 'change.after' exists.
