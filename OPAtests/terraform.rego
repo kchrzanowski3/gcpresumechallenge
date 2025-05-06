@@ -15,15 +15,14 @@ public_viewer_roles := {
 # Helper to check if a resource action is a create or update (i.e., not a delete-only action)
 is_create_or_update(actions) {
     some i
-    actions[i] != "delete" # True if any action is not "delete"
+    actions[i] != "delete" if true
 }
 
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
 resource_not_deleted(change) {
-    change.after != null
+    change.after != null if true
 }
-
 
 # Deny if a 'google_storage_bucket_iam_member' makes a bucket public
 deny[msg] {
