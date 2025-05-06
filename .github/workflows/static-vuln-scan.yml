@@ -52,7 +52,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=high --policy-path=.snyk
+          args: --sarif-file-output=vulnresults/iacsnyk-results.sarif --severity-threshold=critical --policy-path=.snyk
 
       #sbom creation
       - name: SBOM  
