@@ -12,13 +12,6 @@ public_viewer_roles := {
 	# Potentially add roles/storage.admin or roles/storage.legacyBucketOwner if any public grant is disallowed
 }
 
-# Helper to check if a resource action is a create or update (i.e., not a delete-only action)
-is_create_or_update(actions) if {
-	not "delete" in actions[_]
-} # Default to false if only "delete" or empty (though plan should have action)
-
-else := false
-
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
 resource_not_deleted(change) if {
