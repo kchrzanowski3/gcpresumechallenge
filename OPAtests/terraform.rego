@@ -1,7 +1,5 @@
 package terraform.gcp.gcs_public_access
 
-import rego.v1
-
 # Define sets of public principals and roles that grant public read access or more
 public_principals := {"allUsers", "allAuthenticatedUsers"}
 
