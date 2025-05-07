@@ -6,6 +6,10 @@ resource "google_storage_bucket" "static-site" {
   force_destroy = true
   uniform_bucket_level_access = true
 
+  labels = {
+    approved_for_public_consumption = "false"
+  }
+
   website {
     main_page_suffix = "index.html"
     #not_found_page   = "404.html"

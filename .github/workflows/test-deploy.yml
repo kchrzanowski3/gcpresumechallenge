@@ -51,6 +51,37 @@ jobs:
           output_value=$(echo ${{env.TF_VAR_project_title}} | sed 's/[^A-Za-z0-9]//g' | cut -c 1-30 )
           echo "TF_VAR_project_title=$output_value" >> $GITHUB_ENV 
      
+      #PaC - save a terraofrm plan 
+      - name: Terraform Plan to JSON
+        run: cd infra; terraform init; terraform plan --out tfplan.binary; terraform show -json tfplan.binary > tfplan.json; 
+
+      #PaC - upload the plan to the terraform cloud workspace
+      - name: show PaC json in console
+        run:  cat infra/tfplan.json; 
+
+      #PaC OPA rules
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: v0.45.0
+
+      # Run OPA Tests and capture output
+      - name: Run OPA Tests
+        run: |
+          opa test OPAtests/*.rego -v | tee opa_output.json
+
+      # Process OPA output
+      - name: Process OPA Output
+        run: |
+          output=$(cat opa_output.json)
+          echo "OPA Output: $output"
+          if echo "$output" | grep -q '"deny"'; then
+            if ! echo "$output" | grep -q '"approve"'; then
+              echo "Pipeline failed due to deny rules."
+              exit 1
+            fi
+          fi
+          
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform apply -auto-approve 
@@ -58,5 +89,4 @@ jobs:
       #run some end to end tests using cypress
       - name: End to End Functional Tests (Cypress)
         uses: cypress-io/github-action@v5 # use the explicit version number
-        
-  
+
