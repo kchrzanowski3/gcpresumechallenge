@@ -68,7 +68,7 @@ jobs:
       # Run OPA Tests and capture output
       - name: Run OPA Tests
         run: |
-          opa test OPAtests/*.rego -v > opa_output.json 2>&1; cat opa_output.json
+          opa test OPAtests/*.rego -v | tee opa_output.json
 
       # Process OPA output
       - name: Process OPA Output
@@ -81,6 +81,7 @@ jobs:
               exit 1
             fi
           fi
+          
       #run the terraform that sets up the infrastructure 
       - name: Apply Infrastructure Terraform 
         run: cd infra; terraform init; terraform apply -auto-approve 
