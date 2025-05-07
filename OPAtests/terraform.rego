@@ -1,5 +1,7 @@
 package terraform.gcp.gcs_public_access
 
+import rego.v1
+
 # Define sets of public principals and roles that grant public read access or more
 public_principals := {"allUsers", "allAuthenticatedUsers"}
 
@@ -11,6 +13,13 @@ public_viewer_roles := {
 	"roles/storage.legacyBucketReader",
 	# Potentially add roles/storage.admin or roles/storage.legacyBucketOwner if any public grant is disallowed
 }
+
+# Helper to check if a resource action is a create or update (i.e., not a delete-only action)
+is_create_or_update(actions) if {
+	actions[_] != "delete" # True if any action is not "delete"
+} # Default to false if only "delete" or empty (though plan should have action)
+
+else := false
 
 # A simpler way, often sufficient: check if 'change.after' exists.
 # If change.after is null, it's a delete.
